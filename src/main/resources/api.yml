@@ -1,0 +1,277 @@
+openapi: 3.0.3
+info:
+  title: Liquibase Project - OpenAPI 3.0
+  description: |-
+    API for managing Users, Products, and Orders
+  contact:
+    email: stefan.golubov@qinshift.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: users
+    description: List of users
+paths:
+  /users:
+    put:
+      tags:
+        - users
+      summary: Update an existing user
+      description: Update an existing user by Id
+      operationId: updateUser
+      requestBody:
+        description: Update an existent user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Users'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Users'
+        required: true
+      responses:
+        '200':
+          description: User has been successfully edited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Users'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found
+        '422':
+          description: Validation exception
+      security:
+        - petstore_auth:
+            - write:users
+            - read:users
+    post:
+      tags:
+        - users
+      summary: Add a new user
+      description: Add a new user
+      operationId: addUser
+      requestBody:
+        description: Create a new user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Users'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Users'
+        required: true
+      responses:
+        '200':
+          description: User has been successfully added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Users'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - petstore_auth:
+            - write:users
+            - read:users
+  /users/findByUsername:
+    get:
+      tags:
+        - users
+      summary: Find users by username
+      description: Multiple usernames can be provided with comma separated strings
+      operationId: findUsersByUsername
+      parameters:
+        - name: username
+          in: query
+          required: false
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Users have been successfully found by username
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Users'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Users'
+        '400':
+          description: Invalid username
+      security:
+        - petstore_auth:
+            - write:users
+            - read:users
+  /users/{ID}:
+    get:
+      tags:
+        - users
+      summary: Find user by ID
+      description: Returns a single user
+      operationId: getUserById
+      parameters:
+        - name: ID
+          in: path
+          description: User ID to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User found by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Users'
+        '400':
+          description: Invalid user ID
+        '404':
+          description: User not found
+      security:
+        - api_key: []
+        - petstore_auth:
+            - write:users
+            - read:users
+    post:
+      tags:
+        - users
+      summary: Updates a user with form data
+      description: ''
+      operationId: updateUserWithForm
+      parameters:
+        - name: ID
+          in: path
+          description: ID of user that needs to be updated
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: username
+          in: query
+          description: Username for the user that needs to be updated
+          schema:
+            type: string
+        - name: email
+          in: query
+          description: E-mail of the user that needs to be updated
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - write:users
+            - read:users
+    delete:
+      tags:
+        - users
+      summary: Deletes a user
+      description: delete a user
+      operationId: deleteUser
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: ID
+          in: path
+          description: User ID for the user that needs to be deleted
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '400':
+          description: Invalid user ID value
+      security:
+        - petstore_auth:
+            - write:users
+            - read:users
+components:
+  schemas:
+    Users:
+      type: object
+      properties:
+        ID:
+          type: string
+          format: uuid
+          example: 6574214f-89e3-4001-b54d-0d185163f7a2
+        username:
+          type: string
+          example: user.name
+        email:
+          type: string
+          example: user@username.com
+      xml:
+        name: user
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+  requestBodies:
+    Users:
+      description: User object that needs to be added
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Users'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Users'
+    UserArray:
+      description: List of user object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Users'
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
