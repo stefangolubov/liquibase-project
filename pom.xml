@@ -98,16 +98,16 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/api.yml</inputSpec>
                             <generatorName>spring</generatorName>
+                            <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+                            <output>${project.basedir}</output>
                             <apiPackage>com.liquibaseproject.api</apiPackage>
                             <modelPackage>com.liquibaseproject.model</modelPackage>
-                            <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
                             <configOptions>
                                 <additionalModelTypeAnnotations>
                                     @lombok.Data
                                     @lombok.NoArgsConstructor
                                     @lombok.AllArgsConstructor
                                 </additionalModelTypeAnnotations>
-                                <!--                                <interfaceOnly>true</interfaceOnly>-->
                                 <delegatePattern>true</delegatePattern>
                                 <useSpringBoot3>true</useSpringBoot3>
                             </configOptions>
@@ -116,6 +116,24 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <delete dir="${project.basedir}/src/main/java/org" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
