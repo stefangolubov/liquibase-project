@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import java.util.UUID;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -16,39 +15,19 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * Users
+ * NewUser
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-08-13T09:47:44.083307+02:00[Europe/Budapest]", comments = "Generator version: 7.7.0")
-public class Users {
-
-  private UUID id;
+public class NewUser {
 
   private String username;
 
+  private String password;
+
   private String email;
 
-  public Users id(UUID id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Get id
-   * @return id
-   */
-  @Valid 
-  @Schema(name = "id", example = "6574214f-89e3-4001-b54d-0d185163f7a2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("id")
-  public UUID getId() {
-    return id;
-  }
-
-  public void setId(UUID id) {
-    this.id = id;
-  }
-
-  public Users username(String username) {
+  public NewUser username(String username) {
     this.username = username;
     return this;
   }
@@ -68,7 +47,27 @@ public class Users {
     this.username = username;
   }
 
-  public Users email(String email) {
+  public NewUser password(String password) {
+    this.password = password;
+    return this;
+  }
+
+  /**
+   * Get password
+   * @return password
+   */
+  
+  @Schema(name = "password", example = "A1&d_2ddr$%$", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("password")
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public NewUser email(String email) {
     this.email = email;
     return this;
   }
@@ -96,23 +95,23 @@ public class Users {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Users users = (Users) o;
-    return Objects.equals(this.id, users.id) &&
-        Objects.equals(this.username, users.username) &&
-        Objects.equals(this.email, users.email);
+    NewUser newUser = (NewUser) o;
+    return Objects.equals(this.username, newUser.username) &&
+        Objects.equals(this.password, newUser.password) &&
+        Objects.equals(this.email, newUser.email);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, email);
+    return Objects.hash(username, password, email);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Users {\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("class NewUser {\n");
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
+    sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -6,6 +6,7 @@
 package com.liquibaseproject.api;
 
 import com.liquibaseproject.model.ModelApiResponse;
+import com.liquibaseproject.model.NewUser;
 import java.util.UUID;
 import com.liquibaseproject.model.Users;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -30,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-08-09T09:14:07.858132100+02:00[Europe/Budapest]", comments = "Generator version: 7.7.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-08-13T09:47:44.083307+02:00[Europe/Budapest]", comments = "Generator version: 7.7.0")
 @Validated
 @Tag(name = "users", description = "List of users")
 public interface UsersApi {
@@ -43,7 +44,7 @@ public interface UsersApi {
      * POST /users : Add a new user
      * Add a new user
      *
-     * @param users Create a new user (required)
+     * @param newUser Create a new user (required)
      * @return User has been successfully added (status code 200)
      *         or Invalid input (status code 400)
      *         or Validation exception (status code 422)
@@ -73,17 +74,17 @@ public interface UsersApi {
     )
     
     default ResponseEntity<Users> addUser(
-        @Parameter(name = "Users", description = "Create a new user", required = true) @Valid @RequestBody Users users
+        @Parameter(name = "NewUser", description = "Create a new user", required = true) @Valid @RequestBody NewUser newUser
     ) {
-        return getDelegate().addUser(users);
+        return getDelegate().addUser(newUser);
     }
 
 
     /**
-     * DELETE /users/{ID} : Deletes a user
+     * DELETE /users/{id} : Deletes a user
      * delete a user
      *
-     * @param ID User ID for the user that needs to be deleted (required)
+     * @param id User ID for the user that needs to be deleted (required)
      * @param apiKey  (optional)
      * @return Invalid user ID value (status code 400)
      */
@@ -101,14 +102,14 @@ public interface UsersApi {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/users/{ID}"
+        value = "/users/{id}"
     )
     
     default ResponseEntity<Void> deleteUser(
-        @Parameter(name = "ID", description = "User ID for the user that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("ID") UUID ID,
+        @Parameter(name = "id", description = "User ID for the user that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id,
         @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) String apiKey
     ) {
-        return getDelegate().deleteUser(ID, apiKey);
+        return getDelegate().deleteUser(id, apiKey);
     }
 
 
@@ -116,7 +117,7 @@ public interface UsersApi {
      * GET /users/findByUsername : Find users by username
      * Multiple usernames can be provided with comma separated strings
      *
-     * @param username  (optional)
+     * @param usernames  (optional)
      * @return Users have been successfully found by username (status code 200)
      *         or Invalid username (status code 400)
      */
@@ -143,17 +144,17 @@ public interface UsersApi {
     )
     
     default ResponseEntity<List<Users>> findUsersByUsername(
-        @Parameter(name = "username", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = false) String username
+        @Parameter(name = "usernames", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "usernames", required = false) String usernames
     ) {
-        return getDelegate().findUsersByUsername(username);
+        return getDelegate().findUsersByUsername(usernames);
     }
 
 
     /**
-     * GET /users/{ID} : Find user by ID
+     * GET /users/{id} : Find user by ID
      * Returns a single user
      *
-     * @param ID User ID to return (required)
+     * @param id User ID to return (required)
      * @return User found by ID (status code 200)
      *         or Invalid user ID (status code 400)
      *         or User not found (status code 404)
@@ -178,14 +179,14 @@ public interface UsersApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/users/{ID}",
+        value = "/users/{id}",
         produces = { "application/json", "application/xml" }
     )
     
     default ResponseEntity<Users> getUserById(
-        @Parameter(name = "ID", description = "User ID to return", required = true, in = ParameterIn.PATH) @PathVariable("ID") UUID ID
+        @Parameter(name = "id", description = "User ID to return", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id
     ) {
-        return getDelegate().getUserById(ID);
+        return getDelegate().getUserById(id);
     }
 
 
@@ -232,10 +233,10 @@ public interface UsersApi {
 
 
     /**
-     * POST /users/{ID} : Updates a user with form data
+     * POST /users/{id} : Updates a user with form data
      * 
      *
-     * @param ID ID of user that needs to be updated (required)
+     * @param id ID of user that needs to be updated (required)
      * @param username Username for the user that needs to be updated (optional)
      * @param email E-mail of the user that needs to be updated (optional)
      * @return Invalid input (status code 400)
@@ -254,15 +255,15 @@ public interface UsersApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/users/{ID}"
+        value = "/users/{id}"
     )
     
     default ResponseEntity<Void> updateUserWithForm(
-        @Parameter(name = "ID", description = "ID of user that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("ID") UUID ID,
+        @Parameter(name = "id", description = "ID of user that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id,
         @Parameter(name = "username", description = "Username for the user that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = false) String username,
         @Parameter(name = "email", description = "E-mail of the user that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "email", required = false) String email
     ) {
-        return getDelegate().updateUserWithForm(ID, username, email);
+        return getDelegate().updateUserWithForm(id, username, email);
     }
 
 }

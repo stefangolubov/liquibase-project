@@ -1,6 +1,7 @@
 package com.liquibaseproject.api;
 
 import com.liquibaseproject.model.ModelApiResponse;
+import com.liquibaseproject.model.NewUser;
 import java.util.UUID;
 import com.liquibaseproject.model.Users;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ import jakarta.annotation.Generated;
  * A delegate to be called by the {@link UsersApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-08-09T09:14:07.858132100+02:00[Europe/Budapest]", comments = "Generator version: 7.7.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-08-13T09:47:44.083307+02:00[Europe/Budapest]", comments = "Generator version: 7.7.0")
 public interface UsersApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -31,22 +32,22 @@ public interface UsersApiDelegate {
      * POST /users : Add a new user
      * Add a new user
      *
-     * @param users Create a new user (required)
+     * @param newUser Create a new user (required)
      * @return User has been successfully added (status code 200)
      *         or Invalid input (status code 400)
      *         or Validation exception (status code 422)
      * @see UsersApi#addUser
      */
-    default ResponseEntity<Users> addUser(Users users) {
+    default ResponseEntity<Users> addUser(NewUser newUser) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"ID\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" }";
+                    String exampleString = "{ \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<user> <ID>6574214f-89e3-4001-b54d-0d185163f7a2</ID> <username>user.name</username> <email>user@username.com</email> </user>";
+                    String exampleString = "<user> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <username>user.name</username> <email>user@username.com</email> </user>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
@@ -57,15 +58,15 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * DELETE /users/{ID} : Deletes a user
+     * DELETE /users/{id} : Deletes a user
      * delete a user
      *
-     * @param ID User ID for the user that needs to be deleted (required)
+     * @param id User ID for the user that needs to be deleted (required)
      * @param apiKey  (optional)
      * @return Invalid user ID value (status code 400)
      * @see UsersApi#deleteUser
      */
-    default ResponseEntity<Void> deleteUser(UUID ID,
+    default ResponseEntity<Void> deleteUser(UUID id,
         String apiKey) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -75,21 +76,21 @@ public interface UsersApiDelegate {
      * GET /users/findByUsername : Find users by username
      * Multiple usernames can be provided with comma separated strings
      *
-     * @param username  (optional)
+     * @param usernames  (optional)
      * @return Users have been successfully found by username (status code 200)
      *         or Invalid username (status code 400)
      * @see UsersApi#findUsersByUsername
      */
-    default ResponseEntity<List<Users>> findUsersByUsername(String username) {
+    default ResponseEntity<List<Users>> findUsersByUsername(String usernames) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ { \"ID\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" }, { \"ID\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" } ]";
+                    String exampleString = "[ { \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" }, { \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<user> <ID>6574214f-89e3-4001-b54d-0d185163f7a2</ID> <username>user.name</username> <email>user@username.com</email> </user>";
+                    String exampleString = "<user> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <username>user.name</username> <email>user@username.com</email> </user>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
@@ -100,25 +101,25 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * GET /users/{ID} : Find user by ID
+     * GET /users/{id} : Find user by ID
      * Returns a single user
      *
-     * @param ID User ID to return (required)
+     * @param id User ID to return (required)
      * @return User found by ID (status code 200)
      *         or Invalid user ID (status code 400)
      *         or User not found (status code 404)
      * @see UsersApi#getUserById
      */
-    default ResponseEntity<Users> getUserById(UUID ID) {
+    default ResponseEntity<Users> getUserById(UUID id) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"ID\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" }";
+                    String exampleString = "{ \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<user> <ID>6574214f-89e3-4001-b54d-0d185163f7a2</ID> <username>user.name</username> <email>user@username.com</email> </user>";
+                    String exampleString = "<user> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <username>user.name</username> <email>user@username.com</email> </user>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
@@ -159,16 +160,16 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * POST /users/{ID} : Updates a user with form data
+     * POST /users/{id} : Updates a user with form data
      * 
      *
-     * @param ID ID of user that needs to be updated (required)
+     * @param id ID of user that needs to be updated (required)
      * @param username Username for the user that needs to be updated (optional)
      * @param email E-mail of the user that needs to be updated (optional)
      * @return Invalid input (status code 400)
      * @see UsersApi#updateUserWithForm
      */
-    default ResponseEntity<Void> updateUserWithForm(UUID ID,
+    default ResponseEntity<Void> updateUserWithForm(UUID id,
         String username,
         String email) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

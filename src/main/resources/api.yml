@@ -63,13 +63,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Users'
+              $ref: '#/components/schemas/NewUser'
           application/xml:
             schema:
-              $ref: '#/components/schemas/Users'
+              $ref: '#/components/schemas/NewUser'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Users'
+              $ref: '#/components/schemas/NewUser'
         required: true
       responses:
         '200':
@@ -97,10 +97,10 @@ paths:
       description: Multiple usernames can be provided with comma separated strings
       operationId: findUsersByUsername
       parameters:
-        - name: username
+        - name: usernames
           in: query
           required: false
-          explode: true
+          #explode: true
           schema:
             type: string
       responses:
@@ -123,7 +123,7 @@ paths:
         - petstore_auth:
             - write:users
             - read:users
-  /users/{ID}:
+  /users/{id}:
     get:
       tags:
         - users
@@ -131,7 +131,7 @@ paths:
       description: Returns a single user
       operationId: getUserById
       parameters:
-        - name: ID
+        - name: id
           in: path
           description: User ID to return
           required: true
@@ -164,7 +164,7 @@ paths:
       description: ''
       operationId: updateUserWithForm
       parameters:
-        - name: ID
+        - name: id
           in: path
           description: ID of user that needs to be updated
           required: true
@@ -201,7 +201,7 @@ paths:
           required: false
           schema:
             type: string
-        - name: ID
+        - name: id
           in: path
           description: User ID for the user that needs to be deleted
           required: true
@@ -220,13 +220,27 @@ components:
     Users:
       type: object
       properties:
-        ID:
+        id:
           type: string
           format: uuid
           example: 6574214f-89e3-4001-b54d-0d185163f7a2
         username:
           type: string
           example: user.name
+        email:
+          type: string
+          example: user@username.com
+      xml:
+        name: user
+    NewUser:
+      type: object
+      properties:
+        username:
+          type: string
+          example: user.name
+        password:
+          type: string
+          example: A1&d_2ddr$%$
         email:
           type: string
           example: user@username.com
