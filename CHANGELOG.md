@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [0.0.7-SNAPSHOT] - 2024-08-13 [@stefangolubov](https://github.com/stefangolubov)
+#### Changed
+- api.yml - Refactoring ApiResponse, Users and Products schema and paths into separate yml files
+- pom.xml - Update version from 0.0.6-SNAPSHOT to 0.0.7-SNAPSHOT
+#### Added
+- apiresponse.yml - Move Users schema from api.yml to separate yml file
+- users.yml - Move Users paths from api.yml to separate yml file
+- products.yml - Move Products paths from api.yml to separate yml file
+
 ### [0.0.6-SNAPSHOT] - 2024-08-13 [@stefangolubov](https://github.com/stefangolubov)
 #### Changed
 - api.yml - Refactoring Users and Products schema into separate yml files
