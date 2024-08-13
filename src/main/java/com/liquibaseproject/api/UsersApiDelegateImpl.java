@@ -55,7 +55,7 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
 
     @Override
     public ResponseEntity<List<Users>> findUsersByUsername(String usernames) {
-        if (usernames == null || usernames.isEmpty()) {
+        if (StringUtils.isEmpty(usernames)) {
             return ResponseEntity.badRequest().build();
         }
 

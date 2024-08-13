@@ -11,6 +11,8 @@ servers:
 tags:
   - name: users
     description: List of users
+  - name: products
+    description: List of products
 paths:
   /users:
     put:
@@ -20,7 +22,7 @@ paths:
       description: Update an existing user by Id
       operationId: updateUser
       requestBody:
-        description: Update an existent user
+        description: Update an existing user
         content:
           application/json:
             schema:
@@ -34,7 +36,7 @@ paths:
         required: true
       responses:
         '200':
-          description: User has been successfully edited
+          description: User has been successfully updated
           content:
             application/json:
               schema:
@@ -118,6 +120,10 @@ paths:
                   $ref: '#/components/schemas/Users'
         '400':
           description: Invalid username
+      security:
+        - petstore_auth:
+            - write:users
+            - read:users
   /users/findAll:
     get:
       tags:
@@ -238,6 +244,248 @@ paths:
         - petstore_auth:
             - write:users
             - read:users
+  /products:
+    put:
+      tags:
+        - products
+      summary: Update an existing product
+      description: Update an existing product by Id
+      operationId: updateProduct
+      requestBody:
+        description: Update an existing product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Products'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Products'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Products'
+        required: true
+      responses:
+        '200':
+          description: Product has been successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Products'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Product not found
+        '422':
+          description: Validation exception
+      security:
+        - petstore_auth:
+            - write:products
+            - read:products
+    post:
+      tags:
+        - products
+      summary: Add a new product
+      description: Add a new product
+      operationId: addProduct
+      requestBody:
+        description: Create a new product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+        required: true
+      responses:
+        '200':
+          description: Product has been successfully added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Products'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+      security:
+        - petstore_auth:
+            - write:products
+            - read:products
+  /products/findByName:
+    get:
+      tags:
+        - products
+      summary: Find products by product name
+      description: Multiple products can be provided with comma separated strings
+      operationId: findProductsByName
+      parameters:
+        - name: names
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Products have been successfully found by product name
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+        '400':
+          description: Invalid product name
+      security:
+        - petstore_auth:
+            - write:products
+            - read:products
+  /products/findAll:
+    get:
+      tags:
+        - products
+      summary: List all products
+      operationId: findAllProducts
+      responses:
+        '200':
+          description: Products have been successfully listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+        '404':
+          description: The resource path is incorrect
+        '500':
+          description: Internal Server Error
+      security:
+        - petstore_auth:
+            - write:products
+            - read:products
+  /products/{id}:
+    get:
+      tags:
+        - products
+      summary: Find product by ID
+      description: Returns a single product
+      operationId: getProductById
+      parameters:
+        - name: id
+          in: path
+          description: Product ID to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Product found by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Products'
+        '400':
+          description: Invalid product ID
+        '404':
+          description: Product not found
+      security:
+        - api_key: [ ]
+        - petstore_auth:
+            - write:products
+            - read:products
+    post:
+      tags:
+        - products
+      summary: Updates a product with form data
+      description: ''
+      operationId: updateProductWithForm
+      parameters:
+        - name: id
+          in: path
+          description: ID of product that needs to be updated
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: name
+          in: query
+          description: Name for the product that needs to be updated
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: Description for the product that needs to be updated
+          schema:
+            type: string
+        - name: price
+          in: query
+          description: Price for the product that needs to be updated
+          schema:
+            type: number
+            format: double
+        - name: quantity
+          in: query
+          description: Quantity of the product that needs to be updated
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '400':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - write:products
+            - read:products
+    delete:
+      tags:
+        - products
+      summary: Deletes a product
+      description: delete a product
+      operationId: deleteProduct
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Product ID for the product that needs to be deleted
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '400':
+          description: Invalid product ID value
+      security:
+        - petstore_auth:
+            - write:products
+            - read:products
 components:
   schemas:
     Users:
@@ -269,6 +517,48 @@ components:
           example: user@username.com
       xml:
         name: user
+    Products:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 6574214f-89e3-4001-b54d-0d185163f7a2
+        name:
+          type: string
+          example: Smart TV
+        description:
+          type: string
+          example: Samsung Smart TV
+        price:
+          type: string
+          format: double
+          example: 850.50
+        quantity:
+          type: integer
+          format: int32
+          example: 85
+      xml:
+        name: product
+    NewProduct:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Smart TV
+        description:
+          type: string
+          example: Samsung Smart TV
+        price:
+          type: string
+          format: double
+          example: 850.50
+        quantity:
+          type: integer
+          format: int32
+          example: 85
+      xml:
+        name: product
     ApiResponse:
       type: object
       properties:
@@ -299,6 +589,23 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Users'
+    Products:
+      description: Product object that needs to be added
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Products'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Products'
+    ProductArray:
+      description: List of product object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Products'
   securitySchemes:
     petstore_auth:
       type: oauth2

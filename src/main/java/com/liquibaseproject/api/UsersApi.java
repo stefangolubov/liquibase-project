@@ -168,6 +168,9 @@ public interface UsersApi {
                 @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Users.class)))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid username")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth")
         }
     )
     @RequestMapping(
@@ -227,8 +230,8 @@ public interface UsersApi {
      * PUT /users : Update an existing user
      * Update an existing user by Id
      *
-     * @param users Update an existent user (required)
-     * @return User has been successfully edited (status code 200)
+     * @param users Update an existing user (required)
+     * @return User has been successfully updated (status code 200)
      *         or Invalid ID supplied (status code 400)
      *         or User not found (status code 404)
      *         or Validation exception (status code 422)
@@ -239,7 +242,7 @@ public interface UsersApi {
         description = "Update an existing user by Id",
         tags = { "users" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "User has been successfully edited", content = {
+            @ApiResponse(responseCode = "200", description = "User has been successfully updated", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             }),
@@ -259,7 +262,7 @@ public interface UsersApi {
     )
     
     default ResponseEntity<ModelApiResponse> updateUser(
-        @Parameter(name = "Users", description = "Update an existent user", required = true) @Valid @RequestBody Users users
+        @Parameter(name = "Users", description = "Update an existing user", required = true) @Valid @RequestBody Users users
     ) {
         return getDelegate().updateUser(users);
     }

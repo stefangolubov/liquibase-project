@@ -1,9 +1,9 @@
 package com.liquibaseproject.api;
 
 import com.liquibaseproject.model.ModelApiResponse;
-import com.liquibaseproject.model.NewUser;
+import com.liquibaseproject.model.NewProduct;
+import com.liquibaseproject.model.Products;
 import java.util.UUID;
-import com.liquibaseproject.model.Users;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,36 +18,36 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 /**
- * A delegate to be called by the {@link UsersApiController}}.
+ * A delegate to be called by the {@link ProductsApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
-public interface UsersApiDelegate {
+public interface ProductsApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
 
     /**
-     * POST /users : Add a new user
-     * Add a new user
+     * POST /products : Add a new product
+     * Add a new product
      *
-     * @param newUser Create a new user (required)
-     * @return User has been successfully added (status code 200)
+     * @param newProduct Create a new product (required)
+     * @return Product has been successfully added (status code 200)
      *         or Invalid input (status code 400)
      *         or Validation exception (status code 422)
-     * @see UsersApi#addUser
+     * @see ProductsApi#addProduct
      */
-    default ResponseEntity<Users> addUser(NewUser newUser) {
+    default ResponseEntity<Products> addProduct(NewProduct newProduct) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" }";
+                    String exampleString = "{ \"quantity\" : 85, \"price\" : \"850.5\", \"name\" : \"Smart TV\", \"description\" : \"Samsung Smart TV\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<user> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <username>user.name</username> <email>user@username.com</email> </user>";
+                    String exampleString = "<product> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <name>Smart TV</name> <description>Samsung Smart TV</description> <price>850.5</price> <quantity>85</quantity> </product>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
@@ -58,38 +58,38 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * DELETE /users/{id} : Deletes a user
-     * delete a user
+     * DELETE /products/{id} : Deletes a product
+     * delete a product
      *
-     * @param id User ID for the user that needs to be deleted (required)
+     * @param id Product ID for the product that needs to be deleted (required)
      * @param apiKey  (optional)
-     * @return Invalid user ID value (status code 400)
-     * @see UsersApi#deleteUser
+     * @return Invalid product ID value (status code 400)
+     * @see ProductsApi#deleteProduct
      */
-    default ResponseEntity<Void> deleteUser(UUID id,
+    default ResponseEntity<Void> deleteProduct(UUID id,
         String apiKey) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
     /**
-     * GET /users/findAll : List all users
+     * GET /products/findAll : List all products
      *
-     * @return Users have been successfully listed (status code 200)
+     * @return Products have been successfully listed (status code 200)
      *         or The resource path is incorrect (status code 404)
      *         or Internal Server Error (status code 500)
-     * @see UsersApi#findAllUsers
+     * @see ProductsApi#findAllProducts
      */
-    default ResponseEntity<List<Users>> findAllUsers() {
+    default ResponseEntity<List<Products>> findAllProducts() {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ { \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" }, { \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" } ]";
+                    String exampleString = "[ { \"quantity\" : 85, \"price\" : \"850.5\", \"name\" : \"Smart TV\", \"description\" : \"Samsung Smart TV\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\" }, { \"quantity\" : 85, \"price\" : \"850.5\", \"name\" : \"Smart TV\", \"description\" : \"Samsung Smart TV\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<user> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <username>user.name</username> <email>user@username.com</email> </user>";
+                    String exampleString = "<product> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <name>Smart TV</name> <description>Samsung Smart TV</description> <price>850.5</price> <quantity>85</quantity> </product>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
@@ -100,24 +100,24 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * GET /users/findByUsername : Find users by username
-     * Multiple usernames can be provided with comma separated strings
+     * GET /products/findByName : Find products by product name
+     * Multiple products can be provided with comma separated strings
      *
-     * @param usernames  (optional)
-     * @return Users have been successfully found by username (status code 200)
-     *         or Invalid username (status code 400)
-     * @see UsersApi#findUsersByUsername
+     * @param names  (optional)
+     * @return Products have been successfully found by product name (status code 200)
+     *         or Invalid product name (status code 400)
+     * @see ProductsApi#findProductsByName
      */
-    default ResponseEntity<List<Users>> findUsersByUsername(String usernames) {
+    default ResponseEntity<List<Products>> findProductsByName(String names) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ { \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" }, { \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" } ]";
+                    String exampleString = "[ { \"quantity\" : 85, \"price\" : \"850.5\", \"name\" : \"Smart TV\", \"description\" : \"Samsung Smart TV\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\" }, { \"quantity\" : 85, \"price\" : \"850.5\", \"name\" : \"Smart TV\", \"description\" : \"Samsung Smart TV\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<user> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <username>user.name</username> <email>user@username.com</email> </user>";
+                    String exampleString = "<product> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <name>Smart TV</name> <description>Samsung Smart TV</description> <price>850.5</price> <quantity>85</quantity> </product>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
@@ -128,25 +128,25 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * GET /users/{id} : Find user by ID
-     * Returns a single user
+     * GET /products/{id} : Find product by ID
+     * Returns a single product
      *
-     * @param id User ID to return (required)
-     * @return User found by ID (status code 200)
-     *         or Invalid user ID (status code 400)
-     *         or User not found (status code 404)
-     * @see UsersApi#getUserById
+     * @param id Product ID to return (required)
+     * @return Product found by ID (status code 200)
+     *         or Invalid product ID (status code 400)
+     *         or Product not found (status code 404)
+     * @see ProductsApi#getProductById
      */
-    default ResponseEntity<Users> getUserById(UUID id) {
+    default ResponseEntity<Products> getProductById(UUID id) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"email\" : \"user@username.com\", \"username\" : \"user.name\" }";
+                    String exampleString = "{ \"quantity\" : 85, \"price\" : \"850.5\", \"name\" : \"Smart TV\", \"description\" : \"Samsung Smart TV\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<user> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <username>user.name</username> <email>user@username.com</email> </user>";
+                    String exampleString = "<product> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <name>Smart TV</name> <description>Samsung Smart TV</description> <price>850.5</price> <quantity>85</quantity> </product>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
@@ -157,17 +157,17 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * PUT /users : Update an existing user
-     * Update an existing user by Id
+     * PUT /products : Update an existing product
+     * Update an existing product by Id
      *
-     * @param users Update an existing user (required)
-     * @return User has been successfully updated (status code 200)
+     * @param products Update an existing product (required)
+     * @return Product has been successfully updated (status code 200)
      *         or Invalid ID supplied (status code 400)
-     *         or User not found (status code 404)
+     *         or Product not found (status code 404)
      *         or Validation exception (status code 422)
-     * @see UsersApi#updateUser
+     * @see ProductsApi#updateProduct
      */
-    default ResponseEntity<ModelApiResponse> updateUser(Users users) {
+    default ResponseEntity<ModelApiResponse> updateProduct(Products products) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -187,18 +187,22 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * POST /users/{id} : Updates a user with form data
+     * POST /products/{id} : Updates a product with form data
      * 
      *
-     * @param id ID of user that needs to be updated (required)
-     * @param username Username for the user that needs to be updated (optional)
-     * @param email E-mail of the user that needs to be updated (optional)
+     * @param id ID of product that needs to be updated (required)
+     * @param name Name for the product that needs to be updated (optional)
+     * @param description Description for the product that needs to be updated (optional)
+     * @param price Price for the product that needs to be updated (optional)
+     * @param quantity Quantity of the product that needs to be updated (optional)
      * @return Invalid input (status code 400)
-     * @see UsersApi#updateUserWithForm
+     * @see ProductsApi#updateProductWithForm
      */
-    default ResponseEntity<Void> updateUserWithForm(UUID id,
-        String username,
-        String email) {
+    default ResponseEntity<Void> updateProductWithForm(UUID id,
+        String name,
+        String description,
+        Double price,
+        Integer quantity) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

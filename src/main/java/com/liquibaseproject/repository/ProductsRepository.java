@@ -4,6 +4,10 @@ import com.liquibaseproject.entity.Products;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface ProductsRepository extends JpaRepository<Products, String>, JpaSpecificationExecutor<Products> {
+import java.util.List;
+import java.util.UUID;
 
+public interface ProductsRepository extends JpaRepository<Products, UUID>, JpaSpecificationExecutor<Products> {
+
+    List<Products> findByNameIgnoreCase(String name);
 }
