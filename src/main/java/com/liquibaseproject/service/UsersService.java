@@ -26,6 +26,10 @@ public class UsersService {
         return usersRepository.findByUsernameIgnoreCase(userName);
     }
 
+    public List<Users> findAll(){
+        return usersRepository.findAll();
+    }
+
     public Users addUser(Users userEntity) {
         return usersRepository.save(userEntity);
     }

@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * Users
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-08-13T09:47:44.083307+02:00[Europe/Budapest]", comments = "Generator version: 7.7.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
 public class Users {
 
   private UUID id;

@@ -100,7 +100,6 @@ paths:
         - name: usernames
           in: query
           required: false
-          #explode: true
           schema:
             type: string
       responses:
@@ -119,6 +118,30 @@ paths:
                   $ref: '#/components/schemas/Users'
         '400':
           description: Invalid username
+  /users/findAll:
+    get:
+      tags:
+        - users
+      summary: List all users
+      operationId: findAllUsers
+      responses:
+        '200':
+          description: Users have been successfully listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Users'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Users'
+        '404':
+          description: The resource path is incorrect
+        '500':
+          description: Internal Server Error
       security:
         - petstore_auth:
             - write:users
@@ -153,7 +176,7 @@ paths:
         '404':
           description: User not found
       security:
-        - api_key: []
+        - api_key: [ ]
         - petstore_auth:
             - write:users
             - read:users

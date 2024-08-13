@@ -77,6 +77,16 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
     }
 
     @Override
+    public ResponseEntity<List<Users>> findAllUsers() {
+        List<com.liquibaseproject.entity.Users> usersEntityList = usersService.findAll();
+        List<Users> users = usersEntityList.stream()
+                .map(usersMapper::toModel)
+                .toList();
+
+        return ResponseEntity.ok(users);
+    }
+
+    @Override
     public ResponseEntity<Users> getUserById(UUID id) {
         Optional<com.liquibaseproject.entity.Users> userEntity = usersService.getUserById(id);
         return userEntity.map(usersMapper::toModel).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());

@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-08-13T09:47:44.083307+02:00[Europe/Budapest]", comments = "Generator version: 7.7.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
 @Validated
 @Tag(name = "users", description = "List of users")
 public interface UsersApi {
@@ -114,6 +114,42 @@ public interface UsersApi {
 
 
     /**
+     * GET /users/findAll : List all users
+     *
+     * @return Users have been successfully listed (status code 200)
+     *         or The resource path is incorrect (status code 404)
+     *         or Internal Server Error (status code 500)
+     */
+    @Operation(
+        operationId = "findAllUsers",
+        summary = "List all users",
+        tags = { "users" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Users have been successfully listed", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Users.class))),
+                @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Users.class)))
+            }),
+            @ApiResponse(responseCode = "404", description = "The resource path is incorrect"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/users/findAll",
+        produces = { "application/json", "application/xml" }
+    )
+    
+    default ResponseEntity<List<Users>> findAllUsers(
+        
+    ) {
+        return getDelegate().findAllUsers();
+    }
+
+
+    /**
      * GET /users/findByUsername : Find users by username
      * Multiple usernames can be provided with comma separated strings
      *
@@ -132,9 +168,6 @@ public interface UsersApi {
                 @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Users.class)))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid username")
-        },
-        security = {
-            @SecurityRequirement(name = "petstore_auth")
         }
     )
     @RequestMapping(
