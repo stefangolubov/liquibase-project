@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [0.0.6-SNAPSHOT] - 2024-08-13 [@stefangolubov](https://github.com/stefangolubov)
+#### Changed
+- api.yml - Refactoring Users and Products schema into separate yml files
+- pom.xml - Update version from 0.0.5-SNAPSHOT to 0.0.6-SNAPSHOT
+#### Added
+- users.yml - Move Users schema from api.yml to separate yml file
+- products.yml - Move Products schema from api.yml to separate yml file
+
 ### [0.0.5-SNAPSHOT] - 2024-08-13 [@stefangolubov](https://github.com/stefangolubov)
 #### Changed
 - api.yml - Adding products APIs and schema

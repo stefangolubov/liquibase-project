@@ -1,0 +1,29 @@
+Users:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: 6574214f-89e3-4001-b54d-0d185163f7a2
+    username:
+      type: string
+      example: user.name
+    email:
+      type: string
+      example: user@username.com
+  xml:
+    name: user
+NewUser:
+  type: object
+  properties:
+    username:
+      type: string
+      example: user.name
+    password:
+      type: string
+      example: A1&d_2ddr$%$
+    email:
+      type: string
+      example: user@username.com
+  xml:
+    name: user

@@ -1,0 +1,42 @@
+Products:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: 6574214f-89e3-4001-b54d-0d185163f7a2
+    name:
+      type: string
+      example: Smart TV
+    description:
+      type: string
+      example: Samsung Smart TV
+    price:
+      type: string
+      format: double
+      example: 850.50
+    quantity:
+      type: integer
+      format: int32
+      example: 85
+  xml:
+    name: product
+NewProduct:
+  type: object
+  properties:
+    name:
+      type: string
+      example: Smart TV
+    description:
+      type: string
+      example: Samsung Smart TV
+    price:
+      type: string
+      format: double
+      example: 850.50
+    quantity:
+      type: integer
+      format: int32
+      example: 85
+  xml:
+    name: product
