@@ -10,10 +10,7 @@ import io.micrometer.common.util.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UsersApiDelegateImpl implements UsersApiDelegate {
@@ -60,9 +57,10 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
         }
 
         String[] usernameList = usernames.split(",");
+        Set<String> uniqueUsers = new LinkedHashSet<>(Arrays.asList(usernameList));
         List<com.liquibaseproject.entity.Users> userEntities = new ArrayList<>();
 
-        for (String username : usernameList) {
+        for (String username : uniqueUsers) {
             userEntities.addAll(usersService.findByUsernameIgnoreCase(username.trim()));
         }
 

@@ -55,9 +55,10 @@ public class ProductsApiDelegateImpl implements ProductsApiDelegate {
         }
 
         String[] productsList = names.split(",");
+        Set<String> uniqueProducts = new LinkedHashSet<>(Arrays.asList(productsList));
         List<com.liquibaseproject.entity.Products> productEntities = new ArrayList<>();
 
-        for (String name : productsList) {
+        for (String name : uniqueProducts ) {
             productEntities.addAll(productsService.findByNameIgnoreCase(name.trim()));
         }
 
