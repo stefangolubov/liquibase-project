@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [0.0.8-SNAPSHOT] - 2024-08-14 [@stefangolubov](https://github.com/stefangolubov)
+#### Changed
+- changeset-004-create-procedures.sql - Replace output parameter ID with username
+- Users - Add NamedStoredProcedureQuery in Users entity
+- UsersRepository - Add insertUser method
+- UsersService - Implement creation of a user with insert_user stored procedure in addUser method
+- pom.xml - Update version from 0.0.7-SNAPSHOT to 0.0.8-SNAPSHOT
+
 ### [0.0.7-SNAPSHOT] - 2024-08-13 [@stefangolubov](https://github.com/stefangolubov)
 #### Changed
 - api.yml - Refactoring ApiResponse, Users and Products schema and paths into separate yml files

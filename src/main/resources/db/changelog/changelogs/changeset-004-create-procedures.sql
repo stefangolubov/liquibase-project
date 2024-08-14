@@ -10,17 +10,17 @@ OR REPLACE PROCEDURE insert_user(
   IN p_username VARCHAR(255),
   IN p_password VARCHAR(255),
   IN p_email VARCHAR(255),
-  OUT p_id UUID,
-  OUT p_created_at TIMESTAMP,
-  OUT p_updated_at TIMESTAMP
+  OUT o_username VARCHAR(255),
+  OUT o_created_at TIMESTAMP,
+  OUT o_updated_at TIMESTAMP
 ) LANGUAGE plpgsql AS
 $$ BEGIN INSERT INTO public.Users (username, password, email)
 VALUES
-  (p_username, p_password, p_email) RETURNING id,
+  (p_username, p_password, p_email) RETURNING p_username,
   created_at,
-  updated_at INTO p_id,
-  p_created_at,
-  p_updated_at;
+  updated_at INTO o_username,
+  o_created_at,
+  o_updated_at;
 END;
 $$;
 

@@ -5,6 +5,7 @@ import com.liquibaseproject.repository.UsersRepository;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,12 +27,22 @@ public class UsersService {
         return usersRepository.findByUsernameIgnoreCase(userName);
     }
 
-    public List<Users> findAll(){
+    public List<Users> findAll() {
         return usersRepository.findAll();
     }
 
-    public Users addUser(Users userEntity) {
-        return usersRepository.save(userEntity);
+    public Users addUser(Users user) {
+        Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+        Timestamp updatedAt = new Timestamp(System.currentTimeMillis());
+
+        usersRepository.insertUser(user.getUsername(), user.getPassword(), user.getEmail(), user.getUsername(), createdAt, updatedAt);
+
+        UUID id = UUID.randomUUID();
+        user.setId(id);
+        user.setCreatedAt(createdAt);
+        user.setUpdatedAt(updatedAt);
+
+        return user;
     }
 
     public void updateUser(UUID id, Users userEntity) {
