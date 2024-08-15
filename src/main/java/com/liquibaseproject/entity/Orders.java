@@ -1,28 +1,40 @@
 package com.liquibaseproject.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "orders")
+@NamedStoredProcedureQuery(
+        name = "placeOrder",
+        procedureName = "place_order",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_user_id", type = UUID.class),
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_product_id", type = UUID.class),
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_quantity", type = Integer.class),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "p_order_id", type = UUID.class),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "p_order_date", type = Timestamp.class),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "p_status", type = String.class)
+        }
+)
 public class Orders {
 
     @Id
     @Column(name = "id", nullable = false)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID id;
 
     @Column(name = "user_id")
-    private String userId;
+    private UUID userId;
 
     @Column(name = "product_id")
-    private String productId;
+    private UUID productId;
 
     @Column(name = "quantity")
-    private Long quantity;
+    private Integer quantity;
 
     @Column(name = "order_date")
     private Date orderDate;
@@ -30,35 +42,35 @@ public class Orders {
     @Column(name = "status")
     private String status;
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 
-    public String getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setProductId(String productId) {
+    public void setProductId(UUID productId) {
         this.productId = productId;
     }
 
-    public String getProductId() {
+    public UUID getProductId() {
         return productId;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public Long getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 

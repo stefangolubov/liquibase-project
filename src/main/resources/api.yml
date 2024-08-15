@@ -13,6 +13,8 @@ tags:
     description: List of users
   - name: products
     description: List of products
+  - name: orders
+    description: List of orders
 paths:
   /users:
     $ref: './paths/users.yml#/users'
@@ -30,6 +32,14 @@ paths:
     $ref: './paths/products.yml#/findAll'
   /products/{id}:
     $ref: './paths/products.yml#/productById'
+  /orders:
+    $ref: './paths/orders.yml#/orders'
+  /orders/findByIDs:
+    $ref: './paths/orders.yml#/findByIDs'
+  /orders/findAll:
+    $ref: './paths/orders.yml#/findAll'
+  /orders/{id}:
+    $ref: './paths/orders.yml#/orderById'
 components:
   schemas:
     Users:
@@ -40,6 +50,8 @@ components:
       $ref: './schemas/products.yml#/Products'
     NewProduct:
       $ref: './schemas/products.yml#/NewProduct'
+    Orders:
+      $ref: './schemas/orders.yml#/Orders'
     ApiResponse:
       $ref: './schemas/apiresponse.yml#/ApiResponse'
   requestBodies:

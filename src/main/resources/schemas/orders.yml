@@ -1,0 +1,41 @@
+Orders:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: 6574214f-89e3-4001-b54d-0d185163f7a2
+    user_id:
+      type: string
+      format: uuid
+      example: 2be3e28c-53fb-482a-8cfd-85e168e99bed
+    product_id:
+      type: string
+      format: uuid
+      example: a320b172-4394-4b9a-8eb3-2fd999fdc460
+    quantity:
+      type: integer
+      format: int32
+      example: 85
+    status:
+      type: string
+      example: Shipped
+  xml:
+    name: order
+NewOrder:
+  type: object
+  properties:
+    user_id:
+      type: string
+      format: uuid
+      example: 2be3e28c-53fb-482a-8cfd-85e168e99bed
+    product_id:
+      type: string
+      format: uuid
+      example: a320b172-4394-4b9a-8eb3-2fd999fdc460
+    quantity:
+      type: integer
+      format: int32
+      example: 85
+  xml:
+    name: order
