@@ -1,4 +1,4 @@
-ApiResponse:
+ApiResponseSchema:
   type: object
   properties:
     code:

@@ -1,6 +1,6 @@
 package com.liquibaseproject.api;
 
-import com.liquibaseproject.model.ModelApiResponse;
+import com.liquibaseproject.model.ApiResponseSchema;
 import com.liquibaseproject.model.NewUser;
 import java.util.UUID;
 import com.liquibaseproject.model.Users;
@@ -167,7 +167,7 @@ public interface UsersApiDelegate {
      *         or Validation exception (status code 422)
      * @see UsersApi#updateUser
      */
-    default ResponseEntity<ModelApiResponse> updateUser(Users users) {
+    default ResponseEntity<ApiResponseSchema> updateUser(Users users) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

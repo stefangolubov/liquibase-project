@@ -24,7 +24,7 @@ products:
         content:
           application/json:
             schema:
-              $ref: '../schemas/apiresponse.yml#/ApiResponse'
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
           application/xml:
             schema:
               $ref: '../schemas/products.yml#/Products'

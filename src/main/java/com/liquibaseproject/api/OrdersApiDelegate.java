@@ -1,6 +1,6 @@
 package com.liquibaseproject.api;
 
-import com.liquibaseproject.model.ModelApiResponse;
+import com.liquibaseproject.model.ApiResponseSchema;
 import com.liquibaseproject.model.NewOrder;
 import com.liquibaseproject.model.Orders;
 import java.util.UUID;
@@ -165,7 +165,7 @@ public interface OrdersApiDelegate {
      *         or Validation exception (status code 422)
      * @see OrdersApi#updateOrder
      */
-    default ResponseEntity<ModelApiResponse> updateOrder(Orders orders) {
+    default ResponseEntity<ApiResponseSchema> updateOrder(Orders orders) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

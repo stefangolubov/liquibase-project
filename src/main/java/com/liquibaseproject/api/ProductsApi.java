@@ -5,7 +5,7 @@
  */
 package com.liquibaseproject.api;
 
-import com.liquibaseproject.model.ModelApiResponse;
+import com.liquibaseproject.model.ApiResponseSchema;
 import com.liquibaseproject.model.NewProduct;
 import com.liquibaseproject.model.Products;
 import java.util.UUID;
@@ -243,8 +243,8 @@ public interface ProductsApi {
         tags = { "products" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Product has been successfully updated", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Product not found"),
@@ -261,7 +261,7 @@ public interface ProductsApi {
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
     
-    default ResponseEntity<ModelApiResponse> updateProduct(
+    default ResponseEntity<ApiResponseSchema> updateProduct(
         @Parameter(name = "Products", description = "Update an existing product", required = true) @Valid @RequestBody Products products
     ) {
         return getDelegate().updateProduct(products);

@@ -52,8 +52,8 @@ components:
       $ref: './schemas/products.yml#/NewProduct'
     Orders:
       $ref: './schemas/orders.yml#/Orders'
-    ApiResponse:
-      $ref: './schemas/apiresponse.yml#/ApiResponse'
+    ApiResponseSchema:
+      $ref: './schemas/apiresponseschema.yml#/ApiResponseSchema'
   requestBodies:
     Users:
       description: User object that needs to be added

@@ -2,7 +2,7 @@ package com.liquibaseproject.api;
 
 import com.liquibaseproject.mapper.NewUserMapper;
 import com.liquibaseproject.mapper.UsersMapper;
-import com.liquibaseproject.model.ModelApiResponse;
+import com.liquibaseproject.model.ApiResponseSchema;
 import com.liquibaseproject.model.NewUser;
 import com.liquibaseproject.model.Users;
 import com.liquibaseproject.service.UsersService;
@@ -26,10 +26,10 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
     }
 
     @Override
-    public ResponseEntity<ModelApiResponse> updateUser(Users usersModel) {
+    public ResponseEntity<ApiResponseSchema> updateUser(Users usersModel) {
         usersService.updateUser(usersModel.getId(), usersMapper.toEntity(usersModel));
 
-        ModelApiResponse response = new ModelApiResponse();
+        ApiResponseSchema response = new ApiResponseSchema();
         response.setCode(200);
         response.setType("success");
         response.setMessage("User has been successfully updated");

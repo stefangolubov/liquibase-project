@@ -2,7 +2,7 @@ package com.liquibaseproject.api;
 
 import com.liquibaseproject.mapper.NewProductsMapper;
 import com.liquibaseproject.mapper.ProductsMapper;
-import com.liquibaseproject.model.ModelApiResponse;
+import com.liquibaseproject.model.ApiResponseSchema;
 import com.liquibaseproject.model.NewProduct;
 import com.liquibaseproject.model.Products;
 import com.liquibaseproject.service.ProductsService;
@@ -79,10 +79,10 @@ public class ProductsApiDelegateImpl implements ProductsApiDelegate {
     }
 
     @Override
-    public ResponseEntity<ModelApiResponse> updateProduct(Products products) {
+    public ResponseEntity<ApiResponseSchema> updateProduct(Products products) {
         productsService.updateProduct(products.getId(), productsMapper.toEntity(products));
 
-        ModelApiResponse response = new ModelApiResponse();
+        ApiResponseSchema response = new ApiResponseSchema();
         response.setCode(200);
         response.setType("success");
         response.setMessage("Product has been successfully updated");

@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -16,12 +15,11 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * ModelApiResponse
+ * ApiResponseSchema
  */
 
-@JsonTypeName("ApiResponse")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
-public class ModelApiResponse {
+public class ApiResponseSchema {
 
   private Integer code;
 
@@ -29,7 +27,7 @@ public class ModelApiResponse {
 
   private String message;
 
-  public ModelApiResponse code(Integer code) {
+  public ApiResponseSchema code(Integer code) {
     this.code = code;
     return this;
   }
@@ -49,7 +47,7 @@ public class ModelApiResponse {
     this.code = code;
   }
 
-  public ModelApiResponse type(String type) {
+  public ApiResponseSchema type(String type) {
     this.type = type;
     return this;
   }
@@ -69,7 +67,7 @@ public class ModelApiResponse {
     this.type = type;
   }
 
-  public ModelApiResponse message(String message) {
+  public ApiResponseSchema message(String message) {
     this.message = message;
     return this;
   }
@@ -97,10 +95,10 @@ public class ModelApiResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ModelApiResponse _apiResponse = (ModelApiResponse) o;
-    return Objects.equals(this.code, _apiResponse.code) &&
-        Objects.equals(this.type, _apiResponse.type) &&
-        Objects.equals(this.message, _apiResponse.message);
+    ApiResponseSchema apiResponseSchema = (ApiResponseSchema) o;
+    return Objects.equals(this.code, apiResponseSchema.code) &&
+        Objects.equals(this.type, apiResponseSchema.type) &&
+        Objects.equals(this.message, apiResponseSchema.message);
   }
 
   @Override
@@ -111,7 +109,7 @@ public class ModelApiResponse {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ModelApiResponse {\n");
+    sb.append("class ApiResponseSchema {\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");

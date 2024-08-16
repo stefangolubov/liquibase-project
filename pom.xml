@@ -11,7 +11,7 @@
 
     <groupId>com</groupId>
     <artifactId>liquibase-project</artifactId>
-    <version>0.0.10-SNAPSHOT</version>
+    <version>0.0.11-SNAPSHOT</version>
     <name>liquibase-project</name>
     <description>Liquibase Project</description>
 

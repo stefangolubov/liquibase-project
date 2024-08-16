@@ -5,7 +5,7 @@
  */
 package com.liquibaseproject.api;
 
-import com.liquibaseproject.model.ModelApiResponse;
+import com.liquibaseproject.model.ApiResponseSchema;
 import com.liquibaseproject.model.NewUser;
 import java.util.UUID;
 import com.liquibaseproject.model.Users;
@@ -243,8 +243,8 @@ public interface UsersApi {
         tags = { "users" },
         responses = {
             @ApiResponse(responseCode = "200", description = "User has been successfully updated", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "User not found"),
@@ -261,7 +261,7 @@ public interface UsersApi {
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
     
-    default ResponseEntity<ModelApiResponse> updateUser(
+    default ResponseEntity<ApiResponseSchema> updateUser(
         @Parameter(name = "Users", description = "Update an existing user", required = true) @Valid @RequestBody Users users
     ) {
         return getDelegate().updateUser(users);

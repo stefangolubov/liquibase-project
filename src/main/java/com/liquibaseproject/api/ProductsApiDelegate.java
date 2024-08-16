@@ -1,6 +1,6 @@
 package com.liquibaseproject.api;
 
-import com.liquibaseproject.model.ModelApiResponse;
+import com.liquibaseproject.model.ApiResponseSchema;
 import com.liquibaseproject.model.NewProduct;
 import com.liquibaseproject.model.Products;
 import java.util.UUID;
@@ -167,7 +167,7 @@ public interface ProductsApiDelegate {
      *         or Validation exception (status code 422)
      * @see ProductsApi#updateProduct
      */
-    default ResponseEntity<ModelApiResponse> updateProduct(Products products) {
+    default ResponseEntity<ApiResponseSchema> updateProduct(Products products) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

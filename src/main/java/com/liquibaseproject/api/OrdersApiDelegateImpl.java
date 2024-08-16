@@ -3,7 +3,7 @@ package com.liquibaseproject.api;
 import com.liquibaseproject.entity.Products;
 import com.liquibaseproject.mapper.NewOrderMapper;
 import com.liquibaseproject.mapper.OrdersMapper;
-import com.liquibaseproject.model.ModelApiResponse;
+import com.liquibaseproject.model.ApiResponseSchema;
 import com.liquibaseproject.model.NewOrder;
 import com.liquibaseproject.model.Orders;
 import com.liquibaseproject.service.OrdersService;
@@ -99,10 +99,10 @@ public class OrdersApiDelegateImpl implements OrdersApiDelegate {
     }
 
     @Override
-    public ResponseEntity<ModelApiResponse> updateOrder(Orders orderModel) {
+    public ResponseEntity<ApiResponseSchema> updateOrder(Orders orderModel) {
         ordersService.updateOrder(orderModel.getId(), ordersMapper.toEntity(orderModel));
 
-        ModelApiResponse response = new ModelApiResponse();
+        ApiResponseSchema response = new ApiResponseSchema();
         response.setCode(200);
         response.setType("success");
         response.setMessage("Order has been successfully updated");
