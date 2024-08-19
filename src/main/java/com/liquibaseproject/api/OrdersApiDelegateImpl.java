@@ -1,6 +1,8 @@
 package com.liquibaseproject.api;
 
 import com.liquibaseproject.entity.Products;
+import com.liquibaseproject.exception.EmptyInputException;
+import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.mapper.NewOrderMapper;
 import com.liquibaseproject.mapper.OrdersMapper;
 import com.liquibaseproject.model.ApiResponseSchema;
@@ -17,6 +19,10 @@ import java.util.*;
 
 @Service
 public class OrdersApiDelegateImpl implements OrdersApiDelegate {
+
+    private static final String EMPTY_INPUT_EXCEPTION_MESSAGE = "No orders provided";
+    private static final String ORDERS_NOT_FOUND_EXCEPTION_MESSAGE = "No orders found for the provided input";
+    private static final String SUCCESS_MESSAGE = "Order has been successfully %s";
 
     private final OrdersMapper ordersMapper;
     private final NewOrderMapper newOrderMapper;
@@ -39,11 +45,13 @@ public class OrdersApiDelegateImpl implements OrdersApiDelegate {
 
     @Override
     @Transactional
-    public ResponseEntity<Void> deleteOrder(UUID id) {
+    public ResponseEntity<ApiResponseSchema> deleteOrder(UUID id) {
         resetProductQuantityValue(id);
 
         ordersService.deleteOrder(id);
-        return ResponseEntity.noContent().build();
+        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "deleted"));
+
+        return ResponseEntity.ok(response);
     }
 
     private void resetProductQuantityValue(UUID id) {
@@ -70,7 +78,7 @@ public class OrdersApiDelegateImpl implements OrdersApiDelegate {
     @Override
     public ResponseEntity<List<Orders>> findOrdersById(String orderIDs) {
         if (StringUtils.isEmpty(orderIDs)) {
-            return ResponseEntity.badRequest().build();
+            throw new EmptyInputException(EMPTY_INPUT_EXCEPTION_MESSAGE);
         }
 
         String[] ordersList = orderIDs.split(",");
@@ -82,7 +90,7 @@ public class OrdersApiDelegateImpl implements OrdersApiDelegate {
         }
 
         if (orderEntities.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new ResultsNotFoundException(String.format(ORDERS_NOT_FOUND_EXCEPTION_MESSAGE));
         }
 
         List<Orders> orders = orderEntities.stream()
@@ -102,35 +110,37 @@ public class OrdersApiDelegateImpl implements OrdersApiDelegate {
     public ResponseEntity<ApiResponseSchema> updateOrder(Orders orderModel) {
         ordersService.updateOrder(orderModel.getId(), ordersMapper.toEntity(orderModel));
 
-        ApiResponseSchema response = new ApiResponseSchema();
-        response.setCode(200);
-        response.setType("success");
-        response.setMessage("Order has been successfully updated");
+        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
 
         return ResponseEntity.ok(response);
     }
 
     @Override
-    public ResponseEntity<Void> updateOrderWithForm(UUID id, Integer quantity, String status) {
-        if (id == null || (quantity == null && StringUtils.isEmpty(status))) {
-            return ResponseEntity.badRequest().build();
-        }
-
+    public ResponseEntity<ApiResponseSchema> updateOrderWithForm(UUID id, Integer quantity, String status) {
         Optional<com.liquibaseproject.entity.Orders> orderEntityOptional = ordersService.getOrderById(id);
-        if (orderEntityOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
 
-        com.liquibaseproject.entity.Orders orderEntity = orderEntityOptional.get();
-        if (Objects.nonNull(quantity)) {
-            orderEntity.setQuantity(quantity);
-        }
-        if (StringUtils.isNotEmpty(status)) {
-            orderEntity.setStatus(status);
-        }
+        orderEntityOptional.ifPresent(orderEntity -> {
+            if (Objects.nonNull(quantity)) {
+                orderEntity.setQuantity(quantity);
+            }
+            if (StringUtils.isNotEmpty(status)) {
+                orderEntity.setStatus(status);
+            }
 
-        ordersService.updateOrder(id, orderEntity);
+            ordersService.updateOrder(id, orderEntity);
+        });
 
-        return ResponseEntity.noContent().build();
+        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
+
+        return ResponseEntity.ok(response);
+    }
+
+    private static ApiResponseSchema getApiResponseSchema(String message) {
+        ApiResponseSchema response = new ApiResponseSchema();
+
+        response.setCode(200);
+        response.setType("success");
+        response.setMessage(message);
+        return response;
     }
 }

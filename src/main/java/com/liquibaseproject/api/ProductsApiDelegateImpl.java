@@ -1,5 +1,7 @@
 package com.liquibaseproject.api;
 
+import com.liquibaseproject.exception.EmptyInputException;
+import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.mapper.NewProductsMapper;
 import com.liquibaseproject.mapper.ProductsMapper;
 import com.liquibaseproject.model.ApiResponseSchema;
@@ -14,6 +16,10 @@ import java.util.*;
 
 @Service
 public class ProductsApiDelegateImpl implements ProductsApiDelegate {
+
+    private static final String EMPTY_INPUT_EXCEPTION_MESSAGE = "No products provided";
+    private static final String PRODUCTS_NOT_FOUND_EXCEPTION_MESSAGE = "No products found for the provided input";
+    private static final String SUCCESS_MESSAGE = "Product has been successfully %s";
 
     private final ProductsMapper productsMapper;
     private final NewProductsMapper newProductsMapper;
@@ -33,9 +39,12 @@ public class ProductsApiDelegateImpl implements ProductsApiDelegate {
     }
 
     @Override
-    public ResponseEntity<Void> deleteProduct(UUID id, String apiKey) {
+    public ResponseEntity<ApiResponseSchema> deleteProduct(UUID id, String apiKey) {
         productsService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
+
+        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "deleted"));
+
+        return ResponseEntity.ok(response);
     }
 
     @Override
@@ -51,19 +60,19 @@ public class ProductsApiDelegateImpl implements ProductsApiDelegate {
     @Override
     public ResponseEntity<List<Products>> findProductsByName(String names) {
         if (StringUtils.isEmpty(names)) {
-            return ResponseEntity.badRequest().build();
+            throw new EmptyInputException(EMPTY_INPUT_EXCEPTION_MESSAGE);
         }
 
         String[] productsList = names.split(",");
         Set<String> uniqueProducts = new LinkedHashSet<>(Arrays.asList(productsList));
         List<com.liquibaseproject.entity.Products> productEntities = new ArrayList<>();
 
-        for (String name : uniqueProducts ) {
+        for (String name : uniqueProducts) {
             productEntities.addAll(productsService.findByNameIgnoreCase(name.trim()));
         }
 
         if (productEntities.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new ResultsNotFoundException(String.format(PRODUCTS_NOT_FOUND_EXCEPTION_MESSAGE));
         }
 
         List<Products> products = productEntities.stream()
@@ -82,41 +91,42 @@ public class ProductsApiDelegateImpl implements ProductsApiDelegate {
     public ResponseEntity<ApiResponseSchema> updateProduct(Products products) {
         productsService.updateProduct(products.getId(), productsMapper.toEntity(products));
 
-        ApiResponseSchema response = new ApiResponseSchema();
-        response.setCode(200);
-        response.setType("success");
-        response.setMessage("Product has been successfully updated");
+        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
 
         return ResponseEntity.ok(response);
     }
 
     @Override
-    public ResponseEntity<Void> updateProductWithForm(UUID id, String name, String description, Double price, Integer quantity) {
-        if (id == null || (name == null && description == null && price == null && quantity == null)) {
-            return ResponseEntity.badRequest().build();
-        }
-
+    public ResponseEntity<ApiResponseSchema> updateProductWithForm(UUID id, String name, String description, Double price, Integer quantity) {
         Optional<com.liquibaseproject.entity.Products> productsEntityOptional = productsService.getProductById(id);
-        if (productsEntityOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
 
-        com.liquibaseproject.entity.Products productsEntity = productsEntityOptional.get();
-        if (StringUtils.isNotEmpty(name)) {
-            productsEntity.setName(name);
-        }
-        if (StringUtils.isNotEmpty(description)) {
-            productsEntity.setDescription(description);
-        }
-        if (Objects.nonNull(price)) {
-            productsEntity.setPrice(price);
-        }
-        if (Objects.nonNull(quantity)) {
-            productsEntity.setQuantity(quantity);
-        }
+        productsEntityOptional.ifPresent(productEntity -> {
+            if (StringUtils.isNotEmpty(name)) {
+                productEntity.setName(name);
+            }
+            if (StringUtils.isNotEmpty(description)) {
+                productEntity.setDescription(description);
+            }
+            if (Objects.nonNull(price)) {
+                productEntity.setPrice(price);
+            }
+            if (Objects.nonNull(quantity)) {
+                productEntity.setQuantity(quantity);
+            }
 
-        productsService.updateProduct(id, productsEntity);
+            productsService.updateProduct(id, productEntity);
+        });
 
-        return ResponseEntity.noContent().build();
+        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
+
+        return ResponseEntity.ok(response);
+    }
+
+    private static ApiResponseSchema getApiResponseSchema(String message) {
+        ApiResponseSchema response = new ApiResponseSchema();
+        response.setCode(200);
+        response.setType("success");
+        response.setMessage(message);
+        return response;
     }
 }

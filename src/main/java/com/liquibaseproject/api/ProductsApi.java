@@ -86,7 +86,8 @@ public interface ProductsApi {
      *
      * @param id Product ID for the product that needs to be deleted (required)
      * @param apiKey  (optional)
-     * @return Invalid product ID value (status code 400)
+     * @return Product found by ID (status code 200)
+     *         or Invalid product ID value (status code 400)
      */
     @Operation(
         operationId = "deleteProduct",
@@ -94,6 +95,10 @@ public interface ProductsApi {
         description = "delete a product",
         tags = { "products" },
         responses = {
+            @ApiResponse(responseCode = "200", description = "Product found by ID", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid product ID value")
         },
         security = {
@@ -102,10 +107,11 @@ public interface ProductsApi {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/products/{id}"
+        value = "/products/{id}",
+        produces = { "application/json", "application/xml" }
     )
     
-    default ResponseEntity<Void> deleteProduct(
+    default ResponseEntity<ApiResponseSchema> deleteProduct(
         @Parameter(name = "id", description = "Product ID for the product that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id,
         @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) String apiKey
     ) {
@@ -277,7 +283,8 @@ public interface ProductsApi {
      * @param description Description for the product that needs to be updated (optional)
      * @param price Price for the product that needs to be updated (optional)
      * @param quantity Quantity of the product that needs to be updated (optional)
-     * @return Invalid input (status code 400)
+     * @return User found by ID (status code 200)
+     *         or Invalid input (status code 400)
      */
     @Operation(
         operationId = "updateProductWithForm",
@@ -285,6 +292,10 @@ public interface ProductsApi {
         description = "",
         tags = { "products" },
         responses = {
+            @ApiResponse(responseCode = "200", description = "User found by ID", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid input")
         },
         security = {
@@ -293,10 +304,11 @@ public interface ProductsApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/products/{id}"
+        value = "/products/{id}",
+        produces = { "application/json", "application/xml" }
     )
     
-    default ResponseEntity<Void> updateProductWithForm(
+    default ResponseEntity<ApiResponseSchema> updateProductWithForm(
         @Parameter(name = "id", description = "ID of product that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id,
         @Parameter(name = "name", description = "Name for the product that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "name", required = false) String name,
         @Parameter(name = "description", description = "Description for the product that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "description", required = false) String description,

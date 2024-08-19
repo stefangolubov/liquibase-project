@@ -6,6 +6,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [0.0.12-SNAPSHOT] - 2024-08-19 [@stefangolubov](https://github.com/stefangolubov)
+#### Changed
+- orders.yml - Adding 200 response object for post and delete
+- OrdersApi - [automatically updated by OpenAPI generator]
+- OrdersApiDelegate - [automatically updated by OpenAPI generator]
+- OrdersApiDelegateImpl - Implementing error handling
+- OrdersService - Improvement for implementing error handling
+- products.yml - Adding 200 response object for post and delete
+- ProductsApi - [automatically updated by OpenAPI generator]
+- ProductsApiDelegate - [automatically updated by OpenAPI generator]
+- ProductsApiDelegateImpl - Implementing error handling
+- ProductsService - Improvement for implementing error handling
+- orders.yml - Adding 200 response object for post and delete
+- OrdersApi - [automatically updated by OpenAPI generator]
+- OrdersApiDelegate - [automatically updated by OpenAPI generator]
+- OrdersApiDelegateImpl - Implementing error handling
+- OrdersService - Improvement for implementing error handling
+- pom.xml - Update version from 0.0.11-SNAPSHOT to 0.0.12-SNAPSHOT
+#### Added
+- EmptyInputException - RunTimeException for handling empty user input
+- ErrorResponse - Class for handling error response
+- GlobalExceptionHandler - Controller advice for handling various types of exceptions
+- ResultsNotFoundException - RunTimeException for handling empty response error for given input
+
 ### [0.0.11-SNAPSHOT] - 2024-08-16 [@stefangolubov](https://github.com/stefangolubov)
 #### Renamed
 - apiresponse.yml - Renamed to apiresponseschema.yml (due to ApiResponse being reserved word)

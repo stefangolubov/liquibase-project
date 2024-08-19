@@ -62,10 +62,25 @@ public interface OrdersApiDelegate {
      * delete an order
      *
      * @param id ID of the order that needs to be deleted (required)
-     * @return Invalid order ID (status code 400)
+     * @return User found by ID (status code 200)
+     *         or Invalid order ID (status code 400)
      * @see OrdersApi#deleteOrder
      */
-    default ResponseEntity<Void> deleteOrder(UUID id) {
+    default ResponseEntity<ApiResponseSchema> deleteOrder(UUID id) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<##default> <code>123</code> <type>aeiou</type> <message>aeiou</message> </##default>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -191,12 +206,27 @@ public interface OrdersApiDelegate {
      * @param id ID of the order that needs to be updated (required)
      * @param quantity Quantity for the product of the order that needs to be updated (optional)
      * @param status Status of the order that needs to be updated (optional)
-     * @return Invalid input (status code 400)
+     * @return User found by ID (status code 200)
+     *         or Invalid input (status code 400)
      * @see OrdersApi#updateOrderWithForm
      */
-    default ResponseEntity<Void> updateOrderWithForm(UUID id,
+    default ResponseEntity<ApiResponseSchema> updateOrderWithForm(UUID id,
         Integer quantity,
         String status) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<##default> <code>123</code> <type>aeiou</type> <message>aeiou</message> </##default>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

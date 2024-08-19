@@ -86,7 +86,8 @@ public interface UsersApi {
      *
      * @param id User ID for the user that needs to be deleted (required)
      * @param apiKey  (optional)
-     * @return Invalid user ID value (status code 400)
+     * @return User found by ID (status code 200)
+     *         or Invalid user ID value (status code 400)
      */
     @Operation(
         operationId = "deleteUser",
@@ -94,6 +95,10 @@ public interface UsersApi {
         description = "delete a user",
         tags = { "users" },
         responses = {
+            @ApiResponse(responseCode = "200", description = "User found by ID", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid user ID value")
         },
         security = {
@@ -102,10 +107,11 @@ public interface UsersApi {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/users/{id}"
+        value = "/users/{id}",
+        produces = { "application/json", "application/xml" }
     )
     
-    default ResponseEntity<Void> deleteUser(
+    default ResponseEntity<ApiResponseSchema> deleteUser(
         @Parameter(name = "id", description = "User ID for the user that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id,
         @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) String apiKey
     ) {
@@ -150,7 +156,7 @@ public interface UsersApi {
 
 
     /**
-     * GET /users/findByUsername : Find users by username
+     * GET /users/findByUsername : Find users by usernames
      * Multiple usernames can be provided with comma separated strings
      *
      * @param usernames  (optional)
@@ -159,7 +165,7 @@ public interface UsersApi {
      */
     @Operation(
         operationId = "findUsersByUsername",
-        summary = "Find users by username",
+        summary = "Find users by usernames",
         description = "Multiple usernames can be provided with comma separated strings",
         tags = { "users" },
         responses = {
@@ -275,7 +281,8 @@ public interface UsersApi {
      * @param id ID of user that needs to be updated (required)
      * @param username Username for the user that needs to be updated (optional)
      * @param email E-mail of the user that needs to be updated (optional)
-     * @return Invalid input (status code 400)
+     * @return User found by ID (status code 200)
+     *         or Invalid input (status code 400)
      */
     @Operation(
         operationId = "updateUserWithForm",
@@ -283,6 +290,10 @@ public interface UsersApi {
         description = "",
         tags = { "users" },
         responses = {
+            @ApiResponse(responseCode = "200", description = "User found by ID", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid input")
         },
         security = {
@@ -291,10 +302,11 @@ public interface UsersApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/users/{id}"
+        value = "/users/{id}",
+        produces = { "application/json", "application/xml" }
     )
     
-    default ResponseEntity<Void> updateUserWithForm(
+    default ResponseEntity<ApiResponseSchema> updateUserWithForm(
         @Parameter(name = "id", description = "ID of user that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id,
         @Parameter(name = "username", description = "Username for the user that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = false) String username,
         @Parameter(name = "email", description = "E-mail of the user that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "email", required = false) String email

@@ -207,6 +207,15 @@ productById:
           type: integer
           format: int32
     responses:
+      '200':
+        description: User found by ID
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
+          application/xml:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
       '400':
         description: Invalid input
     security:
@@ -234,6 +243,15 @@ productById:
           type: string
           format: uuid
     responses:
+      '200':
+        description: Product found by ID
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
+          application/xml:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
       '400':
         description: Invalid product ID value
     security:

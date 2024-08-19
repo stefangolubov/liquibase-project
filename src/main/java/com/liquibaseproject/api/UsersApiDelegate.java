@@ -63,11 +63,26 @@ public interface UsersApiDelegate {
      *
      * @param id User ID for the user that needs to be deleted (required)
      * @param apiKey  (optional)
-     * @return Invalid user ID value (status code 400)
+     * @return User found by ID (status code 200)
+     *         or Invalid user ID value (status code 400)
      * @see UsersApi#deleteUser
      */
-    default ResponseEntity<Void> deleteUser(UUID id,
+    default ResponseEntity<ApiResponseSchema> deleteUser(UUID id,
         String apiKey) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<##default> <code>123</code> <type>aeiou</type> <message>aeiou</message> </##default>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -100,7 +115,7 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * GET /users/findByUsername : Find users by username
+     * GET /users/findByUsername : Find users by usernames
      * Multiple usernames can be provided with comma separated strings
      *
      * @param usernames  (optional)
@@ -193,12 +208,27 @@ public interface UsersApiDelegate {
      * @param id ID of user that needs to be updated (required)
      * @param username Username for the user that needs to be updated (optional)
      * @param email E-mail of the user that needs to be updated (optional)
-     * @return Invalid input (status code 400)
+     * @return User found by ID (status code 200)
+     *         or Invalid input (status code 400)
      * @see UsersApi#updateUserWithForm
      */
-    default ResponseEntity<Void> updateUserWithForm(UUID id,
+    default ResponseEntity<ApiResponseSchema> updateUserWithForm(UUID id,
         String username,
         String email) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<##default> <code>123</code> <type>aeiou</type> <message>aeiou</message> </##default>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

@@ -11,7 +11,7 @@
 
     <groupId>com</groupId>
     <artifactId>liquibase-project</artifactId>
-    <version>0.0.11-SNAPSHOT</version>
+    <version>0.0.12-SNAPSHOT</version>
     <name>liquibase-project</name>
     <description>Liquibase Project</description>
 
@@ -115,11 +115,6 @@
                             <apiPackage>com.liquibaseproject.api</apiPackage>
                             <modelPackage>com.liquibaseproject.model</modelPackage>
                             <configOptions>
-<!--                                <additionalModelTypeAnnotations>-->
-<!--                                    @lombok.Data-->
-<!--                                    @lombok.NoArgsConstructor-->
-<!--                                    @lombok.AllArgsConstructor-->
-<!--                                </additionalModelTypeAnnotations>-->
                                 <delegatePattern>true</delegatePattern>
                                 <useSpringBoot3>true</useSpringBoot3>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
@@ -141,7 +136,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <delete dir="${project.basedir}/src/main/java/org" />
+                                <delete dir="${project.basedir}/src/main/java/org"/>
                             </target>
                         </configuration>
                     </execution>

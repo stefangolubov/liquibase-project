@@ -79,7 +79,7 @@ findByUsername:
   get:
     tags:
       - users
-    summary: Find users by username
+    summary: Find users by usernames
     description: Multiple usernames can be provided with comma separated strings
     operationId: findUsersByUsername
     parameters:
@@ -195,6 +195,15 @@ userById:
         schema:
           type: string
     responses:
+      '200':
+        description: User found by ID
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
+          application/xml:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
       '400':
         description: Invalid input
     security:
@@ -222,6 +231,15 @@ userById:
           type: string
           format: uuid
     responses:
+      '200':
+        description: User found by ID
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
+          application/xml:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
       '400':
         description: Invalid user ID value
     security:

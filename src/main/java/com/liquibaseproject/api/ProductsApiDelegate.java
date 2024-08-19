@@ -63,11 +63,26 @@ public interface ProductsApiDelegate {
      *
      * @param id Product ID for the product that needs to be deleted (required)
      * @param apiKey  (optional)
-     * @return Invalid product ID value (status code 400)
+     * @return Product found by ID (status code 200)
+     *         or Invalid product ID value (status code 400)
      * @see ProductsApi#deleteProduct
      */
-    default ResponseEntity<Void> deleteProduct(UUID id,
+    default ResponseEntity<ApiResponseSchema> deleteProduct(UUID id,
         String apiKey) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<##default> <code>123</code> <type>aeiou</type> <message>aeiou</message> </##default>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -195,14 +210,29 @@ public interface ProductsApiDelegate {
      * @param description Description for the product that needs to be updated (optional)
      * @param price Price for the product that needs to be updated (optional)
      * @param quantity Quantity of the product that needs to be updated (optional)
-     * @return Invalid input (status code 400)
+     * @return User found by ID (status code 200)
+     *         or Invalid input (status code 400)
      * @see ProductsApi#updateProductWithForm
      */
-    default ResponseEntity<Void> updateProductWithForm(UUID id,
+    default ResponseEntity<ApiResponseSchema> updateProductWithForm(UUID id,
         String name,
         String description,
         Double price,
         Integer quantity) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<##default> <code>123</code> <type>aeiou</type> <message>aeiou</message> </##default>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

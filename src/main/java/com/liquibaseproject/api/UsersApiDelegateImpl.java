@@ -1,5 +1,7 @@
 package com.liquibaseproject.api;
 
+import com.liquibaseproject.exception.EmptyInputException;
+import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.mapper.NewUserMapper;
 import com.liquibaseproject.mapper.UsersMapper;
 import com.liquibaseproject.model.ApiResponseSchema;
@@ -15,6 +17,10 @@ import java.util.*;
 @Service
 public class UsersApiDelegateImpl implements UsersApiDelegate {
 
+    private static final String EMPTY_INPUT_EXCEPTION_MESSAGE = "No usernames provided";
+    private static final String USERS_NOT_FOUND_EXCEPTION_MESSAGE = "No users found for the provided input";
+    private static final String SUCCESS_MESSAGE = "User has been successfully %s";
+
     private final UsersService usersService;
     private final UsersMapper usersMapper;
     private final NewUserMapper newUserMapper;
@@ -29,10 +35,7 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
     public ResponseEntity<ApiResponseSchema> updateUser(Users usersModel) {
         usersService.updateUser(usersModel.getId(), usersMapper.toEntity(usersModel));
 
-        ApiResponseSchema response = new ApiResponseSchema();
-        response.setCode(200);
-        response.setType("success");
-        response.setMessage("User has been successfully updated");
+        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
 
         return ResponseEntity.ok(response);
     }
@@ -45,15 +48,18 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
     }
 
     @Override
-    public ResponseEntity<Void> deleteUser(UUID id, String apiKey) {
+    public ResponseEntity<ApiResponseSchema> deleteUser(UUID id, String apiKey) {
         usersService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+
+        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "deleted"));
+
+        return ResponseEntity.ok(response);
     }
 
     @Override
     public ResponseEntity<List<Users>> findUsersByUsername(String usernames) {
         if (StringUtils.isEmpty(usernames)) {
-            return ResponseEntity.badRequest().build();
+            throw new EmptyInputException(EMPTY_INPUT_EXCEPTION_MESSAGE);
         }
 
         String[] usernameList = usernames.split(",");
@@ -65,7 +71,7 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
         }
 
         if (userEntities.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new ResultsNotFoundException(String.format(USERS_NOT_FOUND_EXCEPTION_MESSAGE));
         }
 
         List<Users> users = userEntities.stream()
@@ -91,26 +97,30 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
     }
 
     @Override
-    public ResponseEntity<Void> updateUserWithForm(UUID id, String username, String email) {
-        if (id == null || (username == null && email == null)) {
-            return ResponseEntity.badRequest().build();
-        }
-
+    public ResponseEntity<ApiResponseSchema> updateUserWithForm(UUID id, String username, String email) {
         Optional<com.liquibaseproject.entity.Users> userEntityOptional = usersService.getUserById(id);
-        if (userEntityOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
 
-        com.liquibaseproject.entity.Users userEntity = userEntityOptional.get();
-        if (StringUtils.isNotEmpty(username)) {
-            userEntity.setUsername(username);
-        }
-        if (StringUtils.isNotEmpty(email)) {
-            userEntity.setEmail(email);
-        }
+        userEntityOptional.ifPresent(userEntity -> {
+            if (StringUtils.isNotEmpty(username)) {
+                userEntity.setUsername(username);
+            }
+            if (StringUtils.isNotEmpty(email)) {
+                userEntity.setEmail(email);
+            }
+            usersService.updateUser(id, userEntity);
+        });
 
-        usersService.updateUser(id, userEntity);
+        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(response);
+    }
+
+    private static ApiResponseSchema getApiResponseSchema(String message) {
+        ApiResponseSchema response = new ApiResponseSchema();
+
+        response.setCode(200);
+        response.setType("success");
+        response.setMessage(message);
+        return response;
     }
 }

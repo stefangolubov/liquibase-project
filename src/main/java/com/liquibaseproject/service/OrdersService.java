@@ -1,6 +1,7 @@
 package com.liquibaseproject.service;
 
 import com.liquibaseproject.entity.Orders;
+import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.repository.OrdersRepository;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,18 @@ public class OrdersService {
 
     private final OrdersRepository ordersRepository;
 
+    private static final String ORDER_NOT_FOUND_MESSAGE = "Order with ID %s does not exist.";
+
     public OrdersService(OrdersRepository ordersRepository) {
         this.ordersRepository = ordersRepository;
     }
 
     public Optional<Orders> getOrderById(UUID id) {
-        return ordersRepository.findById(id);
+        if (ordersRepository.existsById(id)) {
+            return ordersRepository.findById(id);
+        } else {
+            throw new ResultsNotFoundException(String.format(ORDER_NOT_FOUND_MESSAGE, id));
+        }
     }
 
     public List<Orders> findAll() {
@@ -38,7 +45,7 @@ public class OrdersService {
 
     public void updateOrder(UUID id, Orders ordersEntity) {
         Orders order = ordersRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new ResultsNotFoundException(String.format(ORDER_NOT_FOUND_MESSAGE, id)));
 
         if (Objects.nonNull(ordersEntity.getQuantity())) {
             order.setQuantity(ordersEntity.getQuantity());
@@ -52,6 +59,10 @@ public class OrdersService {
     }
 
     public void deleteOrder(UUID id) {
-        ordersRepository.deleteById(id);
+        if (ordersRepository.existsById(id)) {
+            ordersRepository.deleteById(id);
+        } else {
+            throw new ResultsNotFoundException(String.format(ORDER_NOT_FOUND_MESSAGE, id));
+        }
     }
 }

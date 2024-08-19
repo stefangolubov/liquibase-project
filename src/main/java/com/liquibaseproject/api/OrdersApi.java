@@ -85,7 +85,8 @@ public interface OrdersApi {
      * delete an order
      *
      * @param id ID of the order that needs to be deleted (required)
-     * @return Invalid order ID (status code 400)
+     * @return User found by ID (status code 200)
+     *         or Invalid order ID (status code 400)
      */
     @Operation(
         operationId = "deleteOrder",
@@ -93,6 +94,10 @@ public interface OrdersApi {
         description = "delete an order",
         tags = { "orders" },
         responses = {
+            @ApiResponse(responseCode = "200", description = "User found by ID", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid order ID")
         },
         security = {
@@ -101,10 +106,11 @@ public interface OrdersApi {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/orders/{id}"
+        value = "/orders/{id}",
+        produces = { "application/json", "application/xml" }
     )
     
-    default ResponseEntity<Void> deleteOrder(
+    default ResponseEntity<ApiResponseSchema> deleteOrder(
         @Parameter(name = "id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id
     ) {
         return getDelegate().deleteOrder(id);
@@ -272,7 +278,8 @@ public interface OrdersApi {
      * @param id ID of the order that needs to be updated (required)
      * @param quantity Quantity for the product of the order that needs to be updated (optional)
      * @param status Status of the order that needs to be updated (optional)
-     * @return Invalid input (status code 400)
+     * @return User found by ID (status code 200)
+     *         or Invalid input (status code 400)
      */
     @Operation(
         operationId = "updateOrderWithForm",
@@ -280,6 +287,10 @@ public interface OrdersApi {
         description = "",
         tags = { "orders" },
         responses = {
+            @ApiResponse(responseCode = "200", description = "User found by ID", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid input")
         },
         security = {
@@ -288,10 +299,11 @@ public interface OrdersApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/orders/{id}"
+        value = "/orders/{id}",
+        produces = { "application/json", "application/xml" }
     )
     
-    default ResponseEntity<Void> updateOrderWithForm(
+    default ResponseEntity<ApiResponseSchema> updateOrderWithForm(
         @Parameter(name = "id", description = "ID of the order that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id,
         @Parameter(name = "quantity", description = "Quantity for the product of the order that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "quantity", required = false) Integer quantity,
         @Parameter(name = "status", description = "Status of the order that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = false) String status

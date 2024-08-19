@@ -1,6 +1,7 @@
 package com.liquibaseproject.service;
 
 import com.liquibaseproject.entity.Products;
+import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.repository.ProductsRepository;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,18 @@ public class ProductsService {
 
     private final ProductsRepository productsRepository;
 
+    private static final String PRODUCT_NOT_FOUND_MESSAGE = "Product with ID %s does not exist.";
+
     public ProductsService(ProductsRepository productsRepository) {
         this.productsRepository = productsRepository;
     }
 
     public Optional<Products> getProductById(UUID id) {
-        return productsRepository.findById(id);
+        if (productsRepository.existsById(id)) {
+            return productsRepository.findById(id);
+        } else {
+            throw new ResultsNotFoundException(String.format(PRODUCT_NOT_FOUND_MESSAGE, id));
+        }
     }
 
     public List<Products> findByNameIgnoreCase(String name) {
@@ -37,7 +44,7 @@ public class ProductsService {
 
     public void updateProduct(UUID id, Products productsEntity) {
         Products product = productsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResultsNotFoundException(String.format(PRODUCT_NOT_FOUND_MESSAGE, id)));
 
         if (StringUtils.isNotEmpty(productsEntity.getName())) {
             product.setName(productsEntity.getName());
@@ -59,6 +66,10 @@ public class ProductsService {
     }
 
     public void deleteProduct(UUID id) {
-        productsRepository.deleteById(id);
+        if (productsRepository.existsById(id)) {
+            productsRepository.deleteById(id);
+        } else {
+            throw new ResultsNotFoundException(String.format(PRODUCT_NOT_FOUND_MESSAGE, id));
+        }
     }
 }
