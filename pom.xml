@@ -11,7 +11,7 @@
 
     <groupId>com</groupId>
     <artifactId>liquibase-project</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>liquibase-project</name>
     <description>Liquibase Project</description>
 
@@ -115,9 +115,9 @@
                             <inputSpec>${project.basedir}/src/main/resources/api.yml</inputSpec>
                             <generatorName>spring</generatorName>
                             <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
-                            <output>${project.basedir}</output>
-                            <apiPackage>com.liquibaseproject.api</apiPackage>
-                            <modelPackage>com.liquibaseproject.model</modelPackage>
+                            <output>${project.build.directory}/generated-sources/openapi</output>
+                            <apiPackage>com.liquibaseproject.api.generated</apiPackage>
+                            <modelPackage>com.liquibaseproject.api.generated.model</modelPackage>
                             <configOptions>
                                 <delegatePattern>true</delegatePattern>
                                 <useSpringBoot3>true</useSpringBoot3>
