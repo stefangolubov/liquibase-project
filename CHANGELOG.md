@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.0.0-SNAPSHOT] - 2024-08-23 [@stefangolubov](https://github.com/stefangolubov)
+#### Changed
+- pom.xml - Update version from 0.0.13-SNAPSHOT to 1.0.0-SNAPSHOT
+
 ### [0.0.13-SNAPSHOT] - 2024-08-23 [@stefangolubov](https://github.com/stefangolubov)
 #### Changed
 - api.yml - Changing security schema configuration
