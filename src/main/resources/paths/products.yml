@@ -28,16 +28,18 @@ products:
           application/xml:
             schema:
               $ref: '../schemas/products.yml#/Products'
-      '400':
-        description: Invalid ID supplied
-      '404':
-        description: Product not found
-      '422':
-        description: Validation exception
+      '403':
+        description: Access forbidden
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
+            example:
+              code: 403
+              type: Forbidden
+              message: You don't have access to perform this operation
     security:
-      - petstore_auth:
-          - write:products
-          - read:products
+      - basicAuth: [ ]
   post:
     tags:
       - products
@@ -67,20 +69,24 @@ products:
           application/xml:
             schema:
               $ref: '../schemas/products.yml#/Products'
-      '400':
-        description: Invalid input
-      '422':
-        description: Validation exception
+      '403':
+        description: Access forbidden
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
+            example:
+              code: 403
+              type: Forbidden
+              message: You don't have access to perform this operation
     security:
-      - petstore_auth:
-          - write:products
-          - read:products
+      - basicAuth: [ ]
 findByName:
   get:
     tags:
       - products
     summary: Find products by product name
-    description: Multiple products can be provided with comma separated strings
+    description: Multiple products can be provided with comma separated strings (case insensitive)
     operationId: findProductsByName
     parameters:
       - name: names
@@ -102,12 +108,8 @@ findByName:
               type: array
               items:
                 $ref: '../schemas/products.yml#/Products'
-      '400':
-        description: Invalid product name
     security:
-      - petstore_auth:
-          - write:products
-          - read:products
+      - basicAuth: [ ]
 findAll:
   get:
     tags:
@@ -128,14 +130,8 @@ findAll:
               type: array
               items:
                 $ref: '../schemas/products.yml#/Products'
-      '404':
-        description: The resource path is incorrect
-      '500':
-        description: Internal Server Error
     security:
-      - petstore_auth:
-          - write:products
-          - read:products
+      - basicAuth: [ ]
 productById:
   get:
     tags:
@@ -161,15 +157,8 @@ productById:
           application/xml:
             schema:
               $ref: '../schemas/products.yml#/Products'
-      '400':
-        description: Invalid product ID
-      '404':
-        description: Product not found
     security:
-      - api_key: [ ]
-      - petstore_auth:
-          - write:products
-          - read:products
+      - basicAuth: [ ]
   post:
     tags:
       - products
@@ -208,7 +197,7 @@ productById:
           format: int32
     responses:
       '200':
-        description: User found by ID
+        description: Product found by ID
         content:
           application/json:
             schema:
@@ -216,12 +205,18 @@ productById:
           application/xml:
             schema:
               $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
-      '400':
-        description: Invalid input
+      '403':
+        description: Access forbidden
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
+            example:
+              code: 403
+              type: Forbidden
+              message: You don't have access to perform this operation
     security:
-      - petstore_auth:
-          - write:products
-          - read:products
+      - basicAuth: [ ]
   delete:
     tags:
       - products
@@ -229,12 +224,6 @@ productById:
     description: delete a product
     operationId: deleteProduct
     parameters:
-      - name: api_key
-        in: header
-        description: ''
-        required: false
-        schema:
-          type: string
       - name: id
         in: path
         description: Product ID for the product that needs to be deleted
@@ -252,9 +241,5 @@ productById:
           application/xml:
             schema:
               $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
-      '400':
-        description: Invalid product ID value
     security:
-      - petstore_auth:
-          - write:products
-          - read:products
+      - basicAuth: [ ]

@@ -46,8 +46,7 @@ public interface UsersApi {
      *
      * @param newUser Create a new user (required)
      * @return User has been successfully added (status code 200)
-     *         or Invalid input (status code 400)
-     *         or Validation exception (status code 422)
+     *         or Access forbidden (status code 403)
      */
     @Operation(
         operationId = "addUser",
@@ -59,11 +58,13 @@ public interface UsersApi {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Users.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Users.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid input"),
-            @ApiResponse(responseCode = "422", description = "Validation exception")
+            @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -85,9 +86,7 @@ public interface UsersApi {
      * delete a user
      *
      * @param id User ID for the user that needs to be deleted (required)
-     * @param apiKey  (optional)
      * @return User found by ID (status code 200)
-     *         or Invalid user ID value (status code 400)
      */
     @Operation(
         operationId = "deleteUser",
@@ -98,11 +97,10 @@ public interface UsersApi {
             @ApiResponse(responseCode = "200", description = "User found by ID", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "Invalid user ID value")
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -112,10 +110,9 @@ public interface UsersApi {
     )
     
     default ResponseEntity<ApiResponseSchema> deleteUser(
-        @Parameter(name = "id", description = "User ID for the user that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id,
-        @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) String apiKey
+        @Parameter(name = "id", description = "User ID for the user that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id
     ) {
-        return getDelegate().deleteUser(id, apiKey);
+        return getDelegate().deleteUser(id);
     }
 
 
@@ -123,8 +120,6 @@ public interface UsersApi {
      * GET /users/findAll : List all users
      *
      * @return Users have been successfully listed (status code 200)
-     *         or The resource path is incorrect (status code 404)
-     *         or Internal Server Error (status code 500)
      */
     @Operation(
         operationId = "findAllUsers",
@@ -134,12 +129,10 @@ public interface UsersApi {
             @ApiResponse(responseCode = "200", description = "Users have been successfully listed", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Users.class))),
                 @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Users.class)))
-            }),
-            @ApiResponse(responseCode = "404", description = "The resource path is incorrect"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -157,26 +150,24 @@ public interface UsersApi {
 
     /**
      * GET /users/findByUsername : Find users by usernames
-     * Multiple usernames can be provided with comma separated strings
+     * Multiple usernames can be provided with comma separated strings (case insensitive)
      *
      * @param usernames  (optional)
      * @return Users have been successfully found by username (status code 200)
-     *         or Invalid username (status code 400)
      */
     @Operation(
         operationId = "findUsersByUsername",
         summary = "Find users by usernames",
-        description = "Multiple usernames can be provided with comma separated strings",
+        description = "Multiple usernames can be provided with comma separated strings (case insensitive)",
         tags = { "users" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Users have been successfully found by username", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Users.class))),
                 @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Users.class)))
-            }),
-            @ApiResponse(responseCode = "400", description = "Invalid username")
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -198,8 +189,6 @@ public interface UsersApi {
      *
      * @param id User ID to return (required)
      * @return User found by ID (status code 200)
-     *         or Invalid user ID (status code 400)
-     *         or User not found (status code 404)
      */
     @Operation(
         operationId = "getUserById",
@@ -210,13 +199,10 @@ public interface UsersApi {
             @ApiResponse(responseCode = "200", description = "User found by ID", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Users.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Users.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "Invalid user ID"),
-            @ApiResponse(responseCode = "404", description = "User not found")
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth"),
-            @SecurityRequirement(name = "api_key")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -238,9 +224,7 @@ public interface UsersApi {
      *
      * @param users Update an existing user (required)
      * @return User has been successfully updated (status code 200)
-     *         or Invalid ID supplied (status code 400)
-     *         or User not found (status code 404)
-     *         or Validation exception (status code 422)
+     *         or Access forbidden (status code 403)
      */
     @Operation(
         operationId = "updateUser",
@@ -252,12 +236,13 @@ public interface UsersApi {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-            @ApiResponse(responseCode = "404", description = "User not found"),
-            @ApiResponse(responseCode = "422", description = "Validation exception")
+            @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -282,7 +267,7 @@ public interface UsersApi {
      * @param username Username for the user that needs to be updated (optional)
      * @param email E-mail of the user that needs to be updated (optional)
      * @return User found by ID (status code 200)
-     *         or Invalid input (status code 400)
+     *         or Access forbidden (status code 403)
      */
     @Operation(
         operationId = "updateUserWithForm",
@@ -294,10 +279,13 @@ public interface UsersApi {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid input")
+            @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(

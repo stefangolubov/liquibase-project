@@ -1,7 +1,7 @@
 package com.liquibaseproject.api;
 
 import com.liquibaseproject.entity.Products;
-import com.liquibaseproject.exception.EmptyInputException;
+import com.liquibaseproject.exception.InvalidInputException;
 import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.mapper.NewOrderMapper;
 import com.liquibaseproject.mapper.OrdersMapper;
@@ -20,9 +20,9 @@ import java.util.*;
 @Service
 public class OrdersApiDelegateImpl implements OrdersApiDelegate {
 
-    private static final String EMPTY_INPUT_EXCEPTION_MESSAGE = "No orders provided";
     private static final String ORDERS_NOT_FOUND_EXCEPTION_MESSAGE = "No orders found for the provided input";
     private static final String SUCCESS_MESSAGE = "Order has been successfully %s";
+    public static final String USER_ID_PRODUCT_ID_AND_QUANTITY_ARE_MANDATORY = "User ID, Product ID and quantity are mandatory";
 
     private final OrdersMapper ordersMapper;
     private final NewOrderMapper newOrderMapper;
@@ -38,6 +38,7 @@ public class OrdersApiDelegateImpl implements OrdersApiDelegate {
 
     @Override
     public ResponseEntity<Orders> addOrder(NewOrder newOrder) {
+        checkMandatoryFields(newOrder.getUserId(), newOrder.getProductId(), newOrder.getQuantity());
         com.liquibaseproject.entity.Orders entity = newOrderMapper.toEntity(newOrder);
         com.liquibaseproject.entity.Orders createdProduct = ordersService.addOrder(entity);
         return ResponseEntity.ok(ordersMapper.toModel(createdProduct));
@@ -77,10 +78,6 @@ public class OrdersApiDelegateImpl implements OrdersApiDelegate {
 
     @Override
     public ResponseEntity<List<Orders>> findOrdersById(String orderIDs) {
-        if (StringUtils.isEmpty(orderIDs)) {
-            throw new EmptyInputException(EMPTY_INPUT_EXCEPTION_MESSAGE);
-        }
-
         String[] ordersList = orderIDs.split(",");
         Set<String> uniqueOrders = new LinkedHashSet<>(Arrays.asList(ordersList));
         List<com.liquibaseproject.entity.Orders> orderEntities = new ArrayList<>();
@@ -108,11 +105,18 @@ public class OrdersApiDelegateImpl implements OrdersApiDelegate {
 
     @Override
     public ResponseEntity<ApiResponseSchema> updateOrder(Orders orderModel) {
+        checkMandatoryFields(orderModel.getUserId(), orderModel.getProductId(), orderModel.getQuantity());
         ordersService.updateOrder(orderModel.getId(), ordersMapper.toEntity(orderModel));
 
         ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
 
         return ResponseEntity.ok(response);
+    }
+
+    private static void checkMandatoryFields(UUID userId, UUID productId, Integer quantity) {
+        if (Objects.isNull(userId) || Objects.isNull(productId) || Objects.isNull(quantity)) {
+            throw new InvalidInputException(USER_ID_PRODUCT_ID_AND_QUANTITY_ARE_MANDATORY);
+        }
     }
 
     @Override

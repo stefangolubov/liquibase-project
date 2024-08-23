@@ -1,6 +1,6 @@
 package com.liquibaseproject.api;
 
-import com.liquibaseproject.exception.EmptyInputException;
+import com.liquibaseproject.exception.InvalidInputException;
 import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.mapper.NewProductsMapper;
 import com.liquibaseproject.mapper.ProductsMapper;
@@ -8,7 +8,7 @@ import com.liquibaseproject.model.ApiResponseSchema;
 import com.liquibaseproject.model.NewProduct;
 import com.liquibaseproject.model.Products;
 import com.liquibaseproject.service.ProductsService;
-import io.micrometer.common.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +17,9 @@ import java.util.*;
 @Service
 public class ProductsApiDelegateImpl implements ProductsApiDelegate {
 
-    private static final String EMPTY_INPUT_EXCEPTION_MESSAGE = "No products provided";
     private static final String PRODUCTS_NOT_FOUND_EXCEPTION_MESSAGE = "No products found for the provided input";
     private static final String SUCCESS_MESSAGE = "Product has been successfully %s";
+    public static final String NAME_PRICE_AND_QUANTITY_ARE_MANDATORY = "Name, price and quantity are mandatory";
 
     private final ProductsMapper productsMapper;
     private final NewProductsMapper newProductsMapper;
@@ -33,13 +33,14 @@ public class ProductsApiDelegateImpl implements ProductsApiDelegate {
 
     @Override
     public ResponseEntity<Products> addProduct(NewProduct newProduct) {
+        checkMandatoryFields(newProduct.getName(), newProduct.getPrice(), newProduct.getQuantity());
         com.liquibaseproject.entity.Products entity = newProductsMapper.toEntity(newProduct);
         com.liquibaseproject.entity.Products createdProduct = productsService.addProduct(entity);
         return ResponseEntity.ok(productsMapper.toModel(createdProduct));
     }
 
     @Override
-    public ResponseEntity<ApiResponseSchema> deleteProduct(UUID id, String apiKey) {
+    public ResponseEntity<ApiResponseSchema> deleteProduct(UUID id) {
         productsService.deleteProduct(id);
 
         ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "deleted"));
@@ -59,10 +60,6 @@ public class ProductsApiDelegateImpl implements ProductsApiDelegate {
 
     @Override
     public ResponseEntity<List<Products>> findProductsByName(String names) {
-        if (StringUtils.isEmpty(names)) {
-            throw new EmptyInputException(EMPTY_INPUT_EXCEPTION_MESSAGE);
-        }
-
         String[] productsList = names.split(",");
         Set<String> uniqueProducts = new LinkedHashSet<>(Arrays.asList(productsList));
         List<com.liquibaseproject.entity.Products> productEntities = new ArrayList<>();
@@ -89,11 +86,18 @@ public class ProductsApiDelegateImpl implements ProductsApiDelegate {
 
     @Override
     public ResponseEntity<ApiResponseSchema> updateProduct(Products products) {
+        checkMandatoryFields(products.getName(), products.getPrice(), products.getQuantity());
         productsService.updateProduct(products.getId(), productsMapper.toEntity(products));
 
         ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
 
         return ResponseEntity.ok(response);
+    }
+
+    private static void checkMandatoryFields(String productName, Double productPrice, Integer productQuantity) {
+        if (StringUtils.isEmpty(productName) || Objects.isNull(productPrice) || Objects.isNull(productQuantity)) {
+            throw new InvalidInputException(NAME_PRICE_AND_QUANTITY_ARE_MANDATORY);
+        }
     }
 
     @Override

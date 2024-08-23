@@ -34,8 +34,7 @@ public interface UsersApiDelegate {
      *
      * @param newUser Create a new user (required)
      * @return User has been successfully added (status code 200)
-     *         or Invalid input (status code 400)
-     *         or Validation exception (status code 422)
+     *         or Access forbidden (status code 403)
      * @see UsersApi#addUser
      */
     default ResponseEntity<Users> addUser(NewUser newUser) {
@@ -51,6 +50,11 @@ public interface UsersApiDelegate {
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -62,13 +66,10 @@ public interface UsersApiDelegate {
      * delete a user
      *
      * @param id User ID for the user that needs to be deleted (required)
-     * @param apiKey  (optional)
      * @return User found by ID (status code 200)
-     *         or Invalid user ID value (status code 400)
      * @see UsersApi#deleteUser
      */
-    default ResponseEntity<ApiResponseSchema> deleteUser(UUID id,
-        String apiKey) {
+    default ResponseEntity<ApiResponseSchema> deleteUser(UUID id) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -91,8 +92,6 @@ public interface UsersApiDelegate {
      * GET /users/findAll : List all users
      *
      * @return Users have been successfully listed (status code 200)
-     *         or The resource path is incorrect (status code 404)
-     *         or Internal Server Error (status code 500)
      * @see UsersApi#findAllUsers
      */
     default ResponseEntity<List<Users>> findAllUsers() {
@@ -116,11 +115,10 @@ public interface UsersApiDelegate {
 
     /**
      * GET /users/findByUsername : Find users by usernames
-     * Multiple usernames can be provided with comma separated strings
+     * Multiple usernames can be provided with comma separated strings (case insensitive)
      *
      * @param usernames  (optional)
      * @return Users have been successfully found by username (status code 200)
-     *         or Invalid username (status code 400)
      * @see UsersApi#findUsersByUsername
      */
     default ResponseEntity<List<Users>> findUsersByUsername(String usernames) {
@@ -148,8 +146,6 @@ public interface UsersApiDelegate {
      *
      * @param id User ID to return (required)
      * @return User found by ID (status code 200)
-     *         or Invalid user ID (status code 400)
-     *         or User not found (status code 404)
      * @see UsersApi#getUserById
      */
     default ResponseEntity<Users> getUserById(UUID id) {
@@ -177,9 +173,7 @@ public interface UsersApiDelegate {
      *
      * @param users Update an existing user (required)
      * @return User has been successfully updated (status code 200)
-     *         or Invalid ID supplied (status code 400)
-     *         or User not found (status code 404)
-     *         or Validation exception (status code 422)
+     *         or Access forbidden (status code 403)
      * @see UsersApi#updateUser
      */
     default ResponseEntity<ApiResponseSchema> updateUser(Users users) {
@@ -193,6 +187,11 @@ public interface UsersApiDelegate {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
                     String exampleString = "<##default> <code>123</code> <type>aeiou</type> <message>aeiou</message> </##default>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
             }
@@ -209,7 +208,7 @@ public interface UsersApiDelegate {
      * @param username Username for the user that needs to be updated (optional)
      * @param email E-mail of the user that needs to be updated (optional)
      * @return User found by ID (status code 200)
-     *         or Invalid input (status code 400)
+     *         or Access forbidden (status code 403)
      * @see UsersApi#updateUserWithForm
      */
     default ResponseEntity<ApiResponseSchema> updateUserWithForm(UUID id,
@@ -225,6 +224,11 @@ public interface UsersApiDelegate {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
                     String exampleString = "<##default> <code>123</code> <type>aeiou</type> <message>aeiou</message> </##default>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
             }

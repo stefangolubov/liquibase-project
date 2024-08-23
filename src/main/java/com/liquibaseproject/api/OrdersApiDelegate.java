@@ -34,8 +34,7 @@ public interface OrdersApiDelegate {
      *
      * @param newOrder Place a new order (required)
      * @return Order has been successfully placed (status code 200)
-     *         or Invalid input (status code 400)
-     *         or Validation exception (status code 422)
+     *         or Access forbidden (status code 403)
      * @see OrdersApi#addOrder
      */
     default ResponseEntity<Orders> addOrder(NewOrder newOrder) {
@@ -51,6 +50,11 @@ public interface OrdersApiDelegate {
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -62,8 +66,7 @@ public interface OrdersApiDelegate {
      * delete an order
      *
      * @param id ID of the order that needs to be deleted (required)
-     * @return User found by ID (status code 200)
-     *         or Invalid order ID (status code 400)
+     * @return Order found by ID (status code 200)
      * @see OrdersApi#deleteOrder
      */
     default ResponseEntity<ApiResponseSchema> deleteOrder(UUID id) {
@@ -89,8 +92,6 @@ public interface OrdersApiDelegate {
      * GET /orders/findAll : List all orders
      *
      * @return Orders have been successfully listed (status code 200)
-     *         or The resource path is incorrect (status code 404)
-     *         or Internal Server Error (status code 500)
      * @see OrdersApi#findAllOrders
      */
     default ResponseEntity<List<Orders>> findAllOrders() {
@@ -118,7 +119,6 @@ public interface OrdersApiDelegate {
      *
      * @param orderIDs  (optional)
      * @return Orders have been successfully found by IDs (status code 200)
-     *         or Invalid order ID (status code 400)
      * @see OrdersApi#findOrdersById
      */
     default ResponseEntity<List<Orders>> findOrdersById(String orderIDs) {
@@ -146,8 +146,6 @@ public interface OrdersApiDelegate {
      *
      * @param id Order ID to return (required)
      * @return Order found by ID (status code 200)
-     *         or Invalid order ID (status code 400)
-     *         or Order not found (status code 404)
      * @see OrdersApi#getOrderById
      */
     default ResponseEntity<Orders> getOrderById(UUID id) {
@@ -175,9 +173,7 @@ public interface OrdersApiDelegate {
      *
      * @param orders Update an existing order (required)
      * @return Order has been successfully updated (status code 200)
-     *         or Invalid ID supplied (status code 400)
-     *         or Order not found (status code 404)
-     *         or Validation exception (status code 422)
+     *         or Access forbidden (status code 403)
      * @see OrdersApi#updateOrder
      */
     default ResponseEntity<ApiResponseSchema> updateOrder(Orders orders) {
@@ -193,6 +189,11 @@ public interface OrdersApiDelegate {
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -206,8 +207,8 @@ public interface OrdersApiDelegate {
      * @param id ID of the order that needs to be updated (required)
      * @param quantity Quantity for the product of the order that needs to be updated (optional)
      * @param status Status of the order that needs to be updated (optional)
-     * @return User found by ID (status code 200)
-     *         or Invalid input (status code 400)
+     * @return Order found by ID (status code 200)
+     *         or Access forbidden (status code 403)
      * @see OrdersApi#updateOrderWithForm
      */
     default ResponseEntity<ApiResponseSchema> updateOrderWithForm(UUID id,
@@ -223,6 +224,11 @@ public interface OrdersApiDelegate {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
                     String exampleString = "<##default> <code>123</code> <type>aeiou</type> <message>aeiou</message> </##default>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
             }

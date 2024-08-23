@@ -46,8 +46,7 @@ public interface OrdersApi {
      *
      * @param newOrder Place a new order (required)
      * @return Order has been successfully placed (status code 200)
-     *         or Invalid input (status code 400)
-     *         or Validation exception (status code 422)
+     *         or Access forbidden (status code 403)
      */
     @Operation(
         operationId = "addOrder",
@@ -59,11 +58,13 @@ public interface OrdersApi {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Orders.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Orders.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid input"),
-            @ApiResponse(responseCode = "422", description = "Validation exception")
+            @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -85,8 +86,7 @@ public interface OrdersApi {
      * delete an order
      *
      * @param id ID of the order that needs to be deleted (required)
-     * @return User found by ID (status code 200)
-     *         or Invalid order ID (status code 400)
+     * @return Order found by ID (status code 200)
      */
     @Operation(
         operationId = "deleteOrder",
@@ -94,14 +94,13 @@ public interface OrdersApi {
         description = "delete an order",
         tags = { "orders" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "User found by ID", content = {
+            @ApiResponse(responseCode = "200", description = "Order found by ID", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "Invalid order ID")
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -121,8 +120,6 @@ public interface OrdersApi {
      * GET /orders/findAll : List all orders
      *
      * @return Orders have been successfully listed (status code 200)
-     *         or The resource path is incorrect (status code 404)
-     *         or Internal Server Error (status code 500)
      */
     @Operation(
         operationId = "findAllOrders",
@@ -132,12 +129,10 @@ public interface OrdersApi {
             @ApiResponse(responseCode = "200", description = "Orders have been successfully listed", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Orders.class))),
                 @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Orders.class)))
-            }),
-            @ApiResponse(responseCode = "404", description = "The resource path is incorrect"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -159,7 +154,6 @@ public interface OrdersApi {
      *
      * @param orderIDs  (optional)
      * @return Orders have been successfully found by IDs (status code 200)
-     *         or Invalid order ID (status code 400)
      */
     @Operation(
         operationId = "findOrdersById",
@@ -170,11 +164,10 @@ public interface OrdersApi {
             @ApiResponse(responseCode = "200", description = "Orders have been successfully found by IDs", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Orders.class))),
                 @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Orders.class)))
-            }),
-            @ApiResponse(responseCode = "400", description = "Invalid order ID")
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -196,8 +189,6 @@ public interface OrdersApi {
      *
      * @param id Order ID to return (required)
      * @return Order found by ID (status code 200)
-     *         or Invalid order ID (status code 400)
-     *         or Order not found (status code 404)
      */
     @Operation(
         operationId = "getOrderById",
@@ -208,12 +199,10 @@ public interface OrdersApi {
             @ApiResponse(responseCode = "200", description = "Order found by ID", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Orders.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Orders.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "Invalid order ID"),
-            @ApiResponse(responseCode = "404", description = "Order not found")
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -235,9 +224,7 @@ public interface OrdersApi {
      *
      * @param orders Update an existing order (required)
      * @return Order has been successfully updated (status code 200)
-     *         or Invalid ID supplied (status code 400)
-     *         or Order not found (status code 404)
-     *         or Validation exception (status code 422)
+     *         or Access forbidden (status code 403)
      */
     @Operation(
         operationId = "updateOrder",
@@ -249,12 +236,13 @@ public interface OrdersApi {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-            @ApiResponse(responseCode = "404", description = "Order not found"),
-            @ApiResponse(responseCode = "422", description = "Validation exception")
+            @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -278,8 +266,8 @@ public interface OrdersApi {
      * @param id ID of the order that needs to be updated (required)
      * @param quantity Quantity for the product of the order that needs to be updated (optional)
      * @param status Status of the order that needs to be updated (optional)
-     * @return User found by ID (status code 200)
-     *         or Invalid input (status code 400)
+     * @return Order found by ID (status code 200)
+     *         or Access forbidden (status code 403)
      */
     @Operation(
         operationId = "updateOrderWithForm",
@@ -287,14 +275,17 @@ public interface OrdersApi {
         description = "",
         tags = { "orders" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "User found by ID", content = {
+            @ApiResponse(responseCode = "200", description = "Order found by ID", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid input")
+            @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(

@@ -46,8 +46,7 @@ public interface ProductsApi {
      *
      * @param newProduct Create a new product (required)
      * @return Product has been successfully added (status code 200)
-     *         or Invalid input (status code 400)
-     *         or Validation exception (status code 422)
+     *         or Access forbidden (status code 403)
      */
     @Operation(
         operationId = "addProduct",
@@ -59,11 +58,13 @@ public interface ProductsApi {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Products.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Products.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid input"),
-            @ApiResponse(responseCode = "422", description = "Validation exception")
+            @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -85,9 +86,7 @@ public interface ProductsApi {
      * delete a product
      *
      * @param id Product ID for the product that needs to be deleted (required)
-     * @param apiKey  (optional)
      * @return Product found by ID (status code 200)
-     *         or Invalid product ID value (status code 400)
      */
     @Operation(
         operationId = "deleteProduct",
@@ -98,11 +97,10 @@ public interface ProductsApi {
             @ApiResponse(responseCode = "200", description = "Product found by ID", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "Invalid product ID value")
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -112,10 +110,9 @@ public interface ProductsApi {
     )
     
     default ResponseEntity<ApiResponseSchema> deleteProduct(
-        @Parameter(name = "id", description = "Product ID for the product that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id,
-        @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) String apiKey
+        @Parameter(name = "id", description = "Product ID for the product that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id
     ) {
-        return getDelegate().deleteProduct(id, apiKey);
+        return getDelegate().deleteProduct(id);
     }
 
 
@@ -123,8 +120,6 @@ public interface ProductsApi {
      * GET /products/findAll : List all products
      *
      * @return Products have been successfully listed (status code 200)
-     *         or The resource path is incorrect (status code 404)
-     *         or Internal Server Error (status code 500)
      */
     @Operation(
         operationId = "findAllProducts",
@@ -134,12 +129,10 @@ public interface ProductsApi {
             @ApiResponse(responseCode = "200", description = "Products have been successfully listed", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Products.class))),
                 @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Products.class)))
-            }),
-            @ApiResponse(responseCode = "404", description = "The resource path is incorrect"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -157,26 +150,24 @@ public interface ProductsApi {
 
     /**
      * GET /products/findByName : Find products by product name
-     * Multiple products can be provided with comma separated strings
+     * Multiple products can be provided with comma separated strings (case insensitive)
      *
      * @param names  (optional)
      * @return Products have been successfully found by product name (status code 200)
-     *         or Invalid product name (status code 400)
      */
     @Operation(
         operationId = "findProductsByName",
         summary = "Find products by product name",
-        description = "Multiple products can be provided with comma separated strings",
+        description = "Multiple products can be provided with comma separated strings (case insensitive)",
         tags = { "products" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Products have been successfully found by product name", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Products.class))),
                 @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Products.class)))
-            }),
-            @ApiResponse(responseCode = "400", description = "Invalid product name")
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -198,8 +189,6 @@ public interface ProductsApi {
      *
      * @param id Product ID to return (required)
      * @return Product found by ID (status code 200)
-     *         or Invalid product ID (status code 400)
-     *         or Product not found (status code 404)
      */
     @Operation(
         operationId = "getProductById",
@@ -210,13 +199,10 @@ public interface ProductsApi {
             @ApiResponse(responseCode = "200", description = "Product found by ID", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Products.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Products.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "Invalid product ID"),
-            @ApiResponse(responseCode = "404", description = "Product not found")
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth"),
-            @SecurityRequirement(name = "api_key")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -238,9 +224,7 @@ public interface ProductsApi {
      *
      * @param products Update an existing product (required)
      * @return Product has been successfully updated (status code 200)
-     *         or Invalid ID supplied (status code 400)
-     *         or Product not found (status code 404)
-     *         or Validation exception (status code 422)
+     *         or Access forbidden (status code 403)
      */
     @Operation(
         operationId = "updateProduct",
@@ -252,12 +236,13 @@ public interface ProductsApi {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-            @ApiResponse(responseCode = "404", description = "Product not found"),
-            @ApiResponse(responseCode = "422", description = "Validation exception")
+            @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(
@@ -283,8 +268,8 @@ public interface ProductsApi {
      * @param description Description for the product that needs to be updated (optional)
      * @param price Price for the product that needs to be updated (optional)
      * @param quantity Quantity of the product that needs to be updated (optional)
-     * @return User found by ID (status code 200)
-     *         or Invalid input (status code 400)
+     * @return Product found by ID (status code 200)
+     *         or Access forbidden (status code 403)
      */
     @Operation(
         operationId = "updateProductWithForm",
@@ -292,14 +277,17 @@ public interface ProductsApi {
         description = "",
         tags = { "products" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "User found by ID", content = {
+            @ApiResponse(responseCode = "200", description = "Product found by ID", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid input")
+            @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+            })
         },
         security = {
-            @SecurityRequirement(name = "petstore_auth")
+            @SecurityRequirement(name = "basicAuth")
         }
     )
     @RequestMapping(

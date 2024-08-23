@@ -34,8 +34,7 @@ public interface ProductsApiDelegate {
      *
      * @param newProduct Create a new product (required)
      * @return Product has been successfully added (status code 200)
-     *         or Invalid input (status code 400)
-     *         or Validation exception (status code 422)
+     *         or Access forbidden (status code 403)
      * @see ProductsApi#addProduct
      */
     default ResponseEntity<Products> addProduct(NewProduct newProduct) {
@@ -51,6 +50,11 @@ public interface ProductsApiDelegate {
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -62,13 +66,10 @@ public interface ProductsApiDelegate {
      * delete a product
      *
      * @param id Product ID for the product that needs to be deleted (required)
-     * @param apiKey  (optional)
      * @return Product found by ID (status code 200)
-     *         or Invalid product ID value (status code 400)
      * @see ProductsApi#deleteProduct
      */
-    default ResponseEntity<ApiResponseSchema> deleteProduct(UUID id,
-        String apiKey) {
+    default ResponseEntity<ApiResponseSchema> deleteProduct(UUID id) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -91,8 +92,6 @@ public interface ProductsApiDelegate {
      * GET /products/findAll : List all products
      *
      * @return Products have been successfully listed (status code 200)
-     *         or The resource path is incorrect (status code 404)
-     *         or Internal Server Error (status code 500)
      * @see ProductsApi#findAllProducts
      */
     default ResponseEntity<List<Products>> findAllProducts() {
@@ -116,11 +115,10 @@ public interface ProductsApiDelegate {
 
     /**
      * GET /products/findByName : Find products by product name
-     * Multiple products can be provided with comma separated strings
+     * Multiple products can be provided with comma separated strings (case insensitive)
      *
      * @param names  (optional)
      * @return Products have been successfully found by product name (status code 200)
-     *         or Invalid product name (status code 400)
      * @see ProductsApi#findProductsByName
      */
     default ResponseEntity<List<Products>> findProductsByName(String names) {
@@ -148,8 +146,6 @@ public interface ProductsApiDelegate {
      *
      * @param id Product ID to return (required)
      * @return Product found by ID (status code 200)
-     *         or Invalid product ID (status code 400)
-     *         or Product not found (status code 404)
      * @see ProductsApi#getProductById
      */
     default ResponseEntity<Products> getProductById(UUID id) {
@@ -177,9 +173,7 @@ public interface ProductsApiDelegate {
      *
      * @param products Update an existing product (required)
      * @return Product has been successfully updated (status code 200)
-     *         or Invalid ID supplied (status code 400)
-     *         or Product not found (status code 404)
-     *         or Validation exception (status code 422)
+     *         or Access forbidden (status code 403)
      * @see ProductsApi#updateProduct
      */
     default ResponseEntity<ApiResponseSchema> updateProduct(Products products) {
@@ -193,6 +187,11 @@ public interface ProductsApiDelegate {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
                     String exampleString = "<##default> <code>123</code> <type>aeiou</type> <message>aeiou</message> </##default>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
             }
@@ -210,8 +209,8 @@ public interface ProductsApiDelegate {
      * @param description Description for the product that needs to be updated (optional)
      * @param price Price for the product that needs to be updated (optional)
      * @param quantity Quantity of the product that needs to be updated (optional)
-     * @return User found by ID (status code 200)
-     *         or Invalid input (status code 400)
+     * @return Product found by ID (status code 200)
+     *         or Access forbidden (status code 403)
      * @see ProductsApi#updateProductWithForm
      */
     default ResponseEntity<ApiResponseSchema> updateProductWithForm(UUID id,
@@ -229,6 +228,11 @@ public interface ProductsApiDelegate {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
                     String exampleString = "<##default> <code>123</code> <type>aeiou</type> <message>aeiou</message> </##default>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
             }

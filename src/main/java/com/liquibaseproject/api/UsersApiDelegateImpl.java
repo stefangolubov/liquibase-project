@@ -1,6 +1,6 @@
 package com.liquibaseproject.api;
 
-import com.liquibaseproject.exception.EmptyInputException;
+import com.liquibaseproject.exception.InvalidInputException;
 import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.mapper.NewUserMapper;
 import com.liquibaseproject.mapper.UsersMapper;
@@ -8,7 +8,7 @@ import com.liquibaseproject.model.ApiResponseSchema;
 import com.liquibaseproject.model.NewUser;
 import com.liquibaseproject.model.Users;
 import com.liquibaseproject.service.UsersService;
-import io.micrometer.common.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +17,9 @@ import java.util.*;
 @Service
 public class UsersApiDelegateImpl implements UsersApiDelegate {
 
-    private static final String EMPTY_INPUT_EXCEPTION_MESSAGE = "No usernames provided";
     private static final String USERS_NOT_FOUND_EXCEPTION_MESSAGE = "No users found for the provided input";
     private static final String SUCCESS_MESSAGE = "User has been successfully %s";
+    private static final String USERNAME_AND_E_MAIL_ARE_MANDATORY = "Username and e-mail are mandatory";
 
     private final UsersService usersService;
     private final UsersMapper usersMapper;
@@ -33,6 +33,7 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
 
     @Override
     public ResponseEntity<ApiResponseSchema> updateUser(Users usersModel) {
+        checkMandatoryFields(usersModel.getUsername(), usersModel.getEmail());
         usersService.updateUser(usersModel.getId(), usersMapper.toEntity(usersModel));
 
         ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
@@ -42,13 +43,20 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
 
     @Override
     public ResponseEntity<Users> addUser(NewUser usersModel) {
+        checkMandatoryFields(usersModel.getUsername(), usersModel.getEmail());
         com.liquibaseproject.entity.Users entity = newUserMapper.toEntity(usersModel);
         com.liquibaseproject.entity.Users createdUser = usersService.addUser(entity);
         return ResponseEntity.ok(usersMapper.toModel(createdUser));
     }
 
+    private static void checkMandatoryFields(String userName, String userEmail) {
+        if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(userEmail)) {
+            throw new InvalidInputException(USERNAME_AND_E_MAIL_ARE_MANDATORY);
+        }
+    }
+
     @Override
-    public ResponseEntity<ApiResponseSchema> deleteUser(UUID id, String apiKey) {
+    public ResponseEntity<ApiResponseSchema> deleteUser(UUID id) {
         usersService.deleteUser(id);
 
         ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "deleted"));
@@ -58,10 +66,6 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
 
     @Override
     public ResponseEntity<List<Users>> findUsersByUsername(String usernames) {
-        if (StringUtils.isEmpty(usernames)) {
-            throw new EmptyInputException(EMPTY_INPUT_EXCEPTION_MESSAGE);
-        }
-
         String[] usernameList = usernames.split(",");
         Set<String> uniqueUsers = new LinkedHashSet<>(Arrays.asList(usernameList));
         List<com.liquibaseproject.entity.Users> userEntities = new ArrayList<>();
@@ -71,7 +75,7 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
         }
 
         if (userEntities.isEmpty()) {
-            throw new ResultsNotFoundException(String.format(USERS_NOT_FOUND_EXCEPTION_MESSAGE));
+            throw new ResultsNotFoundException(USERS_NOT_FOUND_EXCEPTION_MESSAGE);
         }
 
         List<Users> users = userEntities.stream()
@@ -117,7 +121,6 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
 
     private static ApiResponseSchema getApiResponseSchema(String message) {
         ApiResponseSchema response = new ApiResponseSchema();
-
         response.setCode(200);
         response.setType("success");
         response.setMessage(message);

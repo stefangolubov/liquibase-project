@@ -6,6 +6,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [0.0.13-SNAPSHOT] - 2024-08-23 [@stefangolubov](https://github.com/stefangolubov)
+#### Changed
+- api.yml - Changing security schema configuration
+- GlobalExceptionHandler - Adding more exception handling and setting example responses for each error handler
+- orders.yml - Changing security and responses configuration
+- OrdersApi - [automatically updated by OpenAPI generator]
+- OrdersApiDelegate - [automatically updated by OpenAPI generator]
+- OrdersApiDelegateImpl - Adding null safe check for adding and updating order
+- products.yml- Changing security and responses configuration
+- ProductsApi - [automatically updated by OpenAPI generator]
+- ProductsApiDelegate - [automatically updated by OpenAPI generator]
+- ProductsApiDelegateImpl - Adding null safe check for adding and updating product
+- users.yml- Changing security and responses configuration
+- UsersApi - [automatically updated by OpenAPI generator]
+- UsersApiDelegate - [automatically updated by OpenAPI generator]
+- UsersApiDelegateImpl - Adding null safe check for adding and updating user
+- pom.xml - Update version from 0.0.12-SNAPSHOT to 0.0.13-SNAPSHOT
+
+#### Added
+- CustomAccessDeniedHandler - Access denied handler for handling forbidden access to a resource
+- ExceptionConstants - Utility class for defining constants needed for GlobalExceptionHandler
+- InternalServerErrorException - Exception for handling internal server error
+- InvalidInputException - Exception for handling invalid input
+- SecurityConfig - Configuration for roles and their respective access per methods
+- SwaggerConfig - Configuration for Swagger
+- UserDetailsServiceConfig - Configuring users with credentials for basic authentication
+
+#### Deleted
+- ErrorResponse - Deleting obsolete class
+
 ### [0.0.12-SNAPSHOT] - 2024-08-19 [@stefangolubov](https://github.com/stefangolubov)
 #### Changed
 - orders.yml - Adding 200 response object for post and delete

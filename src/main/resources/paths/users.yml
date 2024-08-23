@@ -28,16 +28,18 @@ users:
           application/xml:
             schema:
               $ref: '../schemas/users.yml#/Users'
-      '400':
-        description: Invalid ID supplied
-      '404':
-        description: User not found
-      '422':
-        description: Validation exception
+      '403':
+        description: Access forbidden
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
+            example:
+              code: 403
+              type: Forbidden
+              message: You don't have access to perform this operation
     security:
-      - petstore_auth:
-          - write:users
-          - read:users
+      - basicAuth: [ ]
   post:
     tags:
       - users
@@ -67,20 +69,24 @@ users:
           application/xml:
             schema:
               $ref: '../schemas/users.yml#/Users'
-      '400':
-        description: Invalid input
-      '422':
-        description: Validation exception
+      '403':
+        description: Access forbidden
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
+            example:
+              code: 403
+              type: Forbidden
+              message: You don't have access to perform this operation
     security:
-      - petstore_auth:
-          - write:users
-          - read:users
+      - basicAuth: [ ]
 findByUsername:
   get:
     tags:
       - users
     summary: Find users by usernames
-    description: Multiple usernames can be provided with comma separated strings
+    description: Multiple usernames can be provided with comma separated strings (case insensitive)
     operationId: findUsersByUsername
     parameters:
       - name: usernames
@@ -102,12 +108,8 @@ findByUsername:
               type: array
               items:
                 $ref: '../schemas/users.yml#/Users'
-      '400':
-        description: Invalid username
     security:
-      - petstore_auth:
-          - write:users
-          - read:users
+      - basicAuth: [ ]
 findAll:
   get:
     tags:
@@ -128,14 +130,8 @@ findAll:
               type: array
               items:
                 $ref: '../schemas/users.yml#/Users'
-      '404':
-        description: The resource path is incorrect
-      '500':
-        description: Internal Server Error
     security:
-      - petstore_auth:
-          - write:users
-          - read:users
+      - basicAuth: [ ]
 userById:
   get:
     tags:
@@ -161,15 +157,8 @@ userById:
           application/xml:
             schema:
               $ref: '../schemas/users.yml#/Users'
-      '400':
-        description: Invalid user ID
-      '404':
-        description: User not found
     security:
-      - api_key: [ ]
-      - petstore_auth:
-          - write:users
-          - read:users
+      - basicAuth: [ ]
   post:
     tags:
       - users
@@ -204,12 +193,18 @@ userById:
           application/xml:
             schema:
               $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
-      '400':
-        description: Invalid input
+      '403':
+        description: Access forbidden
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
+            example:
+              code: 403
+              type: Forbidden
+              message: You don't have access to perform this operation
     security:
-      - petstore_auth:
-          - write:users
-          - read:users
+      - basicAuth: [ ]
   delete:
     tags:
       - users
@@ -217,12 +212,6 @@ userById:
     description: delete a user
     operationId: deleteUser
     parameters:
-      - name: api_key
-        in: header
-        description: ''
-        required: false
-        schema:
-          type: string
       - name: id
         in: path
         description: User ID for the user that needs to be deleted
@@ -240,9 +229,5 @@ userById:
           application/xml:
             schema:
               $ref: '../schemas/apiresponseschema.yml#/ApiResponseSchema'
-      '400':
-        description: Invalid user ID value
     security:
-      - petstore_auth:
-          - write:users
-          - read:users
+      - basicAuth: [ ]

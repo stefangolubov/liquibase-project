@@ -11,7 +11,7 @@
 
     <groupId>com</groupId>
     <artifactId>liquibase-project</artifactId>
-    <version>0.0.12-SNAPSHOT</version>
+    <version>0.0.13-SNAPSHOT</version>
     <name>liquibase-project</name>
     <description>Liquibase Project</description>
 
@@ -82,6 +82,10 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
         <dependency>
