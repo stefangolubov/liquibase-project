@@ -6,13 +6,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
-### [1.0.1-SNAPSHOT] - 2024-08-23 [@stefangolubov](https://github.com/stefangolubov)
-#### Changed
-- pom.xml - Update version from 1.0.0-SNAPSHOT to 1.0.1-SNAPSHOT. Change output directory for automatically generated API files by OpenAPI
-- application.properties - Configure API base paths and remove redundant serverUrl configuration
-- api.yml - Replace hardcoded API base paths with the ones configured in application.properties
-- .gitignore - Exclude automatically generated API files from versioning
-
 ### [1.0.0-SNAPSHOT] - 2024-08-23 [@stefangolubov](https://github.com/stefangolubov)
 #### Changed
 - pom.xml - Update version from 0.0.13-SNAPSHOT to 1.0.0-SNAPSHOT

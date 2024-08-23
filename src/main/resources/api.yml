@@ -6,6 +6,8 @@ info:
   contact:
     email: <a href="mailto:stefan.golubov@qinshift.com">stefan.golubov@qinshift.com</a>
   version: 1.0.0
+servers:
+  - url: ${serverUrl}
 tags:
   - name: users
     description: List of users
@@ -14,29 +16,29 @@ tags:
   - name: orders
     description: List of orders
 paths:
-  /${users.path}:
+  /users:
     $ref: './paths/users.yml#/users'
-  /${users.findByUsername.path}:
+  /users/findByUsername:
     $ref: './paths/users.yml#/findByUsername'
-  /${users.findAll.path}:
+  /users/findAll:
     $ref: './paths/users.yml#/findAll'
-  /${users.id.path}:
+  /users/{id}:
     $ref: './paths/users.yml#/userById'
-  /${products.path}:
+  /products:
     $ref: './paths/products.yml#/products'
-  /${products.findByName.path}:
+  /products/findByName:
     $ref: './paths/products.yml#/findByName'
-  /${products.findAll.path}:
+  /products/findAll:
     $ref: './paths/products.yml#/findAll'
-  /${products.id.path}:
+  /products/{id}:
     $ref: './paths/products.yml#/productById'
-  /${orders.path}:
+  /orders:
     $ref: './paths/orders.yml#/orders'
-  /${orders.findByIDs.path}:
+  /orders/findByIDs:
     $ref: './paths/orders.yml#/findByIDs'
-  /${orders.findAll.path}:
+  /orders/findAll:
     $ref: './paths/orders.yml#/findAll'
-  /${orders.id.path}:
+  /orders/{id}:
     $ref: './paths/orders.yml#/orderById'
 components:
   schemas:

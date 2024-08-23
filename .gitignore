@@ -34,7 +34,6 @@ build/
 
 #OpenAPI
 .openapi-generator/
-src/main/java/com/liquibaseproject/api/generated/
 
 #Swagger
 swagger*.jar
