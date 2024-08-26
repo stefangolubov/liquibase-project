@@ -1,6 +1,10 @@
-package com.liquibaseproject.exception;
+package com.liquibaseproject.controller.advice;
 
 import com.liquibaseproject.constant.ExceptionConstants;
+import com.liquibaseproject.exception.EmptyInputException;
+import com.liquibaseproject.exception.InternalServerErrorException;
+import com.liquibaseproject.exception.InvalidInputException;
+import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.model.ModelApiResponse;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -16,7 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

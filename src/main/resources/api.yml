@@ -4,7 +4,7 @@ info:
   description: |-
     API for managing Users, Products, and Orders
   contact:
-    email: <a href="mailto:stefan.golubov@qinshift.com">stefan.golubov@qinshift.com</a>
+    email: stefan.golubov@qinshift.com
   version: 1.0.0
 tags:
   - name: users

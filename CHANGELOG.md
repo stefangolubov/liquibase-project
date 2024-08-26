@@ -6,6 +6,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.0.3-SNAPSHOT] - 2024-08-27 [@stefangolubov](https://github.com/stefangolubov)
+#### Added
+- LiquibaseProjectController - Rest Controller implementing all three ApiDelegate interfaces
+#### Changed
+- api.yml - Remove href for e-mail
+- application.properties - Set spring.liquibase.change-log property properly
+- liquibase.properties - Get the changeLogFile value from application.properties
+- pom.xml - Changing api and model package names to target folder. Changing configOptions in openapi-generator-maven-plugin. Deleting maven-antrun-plugin. Update version from 1.0.2-SNAPSHOT to 1.0.3-SNAPSHOT
+#### Renamed
+- GlobalExceptionHandler to ExceptionHandlerAdvice
+#### Deleted
+- ModelApiResponse - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- NewOrder - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- NewProduct - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- NewUser - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- Orders - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- OrdersApi - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- OrdersApiController - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- OrdersApiDelegate - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- OrdersApiDelegateImpl - The logic is moved to LiquibaseProjectController
+- Products - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- ProductsApi - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- ProductsApiController - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- ProductsApiDelegate - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- ProductsApiDelegateImpl - The logic is moved to LiquibaseProjectController
+- Users - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- UsersApi - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- UsersApiController - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- UsersApiDelegate - Due to changing configuration for generating classes by openapi-generator-maven-plugin.
+- UsersApiDelegateImpl - The logic is moved to LiquibaseProjectController
+
 ### [1.0.2-SNAPSHOT] - 2024-08-26 [@stefangolubov](https://github.com/stefangolubov)
 #### Changed
 - api.yml - Move all schemas and paths from schema and path yml files to api.yml
