@@ -1,5 +1,6 @@
-package com.liquibaseproject.api;
+package com.liquibaseproject.api.impl;
 
+import com.liquibaseproject.api.UsersPathApiDelegate;
 import com.liquibaseproject.exception.InvalidInputException;
 import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.mapper.NewUserMapper;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class UsersApiDelegateImpl implements UsersApiDelegate {
+public class UsersPathApiDelegateImpl implements UsersPathApiDelegate {
 
     private static final String USERS_NOT_FOUND_EXCEPTION_MESSAGE = "No users found for the provided input";
     private static final String SUCCESS_MESSAGE = "User has been successfully %s";
@@ -25,7 +26,7 @@ public class UsersApiDelegateImpl implements UsersApiDelegate {
     private final UsersMapper usersMapper;
     private final NewUserMapper newUserMapper;
 
-    public UsersApiDelegateImpl(UsersService usersService, UsersMapper usersMapper, NewUserMapper newUserMapper) {
+    public UsersPathApiDelegateImpl(UsersService usersService, UsersMapper usersMapper, NewUserMapper newUserMapper) {
         this.usersService = usersService;
         this.usersMapper = usersMapper;
         this.newUserMapper = newUserMapper;

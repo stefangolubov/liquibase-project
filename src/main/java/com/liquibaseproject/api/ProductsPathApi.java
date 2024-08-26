@@ -34,14 +34,14 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
 @Validated
 @Tag(name = "products", description = "List of products")
-public interface ProductsApi {
+public interface ProductsPathApi {
 
-    default ProductsApiDelegate getDelegate() {
-        return new ProductsApiDelegate() {};
+    default ProductsPathApiDelegate getDelegate() {
+        return new ProductsPathApiDelegate() {};
     }
 
     /**
-     * POST /products : Add a new product
+     * POST /${products.path} : Add a new product
      * Add a new product
      *
      * @param newProduct Create a new product (required)
@@ -69,7 +69,7 @@ public interface ProductsApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/products",
+        value = "/${products.path}",
         produces = { "application/json", "application/xml" },
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
@@ -82,7 +82,7 @@ public interface ProductsApi {
 
 
     /**
-     * DELETE /products/{id} : Deletes a product
+     * DELETE /${products.path}/{id} : Deletes a product
      * delete a product
      *
      * @param id Product ID for the product that needs to be deleted (required)
@@ -105,7 +105,7 @@ public interface ProductsApi {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/products/{id}",
+        value = "/${products.path}/{id}",
         produces = { "application/json", "application/xml" }
     )
     
@@ -117,7 +117,7 @@ public interface ProductsApi {
 
 
     /**
-     * GET /products/findAll : List all products
+     * GET /${products.path}/findAll : List all products
      *
      * @return Products have been successfully listed (status code 200)
      */
@@ -137,7 +137,7 @@ public interface ProductsApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/products/findAll",
+        value = "/${products.path}/findAll",
         produces = { "application/json", "application/xml" }
     )
     
@@ -149,7 +149,7 @@ public interface ProductsApi {
 
 
     /**
-     * GET /products/findByName : Find products by product name
+     * GET /${products.path}/findByName : Find products by product name
      * Multiple products can be provided with comma separated strings (case insensitive)
      *
      * @param names  (optional)
@@ -172,7 +172,7 @@ public interface ProductsApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/products/findByName",
+        value = "/${products.path}/findByName",
         produces = { "application/json", "application/xml" }
     )
     
@@ -184,7 +184,7 @@ public interface ProductsApi {
 
 
     /**
-     * GET /products/{id} : Find product by ID
+     * GET /${products.path}/{id} : Find product by ID
      * Returns a single product
      *
      * @param id Product ID to return (required)
@@ -207,7 +207,7 @@ public interface ProductsApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/products/{id}",
+        value = "/${products.path}/{id}",
         produces = { "application/json", "application/xml" }
     )
     
@@ -219,7 +219,7 @@ public interface ProductsApi {
 
 
     /**
-     * PUT /products : Update an existing product
+     * PUT /${products.path} : Update an existing product
      * Update an existing product by Id
      *
      * @param products Update an existing product (required)
@@ -247,7 +247,7 @@ public interface ProductsApi {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/products",
+        value = "/${products.path}",
         produces = { "application/json", "application/xml" },
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
@@ -260,7 +260,7 @@ public interface ProductsApi {
 
 
     /**
-     * POST /products/{id} : Updates a product with form data
+     * POST /${products.path}/{id} : Updates a product with form data
      * 
      *
      * @param id ID of product that needs to be updated (required)
@@ -292,7 +292,7 @@ public interface ProductsApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/products/{id}",
+        value = "/${products.path}/{id}",
         produces = { "application/json", "application/xml" }
     )
     

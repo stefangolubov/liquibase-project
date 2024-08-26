@@ -34,14 +34,14 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
 @Validated
 @Tag(name = "orders", description = "List of orders")
-public interface OrdersApi {
+public interface OrdersPathApi {
 
-    default OrdersApiDelegate getDelegate() {
-        return new OrdersApiDelegate() {};
+    default OrdersPathApiDelegate getDelegate() {
+        return new OrdersPathApiDelegate() {};
     }
 
     /**
-     * POST /orders : Add a new order
+     * POST /${orders.path} : Add a new order
      * Add a new order
      *
      * @param newOrder Place a new order (required)
@@ -69,7 +69,7 @@ public interface OrdersApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/orders",
+        value = "/${orders.path}",
         produces = { "application/json", "application/xml" },
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
@@ -82,7 +82,7 @@ public interface OrdersApi {
 
 
     /**
-     * DELETE /orders/{id} : Deletes an order
+     * DELETE /${orders.path}/{id} : Deletes an order
      * delete an order
      *
      * @param id ID of the order that needs to be deleted (required)
@@ -105,7 +105,7 @@ public interface OrdersApi {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/orders/{id}",
+        value = "/${orders.path}/{id}",
         produces = { "application/json", "application/xml" }
     )
     
@@ -117,7 +117,7 @@ public interface OrdersApi {
 
 
     /**
-     * GET /orders/findAll : List all orders
+     * GET /${orders.path}/findAll : List all orders
      *
      * @return Orders have been successfully listed (status code 200)
      */
@@ -137,7 +137,7 @@ public interface OrdersApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/orders/findAll",
+        value = "/${orders.path}/findAll",
         produces = { "application/json", "application/xml" }
     )
     
@@ -149,7 +149,7 @@ public interface OrdersApi {
 
 
     /**
-     * GET /orders/findByIDs : Find orders by order IDs
+     * GET /${orders.path}/findByIDs : Find orders by order IDs
      * Multiple order IDs can be provided with comma separated strings
      *
      * @param orderIDs  (optional)
@@ -172,7 +172,7 @@ public interface OrdersApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/orders/findByIDs",
+        value = "/${orders.path}/findByIDs",
         produces = { "application/json", "application/xml" }
     )
     
@@ -184,7 +184,7 @@ public interface OrdersApi {
 
 
     /**
-     * GET /orders/{id} : Find order by order ID
+     * GET /${orders.path}/{id} : Find order by order ID
      * Returns a single order
      *
      * @param id Order ID to return (required)
@@ -207,7 +207,7 @@ public interface OrdersApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/orders/{id}",
+        value = "/${orders.path}/{id}",
         produces = { "application/json", "application/xml" }
     )
     
@@ -219,7 +219,7 @@ public interface OrdersApi {
 
 
     /**
-     * PUT /orders : Update an existing order
+     * PUT /${orders.path} : Update an existing order
      * Update an existing order by Id
      *
      * @param orders Update an existing order (required)
@@ -247,7 +247,7 @@ public interface OrdersApi {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/orders",
+        value = "/${orders.path}",
         produces = { "application/json", "application/xml" },
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
@@ -260,7 +260,7 @@ public interface OrdersApi {
 
 
     /**
-     * POST /orders/{id} : Updates an order with form data
+     * POST /${orders.path}/{id} : Updates an order with form data
      * 
      *
      * @param id ID of the order that needs to be updated (required)
@@ -290,7 +290,7 @@ public interface OrdersApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/orders/{id}",
+        value = "/${orders.path}/{id}",
         produces = { "application/json", "application/xml" }
     )
     

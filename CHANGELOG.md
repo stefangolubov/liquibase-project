@@ -6,6 +6,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.0.1-SNAPSHOT] - 2024-08-26 [@stefangolubov](https://github.com/stefangolubov)
+#### Changed
+- application.properties - Adding properties for base API paths
+- api.yml - Using properties for base API paths configured in application.properties
+- pom.xml - Update version from 1.0.0-SNAPSHOT to 1.0.1-SNAPSHOT
+- ApiResponseSchema - [automatically updated by OpenAPI generator]
+- ApiUtil - [automatically updated by OpenAPI generator]
+- NewOrder - [automatically updated by OpenAPI generator]
+- NewProduct - [automatically updated by OpenAPI generator]
+- NewUser - [automatically updated by OpenAPI generator]
+- Orders - [automatically updated by OpenAPI generator]
+- Products - [automatically updated by OpenAPI generator]
+- Users - [automatically updated by OpenAPI generator]
+#### Added
+- OrdersPathApiController - [automatically created by OpenAPI generator]
+- ProductsPathApiController - [automatically created by OpenAPI generator]
+- UsersPathApiController - [automatically created by OpenAPI generator]
+#### Renamed
+- OrdersPathApi - Renamed OrdersApi
+- OrdersPathApiDelegate - Renamed OrdersApiDelegate
+- OrdersPathApiDelegateImpl - Renamed OrdersApiDelegateImpl
+- ProductsPathApi - Renamed ProductsApi
+- ProductsPathApiDelegate - Renamed ProductsApiDelegate
+- ProductsPathApiDelegateImpl - Renamed ProductsApiDelegateImpl
+- UsersPathApi - Renamed UsersApi
+- UsersPathApiDelegate - Renamed UsersApiDelegate
+- UsersPathApiDelegateImpl - Renamed UsersApiDelegateImpl
+#### Deleted
+- OrdersApiController - replaced by OrdersPathApiController
+- ProductsApiController - replaced by ProductsPathApiController
+- UsersApiController - replaced by UsersPathApiController
+
 ### [1.0.0-SNAPSHOT] - 2024-08-23 [@stefangolubov](https://github.com/stefangolubov)
 #### Changed
 - pom.xml - Update version from 0.0.13-SNAPSHOT to 1.0.0-SNAPSHOT
@@ -27,7 +59,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - UsersApiDelegate - [automatically updated by OpenAPI generator]
 - UsersApiDelegateImpl - Adding null safe check for adding and updating user
 - pom.xml - Update version from 0.0.12-SNAPSHOT to 0.0.13-SNAPSHOT
-
 #### Added
 - CustomAccessDeniedHandler - Access denied handler for handling forbidden access to a resource
 - ExceptionConstants - Utility class for defining constants needed for GlobalExceptionHandler
@@ -36,7 +67,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SecurityConfig - Configuration for roles and their respective access per methods
 - SwaggerConfig - Configuration for Swagger
 - UserDetailsServiceConfig - Configuring users with credentials for basic authentication
-
 #### Deleted
 - ErrorResponse - Deleting obsolete class
 

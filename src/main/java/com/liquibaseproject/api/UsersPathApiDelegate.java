@@ -18,24 +18,24 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 /**
- * A delegate to be called by the {@link UsersApiController}}.
+ * A delegate to be called by the {@link UsersPathApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
-public interface UsersApiDelegate {
+public interface UsersPathApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
 
     /**
-     * POST /users : Add a new user
+     * POST /${users.path} : Add a new user
      * Add a new user
      *
      * @param newUser Create a new user (required)
      * @return User has been successfully added (status code 200)
      *         or Access forbidden (status code 403)
-     * @see UsersApi#addUser
+     * @see UsersPathApi#addUser
      */
     default ResponseEntity<Users> addUser(NewUser newUser) {
         getRequest().ifPresent(request -> {
@@ -62,12 +62,12 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * DELETE /users/{id} : Deletes a user
+     * DELETE /${users.path}/{id} : Deletes a user
      * delete a user
      *
      * @param id User ID for the user that needs to be deleted (required)
      * @return User found by ID (status code 200)
-     * @see UsersApi#deleteUser
+     * @see UsersPathApi#deleteUser
      */
     default ResponseEntity<ApiResponseSchema> deleteUser(UUID id) {
         getRequest().ifPresent(request -> {
@@ -89,10 +89,10 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * GET /users/findAll : List all users
+     * GET /${users.path}/findAll : List all users
      *
      * @return Users have been successfully listed (status code 200)
-     * @see UsersApi#findAllUsers
+     * @see UsersPathApi#findAllUsers
      */
     default ResponseEntity<List<Users>> findAllUsers() {
         getRequest().ifPresent(request -> {
@@ -114,12 +114,12 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * GET /users/findByUsername : Find users by usernames
+     * GET /${users.path}/findByUsername : Find users by usernames
      * Multiple usernames can be provided with comma separated strings (case insensitive)
      *
      * @param usernames  (optional)
      * @return Users have been successfully found by username (status code 200)
-     * @see UsersApi#findUsersByUsername
+     * @see UsersPathApi#findUsersByUsername
      */
     default ResponseEntity<List<Users>> findUsersByUsername(String usernames) {
         getRequest().ifPresent(request -> {
@@ -141,12 +141,12 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * GET /users/{id} : Find user by ID
+     * GET /${users.path}/{id} : Find user by ID
      * Returns a single user
      *
      * @param id User ID to return (required)
      * @return User found by ID (status code 200)
-     * @see UsersApi#getUserById
+     * @see UsersPathApi#getUserById
      */
     default ResponseEntity<Users> getUserById(UUID id) {
         getRequest().ifPresent(request -> {
@@ -168,13 +168,13 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * PUT /users : Update an existing user
+     * PUT /${users.path} : Update an existing user
      * Update an existing user by Id
      *
      * @param users Update an existing user (required)
      * @return User has been successfully updated (status code 200)
      *         or Access forbidden (status code 403)
-     * @see UsersApi#updateUser
+     * @see UsersPathApi#updateUser
      */
     default ResponseEntity<ApiResponseSchema> updateUser(Users users) {
         getRequest().ifPresent(request -> {
@@ -201,7 +201,7 @@ public interface UsersApiDelegate {
     }
 
     /**
-     * POST /users/{id} : Updates a user with form data
+     * POST /${users.path}/{id} : Updates a user with form data
      * 
      *
      * @param id ID of user that needs to be updated (required)
@@ -209,7 +209,7 @@ public interface UsersApiDelegate {
      * @param email E-mail of the user that needs to be updated (optional)
      * @return User found by ID (status code 200)
      *         or Access forbidden (status code 403)
-     * @see UsersApi#updateUserWithForm
+     * @see UsersPathApi#updateUserWithForm
      */
     default ResponseEntity<ApiResponseSchema> updateUserWithForm(UUID id,
         String username,

@@ -1,5 +1,6 @@
-package com.liquibaseproject.api;
+package com.liquibaseproject.api.impl;
 
+import com.liquibaseproject.api.ProductsPathApiDelegate;
 import com.liquibaseproject.exception.InvalidInputException;
 import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.mapper.NewProductsMapper;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class ProductsApiDelegateImpl implements ProductsApiDelegate {
+public class ProductsPathApiDelegateImpl implements ProductsPathApiDelegate {
 
     private static final String PRODUCTS_NOT_FOUND_EXCEPTION_MESSAGE = "No products found for the provided input";
     private static final String SUCCESS_MESSAGE = "Product has been successfully %s";
@@ -25,7 +26,7 @@ public class ProductsApiDelegateImpl implements ProductsApiDelegate {
     private final NewProductsMapper newProductsMapper;
     private final ProductsService productsService;
 
-    public ProductsApiDelegateImpl(ProductsMapper productsMapper, NewProductsMapper newProductsMapper, ProductsService productsService) {
+    public ProductsPathApiDelegateImpl(ProductsMapper productsMapper, NewProductsMapper newProductsMapper, ProductsService productsService) {
         this.productsMapper = productsMapper;
         this.newProductsMapper = newProductsMapper;
         this.productsService = productsService;

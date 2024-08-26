@@ -1,5 +1,6 @@
-package com.liquibaseproject.api;
+package com.liquibaseproject.api.impl;
 
+import com.liquibaseproject.api.OrdersPathApiDelegate;
 import com.liquibaseproject.entity.Products;
 import com.liquibaseproject.exception.InvalidInputException;
 import com.liquibaseproject.exception.ResultsNotFoundException;
@@ -18,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
-public class OrdersApiDelegateImpl implements OrdersApiDelegate {
+public class OrdersPathApiDelegateImpl implements OrdersPathApiDelegate {
 
     private static final String ORDERS_NOT_FOUND_EXCEPTION_MESSAGE = "No orders found for the provided input";
     private static final String SUCCESS_MESSAGE = "Order has been successfully %s";
@@ -29,7 +30,7 @@ public class OrdersApiDelegateImpl implements OrdersApiDelegate {
     private final OrdersService ordersService;
     private final ProductsService productsService;
 
-    public OrdersApiDelegateImpl(OrdersMapper ordersMapper, NewOrderMapper newOrderMapper, OrdersService ordersService, ProductsService productsService) {
+    public OrdersPathApiDelegateImpl(OrdersMapper ordersMapper, NewOrderMapper newOrderMapper, OrdersService ordersService, ProductsService productsService) {
         this.ordersMapper = ordersMapper;
         this.newOrderMapper = newOrderMapper;
         this.ordersService = ordersService;

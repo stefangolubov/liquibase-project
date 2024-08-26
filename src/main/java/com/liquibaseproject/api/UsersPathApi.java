@@ -34,14 +34,14 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
 @Validated
 @Tag(name = "users", description = "List of users")
-public interface UsersApi {
+public interface UsersPathApi {
 
-    default UsersApiDelegate getDelegate() {
-        return new UsersApiDelegate() {};
+    default UsersPathApiDelegate getDelegate() {
+        return new UsersPathApiDelegate() {};
     }
 
     /**
-     * POST /users : Add a new user
+     * POST /${users.path} : Add a new user
      * Add a new user
      *
      * @param newUser Create a new user (required)
@@ -69,7 +69,7 @@ public interface UsersApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/users",
+        value = "/${users.path}",
         produces = { "application/json", "application/xml" },
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
@@ -82,7 +82,7 @@ public interface UsersApi {
 
 
     /**
-     * DELETE /users/{id} : Deletes a user
+     * DELETE /${users.path}/{id} : Deletes a user
      * delete a user
      *
      * @param id User ID for the user that needs to be deleted (required)
@@ -105,7 +105,7 @@ public interface UsersApi {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/users/{id}",
+        value = "/${users.path}/{id}",
         produces = { "application/json", "application/xml" }
     )
     
@@ -117,7 +117,7 @@ public interface UsersApi {
 
 
     /**
-     * GET /users/findAll : List all users
+     * GET /${users.path}/findAll : List all users
      *
      * @return Users have been successfully listed (status code 200)
      */
@@ -137,7 +137,7 @@ public interface UsersApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/users/findAll",
+        value = "/${users.path}/findAll",
         produces = { "application/json", "application/xml" }
     )
     
@@ -149,7 +149,7 @@ public interface UsersApi {
 
 
     /**
-     * GET /users/findByUsername : Find users by usernames
+     * GET /${users.path}/findByUsername : Find users by usernames
      * Multiple usernames can be provided with comma separated strings (case insensitive)
      *
      * @param usernames  (optional)
@@ -172,7 +172,7 @@ public interface UsersApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/users/findByUsername",
+        value = "/${users.path}/findByUsername",
         produces = { "application/json", "application/xml" }
     )
     
@@ -184,7 +184,7 @@ public interface UsersApi {
 
 
     /**
-     * GET /users/{id} : Find user by ID
+     * GET /${users.path}/{id} : Find user by ID
      * Returns a single user
      *
      * @param id User ID to return (required)
@@ -207,7 +207,7 @@ public interface UsersApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/users/{id}",
+        value = "/${users.path}/{id}",
         produces = { "application/json", "application/xml" }
     )
     
@@ -219,7 +219,7 @@ public interface UsersApi {
 
 
     /**
-     * PUT /users : Update an existing user
+     * PUT /${users.path} : Update an existing user
      * Update an existing user by Id
      *
      * @param users Update an existing user (required)
@@ -247,7 +247,7 @@ public interface UsersApi {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/users",
+        value = "/${users.path}",
         produces = { "application/json", "application/xml" },
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
@@ -260,7 +260,7 @@ public interface UsersApi {
 
 
     /**
-     * POST /users/{id} : Updates a user with form data
+     * POST /${users.path}/{id} : Updates a user with form data
      * 
      *
      * @param id ID of user that needs to be updated (required)
@@ -290,7 +290,7 @@ public interface UsersApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/users/{id}",
+        value = "/${users.path}/{id}",
         produces = { "application/json", "application/xml" }
     )
     
