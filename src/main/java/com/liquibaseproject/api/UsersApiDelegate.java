@@ -1,6 +1,6 @@
 package com.liquibaseproject.api;
 
-import com.liquibaseproject.model.ApiResponseSchema;
+import com.liquibaseproject.model.ModelApiResponse;
 import com.liquibaseproject.model.NewUser;
 import java.util.UUID;
 import com.liquibaseproject.model.Users;
@@ -18,24 +18,24 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 /**
- * A delegate to be called by the {@link UsersPathApiController}}.
+ * A delegate to be called by the {@link UsersApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
-public interface UsersPathApiDelegate {
+public interface UsersApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
 
     /**
-     * POST /${users.path} : Add a new user
+     * POST /users : Add a new user
      * Add a new user
      *
      * @param newUser Create a new user (required)
      * @return User has been successfully added (status code 200)
      *         or Access forbidden (status code 403)
-     * @see UsersPathApi#addUser
+     * @see UsersApi#addUser
      */
     default ResponseEntity<Users> addUser(NewUser newUser) {
         getRequest().ifPresent(request -> {
@@ -62,14 +62,14 @@ public interface UsersPathApiDelegate {
     }
 
     /**
-     * DELETE /${users.path}/{id} : Deletes a user
+     * DELETE /users/{id} : Deletes a user
      * delete a user
      *
      * @param id User ID for the user that needs to be deleted (required)
      * @return User found by ID (status code 200)
-     * @see UsersPathApi#deleteUser
+     * @see UsersApi#deleteUser
      */
-    default ResponseEntity<ApiResponseSchema> deleteUser(UUID id) {
+    default ResponseEntity<ModelApiResponse> deleteUser(UUID id) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -89,10 +89,10 @@ public interface UsersPathApiDelegate {
     }
 
     /**
-     * GET /${users.path}/findAll : List all users
+     * GET /users/findAll : List all users
      *
      * @return Users have been successfully listed (status code 200)
-     * @see UsersPathApi#findAllUsers
+     * @see UsersApi#findAllUsers
      */
     default ResponseEntity<List<Users>> findAllUsers() {
         getRequest().ifPresent(request -> {
@@ -114,12 +114,12 @@ public interface UsersPathApiDelegate {
     }
 
     /**
-     * GET /${users.path}/findByUsername : Find users by usernames
+     * GET /users/findByUsername : Find users by usernames
      * Multiple usernames can be provided with comma separated strings (case insensitive)
      *
      * @param usernames  (optional)
      * @return Users have been successfully found by username (status code 200)
-     * @see UsersPathApi#findUsersByUsername
+     * @see UsersApi#findUsersByUsername
      */
     default ResponseEntity<List<Users>> findUsersByUsername(String usernames) {
         getRequest().ifPresent(request -> {
@@ -141,12 +141,12 @@ public interface UsersPathApiDelegate {
     }
 
     /**
-     * GET /${users.path}/{id} : Find user by ID
+     * GET /users/{id} : Find user by ID
      * Returns a single user
      *
      * @param id User ID to return (required)
      * @return User found by ID (status code 200)
-     * @see UsersPathApi#getUserById
+     * @see UsersApi#getUserById
      */
     default ResponseEntity<Users> getUserById(UUID id) {
         getRequest().ifPresent(request -> {
@@ -168,15 +168,15 @@ public interface UsersPathApiDelegate {
     }
 
     /**
-     * PUT /${users.path} : Update an existing user
+     * PUT /users : Update an existing user
      * Update an existing user by Id
      *
      * @param users Update an existing user (required)
      * @return User has been successfully updated (status code 200)
      *         or Access forbidden (status code 403)
-     * @see UsersPathApi#updateUser
+     * @see UsersApi#updateUser
      */
-    default ResponseEntity<ApiResponseSchema> updateUser(Users users) {
+    default ResponseEntity<ModelApiResponse> updateUser(Users users) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -201,7 +201,7 @@ public interface UsersPathApiDelegate {
     }
 
     /**
-     * POST /${users.path}/{id} : Updates a user with form data
+     * POST /users/{id} : Updates a user with form data
      * 
      *
      * @param id ID of user that needs to be updated (required)
@@ -209,9 +209,9 @@ public interface UsersPathApiDelegate {
      * @param email E-mail of the user that needs to be updated (optional)
      * @return User found by ID (status code 200)
      *         or Access forbidden (status code 403)
-     * @see UsersPathApi#updateUserWithForm
+     * @see UsersApi#updateUserWithForm
      */
-    default ResponseEntity<ApiResponseSchema> updateUserWithForm(UUID id,
+    default ResponseEntity<ModelApiResponse> updateUserWithForm(UUID id,
         String username,
         String email) {
         getRequest().ifPresent(request -> {

@@ -1,11 +1,11 @@
 package com.liquibaseproject.api.impl;
 
-import com.liquibaseproject.api.UsersPathApiDelegate;
+import com.liquibaseproject.api.UsersApiDelegate;
 import com.liquibaseproject.exception.InvalidInputException;
 import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.mapper.NewUserMapper;
 import com.liquibaseproject.mapper.UsersMapper;
-import com.liquibaseproject.model.ApiResponseSchema;
+import com.liquibaseproject.model.ModelApiResponse;
 import com.liquibaseproject.model.NewUser;
 import com.liquibaseproject.model.Users;
 import com.liquibaseproject.service.UsersService;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class UsersPathApiDelegateImpl implements UsersPathApiDelegate {
+public class UsersApiDelegateImpl implements UsersApiDelegate {
 
     private static final String USERS_NOT_FOUND_EXCEPTION_MESSAGE = "No users found for the provided input";
     private static final String SUCCESS_MESSAGE = "User has been successfully %s";
@@ -26,18 +26,18 @@ public class UsersPathApiDelegateImpl implements UsersPathApiDelegate {
     private final UsersMapper usersMapper;
     private final NewUserMapper newUserMapper;
 
-    public UsersPathApiDelegateImpl(UsersService usersService, UsersMapper usersMapper, NewUserMapper newUserMapper) {
+    public UsersApiDelegateImpl(UsersService usersService, UsersMapper usersMapper, NewUserMapper newUserMapper) {
         this.usersService = usersService;
         this.usersMapper = usersMapper;
         this.newUserMapper = newUserMapper;
     }
 
     @Override
-    public ResponseEntity<ApiResponseSchema> updateUser(Users usersModel) {
+    public ResponseEntity<ModelApiResponse> updateUser(Users usersModel) {
         checkMandatoryFields(usersModel.getUsername(), usersModel.getEmail());
         usersService.updateUser(usersModel.getId(), usersMapper.toEntity(usersModel));
 
-        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
+        ModelApiResponse response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
 
         return ResponseEntity.ok(response);
     }
@@ -57,10 +57,10 @@ public class UsersPathApiDelegateImpl implements UsersPathApiDelegate {
     }
 
     @Override
-    public ResponseEntity<ApiResponseSchema> deleteUser(UUID id) {
+    public ResponseEntity<ModelApiResponse> deleteUser(UUID id) {
         usersService.deleteUser(id);
 
-        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "deleted"));
+        ModelApiResponse response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "deleted"));
 
         return ResponseEntity.ok(response);
     }
@@ -102,7 +102,7 @@ public class UsersPathApiDelegateImpl implements UsersPathApiDelegate {
     }
 
     @Override
-    public ResponseEntity<ApiResponseSchema> updateUserWithForm(UUID id, String username, String email) {
+    public ResponseEntity<ModelApiResponse> updateUserWithForm(UUID id, String username, String email) {
         Optional<com.liquibaseproject.entity.Users> userEntityOptional = usersService.getUserById(id);
 
         userEntityOptional.ifPresent(userEntity -> {
@@ -115,13 +115,13 @@ public class UsersPathApiDelegateImpl implements UsersPathApiDelegate {
             usersService.updateUser(id, userEntity);
         });
 
-        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
+        ModelApiResponse response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
 
         return ResponseEntity.ok(response);
     }
 
-    private static ApiResponseSchema getApiResponseSchema(String message) {
-        ApiResponseSchema response = new ApiResponseSchema();
+    private static ModelApiResponse getApiResponseSchema(String message) {
+        ModelApiResponse response = new ModelApiResponse();
         response.setCode(200);
         response.setType("success");
         response.setMessage(message);

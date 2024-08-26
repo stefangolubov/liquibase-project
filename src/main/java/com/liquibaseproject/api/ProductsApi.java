@@ -5,7 +5,7 @@
  */
 package com.liquibaseproject.api;
 
-import com.liquibaseproject.model.ApiResponseSchema;
+import com.liquibaseproject.model.ModelApiResponse;
 import com.liquibaseproject.model.NewProduct;
 import com.liquibaseproject.model.Products;
 import java.util.UUID;
@@ -34,14 +34,14 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
 @Validated
 @Tag(name = "products", description = "List of products")
-public interface ProductsPathApi {
+public interface ProductsApi {
 
-    default ProductsPathApiDelegate getDelegate() {
-        return new ProductsPathApiDelegate() {};
+    default ProductsApiDelegate getDelegate() {
+        return new ProductsApiDelegate() {};
     }
 
     /**
-     * POST /${products.path} : Add a new product
+     * POST /products : Add a new product
      * Add a new product
      *
      * @param newProduct Create a new product (required)
@@ -59,8 +59,8 @@ public interface ProductsPathApi {
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Products.class))
             }),
             @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             })
         },
         security = {
@@ -69,7 +69,7 @@ public interface ProductsPathApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/${products.path}",
+        value = "/products",
         produces = { "application/json", "application/xml" },
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
@@ -82,7 +82,7 @@ public interface ProductsPathApi {
 
 
     /**
-     * DELETE /${products.path}/{id} : Deletes a product
+     * DELETE /products/{id} : Deletes a product
      * delete a product
      *
      * @param id Product ID for the product that needs to be deleted (required)
@@ -95,8 +95,8 @@ public interface ProductsPathApi {
         tags = { "products" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Product found by ID", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             })
         },
         security = {
@@ -105,11 +105,11 @@ public interface ProductsPathApi {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/${products.path}/{id}",
+        value = "/products/{id}",
         produces = { "application/json", "application/xml" }
     )
     
-    default ResponseEntity<ApiResponseSchema> deleteProduct(
+    default ResponseEntity<ModelApiResponse> deleteProduct(
         @Parameter(name = "id", description = "Product ID for the product that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id
     ) {
         return getDelegate().deleteProduct(id);
@@ -117,7 +117,7 @@ public interface ProductsPathApi {
 
 
     /**
-     * GET /${products.path}/findAll : List all products
+     * GET /products/findAll : List all products
      *
      * @return Products have been successfully listed (status code 200)
      */
@@ -137,7 +137,7 @@ public interface ProductsPathApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/${products.path}/findAll",
+        value = "/products/findAll",
         produces = { "application/json", "application/xml" }
     )
     
@@ -149,7 +149,7 @@ public interface ProductsPathApi {
 
 
     /**
-     * GET /${products.path}/findByName : Find products by product name
+     * GET /products/findByName : Find products by product name
      * Multiple products can be provided with comma separated strings (case insensitive)
      *
      * @param names  (optional)
@@ -172,7 +172,7 @@ public interface ProductsPathApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/${products.path}/findByName",
+        value = "/products/findByName",
         produces = { "application/json", "application/xml" }
     )
     
@@ -184,7 +184,7 @@ public interface ProductsPathApi {
 
 
     /**
-     * GET /${products.path}/{id} : Find product by ID
+     * GET /products/{id} : Find product by ID
      * Returns a single product
      *
      * @param id Product ID to return (required)
@@ -207,7 +207,7 @@ public interface ProductsPathApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/${products.path}/{id}",
+        value = "/products/{id}",
         produces = { "application/json", "application/xml" }
     )
     
@@ -219,7 +219,7 @@ public interface ProductsPathApi {
 
 
     /**
-     * PUT /${products.path} : Update an existing product
+     * PUT /products : Update an existing product
      * Update an existing product by Id
      *
      * @param products Update an existing product (required)
@@ -233,12 +233,12 @@ public interface ProductsPathApi {
         tags = { "products" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Product has been successfully updated", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             }),
             @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             })
         },
         security = {
@@ -247,12 +247,12 @@ public interface ProductsPathApi {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/${products.path}",
+        value = "/products",
         produces = { "application/json", "application/xml" },
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
     
-    default ResponseEntity<ApiResponseSchema> updateProduct(
+    default ResponseEntity<ModelApiResponse> updateProduct(
         @Parameter(name = "Products", description = "Update an existing product", required = true) @Valid @RequestBody Products products
     ) {
         return getDelegate().updateProduct(products);
@@ -260,7 +260,7 @@ public interface ProductsPathApi {
 
 
     /**
-     * POST /${products.path}/{id} : Updates a product with form data
+     * POST /products/{id} : Updates a product with form data
      * 
      *
      * @param id ID of product that needs to be updated (required)
@@ -278,12 +278,12 @@ public interface ProductsPathApi {
         tags = { "products" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Product found by ID", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             }),
             @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             })
         },
         security = {
@@ -292,11 +292,11 @@ public interface ProductsPathApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/${products.path}/{id}",
+        value = "/products/{id}",
         produces = { "application/json", "application/xml" }
     )
     
-    default ResponseEntity<ApiResponseSchema> updateProductWithForm(
+    default ResponseEntity<ModelApiResponse> updateProductWithForm(
         @Parameter(name = "id", description = "ID of product that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id,
         @Parameter(name = "name", description = "Name for the product that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "name", required = false) String name,
         @Parameter(name = "description", description = "Description for the product that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "description", required = false) String description,

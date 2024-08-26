@@ -5,7 +5,7 @@
  */
 package com.liquibaseproject.api;
 
-import com.liquibaseproject.model.ApiResponseSchema;
+import com.liquibaseproject.model.ModelApiResponse;
 import com.liquibaseproject.model.NewOrder;
 import com.liquibaseproject.model.Orders;
 import java.util.UUID;
@@ -34,14 +34,14 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
 @Validated
 @Tag(name = "orders", description = "List of orders")
-public interface OrdersPathApi {
+public interface OrdersApi {
 
-    default OrdersPathApiDelegate getDelegate() {
-        return new OrdersPathApiDelegate() {};
+    default OrdersApiDelegate getDelegate() {
+        return new OrdersApiDelegate() {};
     }
 
     /**
-     * POST /${orders.path} : Add a new order
+     * POST /orders : Add a new order
      * Add a new order
      *
      * @param newOrder Place a new order (required)
@@ -59,8 +59,8 @@ public interface OrdersPathApi {
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Orders.class))
             }),
             @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             })
         },
         security = {
@@ -69,7 +69,7 @@ public interface OrdersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/${orders.path}",
+        value = "/orders",
         produces = { "application/json", "application/xml" },
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
@@ -82,7 +82,7 @@ public interface OrdersPathApi {
 
 
     /**
-     * DELETE /${orders.path}/{id} : Deletes an order
+     * DELETE /orders/{id} : Deletes an order
      * delete an order
      *
      * @param id ID of the order that needs to be deleted (required)
@@ -95,8 +95,8 @@ public interface OrdersPathApi {
         tags = { "orders" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Order found by ID", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             })
         },
         security = {
@@ -105,11 +105,11 @@ public interface OrdersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/${orders.path}/{id}",
+        value = "/orders/{id}",
         produces = { "application/json", "application/xml" }
     )
     
-    default ResponseEntity<ApiResponseSchema> deleteOrder(
+    default ResponseEntity<ModelApiResponse> deleteOrder(
         @Parameter(name = "id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id
     ) {
         return getDelegate().deleteOrder(id);
@@ -117,7 +117,7 @@ public interface OrdersPathApi {
 
 
     /**
-     * GET /${orders.path}/findAll : List all orders
+     * GET /orders/findAll : List all orders
      *
      * @return Orders have been successfully listed (status code 200)
      */
@@ -137,7 +137,7 @@ public interface OrdersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/${orders.path}/findAll",
+        value = "/orders/findAll",
         produces = { "application/json", "application/xml" }
     )
     
@@ -149,7 +149,7 @@ public interface OrdersPathApi {
 
 
     /**
-     * GET /${orders.path}/findByIDs : Find orders by order IDs
+     * GET /orders/findByIDs : Find orders by order IDs
      * Multiple order IDs can be provided with comma separated strings
      *
      * @param orderIDs  (optional)
@@ -172,7 +172,7 @@ public interface OrdersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/${orders.path}/findByIDs",
+        value = "/orders/findByIDs",
         produces = { "application/json", "application/xml" }
     )
     
@@ -184,7 +184,7 @@ public interface OrdersPathApi {
 
 
     /**
-     * GET /${orders.path}/{id} : Find order by order ID
+     * GET /orders/{id} : Find order by order ID
      * Returns a single order
      *
      * @param id Order ID to return (required)
@@ -207,7 +207,7 @@ public interface OrdersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/${orders.path}/{id}",
+        value = "/orders/{id}",
         produces = { "application/json", "application/xml" }
     )
     
@@ -219,7 +219,7 @@ public interface OrdersPathApi {
 
 
     /**
-     * PUT /${orders.path} : Update an existing order
+     * PUT /orders : Update an existing order
      * Update an existing order by Id
      *
      * @param orders Update an existing order (required)
@@ -233,12 +233,12 @@ public interface OrdersPathApi {
         tags = { "orders" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Order has been successfully updated", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             }),
             @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             })
         },
         security = {
@@ -247,12 +247,12 @@ public interface OrdersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/${orders.path}",
+        value = "/orders",
         produces = { "application/json", "application/xml" },
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
     
-    default ResponseEntity<ApiResponseSchema> updateOrder(
+    default ResponseEntity<ModelApiResponse> updateOrder(
         @Parameter(name = "Orders", description = "Update an existing order", required = true) @Valid @RequestBody Orders orders
     ) {
         return getDelegate().updateOrder(orders);
@@ -260,7 +260,7 @@ public interface OrdersPathApi {
 
 
     /**
-     * POST /${orders.path}/{id} : Updates an order with form data
+     * POST /orders/{id} : Updates an order with form data
      * 
      *
      * @param id ID of the order that needs to be updated (required)
@@ -276,12 +276,12 @@ public interface OrdersPathApi {
         tags = { "orders" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Order found by ID", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             }),
             @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             })
         },
         security = {
@@ -290,11 +290,11 @@ public interface OrdersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/${orders.path}/{id}",
+        value = "/orders/{id}",
         produces = { "application/json", "application/xml" }
     )
     
-    default ResponseEntity<ApiResponseSchema> updateOrderWithForm(
+    default ResponseEntity<ModelApiResponse> updateOrderWithForm(
         @Parameter(name = "id", description = "ID of the order that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id,
         @Parameter(name = "quantity", description = "Quantity for the product of the order that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "quantity", required = false) Integer quantity,
         @Parameter(name = "status", description = "Status of the order that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = false) String status

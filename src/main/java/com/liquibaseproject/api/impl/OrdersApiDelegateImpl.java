@@ -1,12 +1,12 @@
 package com.liquibaseproject.api.impl;
 
-import com.liquibaseproject.api.OrdersPathApiDelegate;
+import com.liquibaseproject.api.OrdersApiDelegate;
 import com.liquibaseproject.entity.Products;
 import com.liquibaseproject.exception.InvalidInputException;
 import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.mapper.NewOrderMapper;
 import com.liquibaseproject.mapper.OrdersMapper;
-import com.liquibaseproject.model.ApiResponseSchema;
+import com.liquibaseproject.model.ModelApiResponse;
 import com.liquibaseproject.model.NewOrder;
 import com.liquibaseproject.model.Orders;
 import com.liquibaseproject.service.OrdersService;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
-public class OrdersPathApiDelegateImpl implements OrdersPathApiDelegate {
+public class OrdersApiDelegateImpl implements OrdersApiDelegate {
 
     private static final String ORDERS_NOT_FOUND_EXCEPTION_MESSAGE = "No orders found for the provided input";
     private static final String SUCCESS_MESSAGE = "Order has been successfully %s";
@@ -30,7 +30,7 @@ public class OrdersPathApiDelegateImpl implements OrdersPathApiDelegate {
     private final OrdersService ordersService;
     private final ProductsService productsService;
 
-    public OrdersPathApiDelegateImpl(OrdersMapper ordersMapper, NewOrderMapper newOrderMapper, OrdersService ordersService, ProductsService productsService) {
+    public OrdersApiDelegateImpl(OrdersMapper ordersMapper, NewOrderMapper newOrderMapper, OrdersService ordersService, ProductsService productsService) {
         this.ordersMapper = ordersMapper;
         this.newOrderMapper = newOrderMapper;
         this.ordersService = ordersService;
@@ -47,11 +47,11 @@ public class OrdersPathApiDelegateImpl implements OrdersPathApiDelegate {
 
     @Override
     @Transactional
-    public ResponseEntity<ApiResponseSchema> deleteOrder(UUID id) {
+    public ResponseEntity<ModelApiResponse> deleteOrder(UUID id) {
         resetProductQuantityValue(id);
 
         ordersService.deleteOrder(id);
-        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "deleted"));
+        ModelApiResponse response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "deleted"));
 
         return ResponseEntity.ok(response);
     }
@@ -105,11 +105,11 @@ public class OrdersPathApiDelegateImpl implements OrdersPathApiDelegate {
     }
 
     @Override
-    public ResponseEntity<ApiResponseSchema> updateOrder(Orders orderModel) {
+    public ResponseEntity<ModelApiResponse> updateOrder(Orders orderModel) {
         checkMandatoryFields(orderModel.getUserId(), orderModel.getProductId(), orderModel.getQuantity());
         ordersService.updateOrder(orderModel.getId(), ordersMapper.toEntity(orderModel));
 
-        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
+        ModelApiResponse response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
 
         return ResponseEntity.ok(response);
     }
@@ -121,7 +121,7 @@ public class OrdersPathApiDelegateImpl implements OrdersPathApiDelegate {
     }
 
     @Override
-    public ResponseEntity<ApiResponseSchema> updateOrderWithForm(UUID id, Integer quantity, String status) {
+    public ResponseEntity<ModelApiResponse> updateOrderWithForm(UUID id, Integer quantity, String status) {
         Optional<com.liquibaseproject.entity.Orders> orderEntityOptional = ordersService.getOrderById(id);
 
         orderEntityOptional.ifPresent(orderEntity -> {
@@ -135,13 +135,13 @@ public class OrdersPathApiDelegateImpl implements OrdersPathApiDelegate {
             ordersService.updateOrder(id, orderEntity);
         });
 
-        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
+        ModelApiResponse response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
 
         return ResponseEntity.ok(response);
     }
 
-    private static ApiResponseSchema getApiResponseSchema(String message) {
-        ApiResponseSchema response = new ApiResponseSchema();
+    private static ModelApiResponse getApiResponseSchema(String message) {
+        ModelApiResponse response = new ModelApiResponse();
 
         response.setCode(200);
         response.setType("success");

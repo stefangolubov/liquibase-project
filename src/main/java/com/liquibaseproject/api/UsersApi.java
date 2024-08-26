@@ -5,7 +5,7 @@
  */
 package com.liquibaseproject.api;
 
-import com.liquibaseproject.model.ApiResponseSchema;
+import com.liquibaseproject.model.ModelApiResponse;
 import com.liquibaseproject.model.NewUser;
 import java.util.UUID;
 import com.liquibaseproject.model.Users;
@@ -34,14 +34,14 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
 @Validated
 @Tag(name = "users", description = "List of users")
-public interface UsersPathApi {
+public interface UsersApi {
 
-    default UsersPathApiDelegate getDelegate() {
-        return new UsersPathApiDelegate() {};
+    default UsersApiDelegate getDelegate() {
+        return new UsersApiDelegate() {};
     }
 
     /**
-     * POST /${users.path} : Add a new user
+     * POST /users : Add a new user
      * Add a new user
      *
      * @param newUser Create a new user (required)
@@ -59,8 +59,8 @@ public interface UsersPathApi {
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Users.class))
             }),
             @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             })
         },
         security = {
@@ -69,7 +69,7 @@ public interface UsersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/${users.path}",
+        value = "/users",
         produces = { "application/json", "application/xml" },
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
@@ -82,7 +82,7 @@ public interface UsersPathApi {
 
 
     /**
-     * DELETE /${users.path}/{id} : Deletes a user
+     * DELETE /users/{id} : Deletes a user
      * delete a user
      *
      * @param id User ID for the user that needs to be deleted (required)
@@ -95,8 +95,8 @@ public interface UsersPathApi {
         tags = { "users" },
         responses = {
             @ApiResponse(responseCode = "200", description = "User found by ID", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             })
         },
         security = {
@@ -105,11 +105,11 @@ public interface UsersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/${users.path}/{id}",
+        value = "/users/{id}",
         produces = { "application/json", "application/xml" }
     )
     
-    default ResponseEntity<ApiResponseSchema> deleteUser(
+    default ResponseEntity<ModelApiResponse> deleteUser(
         @Parameter(name = "id", description = "User ID for the user that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id
     ) {
         return getDelegate().deleteUser(id);
@@ -117,7 +117,7 @@ public interface UsersPathApi {
 
 
     /**
-     * GET /${users.path}/findAll : List all users
+     * GET /users/findAll : List all users
      *
      * @return Users have been successfully listed (status code 200)
      */
@@ -137,7 +137,7 @@ public interface UsersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/${users.path}/findAll",
+        value = "/users/findAll",
         produces = { "application/json", "application/xml" }
     )
     
@@ -149,7 +149,7 @@ public interface UsersPathApi {
 
 
     /**
-     * GET /${users.path}/findByUsername : Find users by usernames
+     * GET /users/findByUsername : Find users by usernames
      * Multiple usernames can be provided with comma separated strings (case insensitive)
      *
      * @param usernames  (optional)
@@ -172,7 +172,7 @@ public interface UsersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/${users.path}/findByUsername",
+        value = "/users/findByUsername",
         produces = { "application/json", "application/xml" }
     )
     
@@ -184,7 +184,7 @@ public interface UsersPathApi {
 
 
     /**
-     * GET /${users.path}/{id} : Find user by ID
+     * GET /users/{id} : Find user by ID
      * Returns a single user
      *
      * @param id User ID to return (required)
@@ -207,7 +207,7 @@ public interface UsersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/${users.path}/{id}",
+        value = "/users/{id}",
         produces = { "application/json", "application/xml" }
     )
     
@@ -219,7 +219,7 @@ public interface UsersPathApi {
 
 
     /**
-     * PUT /${users.path} : Update an existing user
+     * PUT /users : Update an existing user
      * Update an existing user by Id
      *
      * @param users Update an existing user (required)
@@ -233,12 +233,12 @@ public interface UsersPathApi {
         tags = { "users" },
         responses = {
             @ApiResponse(responseCode = "200", description = "User has been successfully updated", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             }),
             @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             })
         },
         security = {
@@ -247,12 +247,12 @@ public interface UsersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/${users.path}",
+        value = "/users",
         produces = { "application/json", "application/xml" },
         consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
     )
     
-    default ResponseEntity<ApiResponseSchema> updateUser(
+    default ResponseEntity<ModelApiResponse> updateUser(
         @Parameter(name = "Users", description = "Update an existing user", required = true) @Valid @RequestBody Users users
     ) {
         return getDelegate().updateUser(users);
@@ -260,7 +260,7 @@ public interface UsersPathApi {
 
 
     /**
-     * POST /${users.path}/{id} : Updates a user with form data
+     * POST /users/{id} : Updates a user with form data
      * 
      *
      * @param id ID of user that needs to be updated (required)
@@ -276,12 +276,12 @@ public interface UsersPathApi {
         tags = { "users" },
         responses = {
             @ApiResponse(responseCode = "200", description = "User found by ID", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             }),
             @ApiResponse(responseCode = "403", description = "Access forbidden", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseSchema.class)),
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = ApiResponseSchema.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ModelApiResponse.class))
             })
         },
         security = {
@@ -290,11 +290,11 @@ public interface UsersPathApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/${users.path}/{id}",
+        value = "/users/{id}",
         produces = { "application/json", "application/xml" }
     )
     
-    default ResponseEntity<ApiResponseSchema> updateUserWithForm(
+    default ResponseEntity<ModelApiResponse> updateUserWithForm(
         @Parameter(name = "id", description = "ID of user that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id,
         @Parameter(name = "username", description = "Username for the user that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = false) String username,
         @Parameter(name = "email", description = "E-mail of the user that needs to be updated", in = ParameterIn.QUERY) @Valid @RequestParam(value = "email", required = false) String email

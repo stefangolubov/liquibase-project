@@ -1,11 +1,11 @@
 package com.liquibaseproject.api.impl;
 
-import com.liquibaseproject.api.ProductsPathApiDelegate;
+import com.liquibaseproject.api.ProductsApiDelegate;
 import com.liquibaseproject.exception.InvalidInputException;
 import com.liquibaseproject.exception.ResultsNotFoundException;
 import com.liquibaseproject.mapper.NewProductsMapper;
 import com.liquibaseproject.mapper.ProductsMapper;
-import com.liquibaseproject.model.ApiResponseSchema;
+import com.liquibaseproject.model.ModelApiResponse;
 import com.liquibaseproject.model.NewProduct;
 import com.liquibaseproject.model.Products;
 import com.liquibaseproject.service.ProductsService;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class ProductsPathApiDelegateImpl implements ProductsPathApiDelegate {
+public class ProductsApiDelegateImpl implements ProductsApiDelegate {
 
     private static final String PRODUCTS_NOT_FOUND_EXCEPTION_MESSAGE = "No products found for the provided input";
     private static final String SUCCESS_MESSAGE = "Product has been successfully %s";
@@ -26,7 +26,7 @@ public class ProductsPathApiDelegateImpl implements ProductsPathApiDelegate {
     private final NewProductsMapper newProductsMapper;
     private final ProductsService productsService;
 
-    public ProductsPathApiDelegateImpl(ProductsMapper productsMapper, NewProductsMapper newProductsMapper, ProductsService productsService) {
+    public ProductsApiDelegateImpl(ProductsMapper productsMapper, NewProductsMapper newProductsMapper, ProductsService productsService) {
         this.productsMapper = productsMapper;
         this.newProductsMapper = newProductsMapper;
         this.productsService = productsService;
@@ -41,10 +41,10 @@ public class ProductsPathApiDelegateImpl implements ProductsPathApiDelegate {
     }
 
     @Override
-    public ResponseEntity<ApiResponseSchema> deleteProduct(UUID id) {
+    public ResponseEntity<ModelApiResponse> deleteProduct(UUID id) {
         productsService.deleteProduct(id);
 
-        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "deleted"));
+        ModelApiResponse response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "deleted"));
 
         return ResponseEntity.ok(response);
     }
@@ -86,11 +86,11 @@ public class ProductsPathApiDelegateImpl implements ProductsPathApiDelegate {
     }
 
     @Override
-    public ResponseEntity<ApiResponseSchema> updateProduct(Products products) {
+    public ResponseEntity<ModelApiResponse> updateProduct(Products products) {
         checkMandatoryFields(products.getName(), products.getPrice(), products.getQuantity());
         productsService.updateProduct(products.getId(), productsMapper.toEntity(products));
 
-        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
+        ModelApiResponse response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
 
         return ResponseEntity.ok(response);
     }
@@ -102,7 +102,7 @@ public class ProductsPathApiDelegateImpl implements ProductsPathApiDelegate {
     }
 
     @Override
-    public ResponseEntity<ApiResponseSchema> updateProductWithForm(UUID id, String name, String description, Double price, Integer quantity) {
+    public ResponseEntity<ModelApiResponse> updateProductWithForm(UUID id, String name, String description, Double price, Integer quantity) {
         Optional<com.liquibaseproject.entity.Products> productsEntityOptional = productsService.getProductById(id);
 
         productsEntityOptional.ifPresent(productEntity -> {
@@ -122,13 +122,13 @@ public class ProductsPathApiDelegateImpl implements ProductsPathApiDelegate {
             productsService.updateProduct(id, productEntity);
         });
 
-        ApiResponseSchema response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
+        ModelApiResponse response = getApiResponseSchema(String.format(SUCCESS_MESSAGE, "updated"));
 
         return ResponseEntity.ok(response);
     }
 
-    private static ApiResponseSchema getApiResponseSchema(String message) {
-        ApiResponseSchema response = new ApiResponseSchema();
+    private static ModelApiResponse getApiResponseSchema(String message) {
+        ModelApiResponse response = new ModelApiResponse();
         response.setCode(200);
         response.setType("success");
         response.setMessage(message);

@@ -1,8 +1,8 @@
 package com.liquibaseproject.api;
 
-import com.liquibaseproject.model.ApiResponseSchema;
-import com.liquibaseproject.model.NewProduct;
-import com.liquibaseproject.model.Products;
+import com.liquibaseproject.model.ModelApiResponse;
+import com.liquibaseproject.model.NewOrder;
+import com.liquibaseproject.model.Orders;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,35 +18,35 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 /**
- * A delegate to be called by the {@link ProductsPathApiController}}.
+ * A delegate to be called by the {@link OrdersApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0")
-public interface ProductsPathApiDelegate {
+public interface OrdersApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
 
     /**
-     * POST /${products.path} : Add a new product
-     * Add a new product
+     * POST /orders : Add a new order
+     * Add a new order
      *
-     * @param newProduct Create a new product (required)
-     * @return Product has been successfully added (status code 200)
+     * @param newOrder Place a new order (required)
+     * @return Order has been successfully placed (status code 200)
      *         or Access forbidden (status code 403)
-     * @see ProductsPathApi#addProduct
+     * @see OrdersApi#addOrder
      */
-    default ResponseEntity<Products> addProduct(NewProduct newProduct) {
+    default ResponseEntity<Orders> addOrder(NewOrder newOrder) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"quantity\" : 85, \"price\" : \"850.5\", \"name\" : \"Smart TV\", \"description\" : \"Samsung Smart TV\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\" }";
+                    String exampleString = "{ \"quantity\" : 85, \"user_id\" : \"2be3e28c-53fb-482a-8cfd-85e168e99bed\", \"product_id\" : \"a320b172-4394-4b9a-8eb3-2fd999fdc460\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"status\" : \"Shipped\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<product> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <name>Smart TV</name> <description>Samsung Smart TV</description> <price>850.5</price> <quantity>85</quantity> </product>";
+                    String exampleString = "<order> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <user_id>2be3e28c-53fb-482a-8cfd-85e168e99bed</user_id> <product_id>a320b172-4394-4b9a-8eb3-2fd999fdc460</product_id> <quantity>85</quantity> <status>Shipped</status> </order>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
@@ -62,14 +62,14 @@ public interface ProductsPathApiDelegate {
     }
 
     /**
-     * DELETE /${products.path}/{id} : Deletes a product
-     * delete a product
+     * DELETE /orders/{id} : Deletes an order
+     * delete an order
      *
-     * @param id Product ID for the product that needs to be deleted (required)
-     * @return Product found by ID (status code 200)
-     * @see ProductsPathApi#deleteProduct
+     * @param id ID of the order that needs to be deleted (required)
+     * @return Order found by ID (status code 200)
+     * @see OrdersApi#deleteOrder
      */
-    default ResponseEntity<ApiResponseSchema> deleteProduct(UUID id) {
+    default ResponseEntity<ModelApiResponse> deleteOrder(UUID id) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -89,21 +89,21 @@ public interface ProductsPathApiDelegate {
     }
 
     /**
-     * GET /${products.path}/findAll : List all products
+     * GET /orders/findAll : List all orders
      *
-     * @return Products have been successfully listed (status code 200)
-     * @see ProductsPathApi#findAllProducts
+     * @return Orders have been successfully listed (status code 200)
+     * @see OrdersApi#findAllOrders
      */
-    default ResponseEntity<List<Products>> findAllProducts() {
+    default ResponseEntity<List<Orders>> findAllOrders() {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ { \"quantity\" : 85, \"price\" : \"850.5\", \"name\" : \"Smart TV\", \"description\" : \"Samsung Smart TV\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\" }, { \"quantity\" : 85, \"price\" : \"850.5\", \"name\" : \"Smart TV\", \"description\" : \"Samsung Smart TV\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\" } ]";
+                    String exampleString = "[ { \"quantity\" : 85, \"user_id\" : \"2be3e28c-53fb-482a-8cfd-85e168e99bed\", \"product_id\" : \"a320b172-4394-4b9a-8eb3-2fd999fdc460\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"status\" : \"Shipped\" }, { \"quantity\" : 85, \"user_id\" : \"2be3e28c-53fb-482a-8cfd-85e168e99bed\", \"product_id\" : \"a320b172-4394-4b9a-8eb3-2fd999fdc460\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"status\" : \"Shipped\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<product> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <name>Smart TV</name> <description>Samsung Smart TV</description> <price>850.5</price> <quantity>85</quantity> </product>";
+                    String exampleString = "<order> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <user_id>2be3e28c-53fb-482a-8cfd-85e168e99bed</user_id> <product_id>a320b172-4394-4b9a-8eb3-2fd999fdc460</product_id> <quantity>85</quantity> <status>Shipped</status> </order>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
@@ -114,23 +114,23 @@ public interface ProductsPathApiDelegate {
     }
 
     /**
-     * GET /${products.path}/findByName : Find products by product name
-     * Multiple products can be provided with comma separated strings (case insensitive)
+     * GET /orders/findByIDs : Find orders by order IDs
+     * Multiple order IDs can be provided with comma separated strings
      *
-     * @param names  (optional)
-     * @return Products have been successfully found by product name (status code 200)
-     * @see ProductsPathApi#findProductsByName
+     * @param orderIDs  (optional)
+     * @return Orders have been successfully found by IDs (status code 200)
+     * @see OrdersApi#findOrdersById
      */
-    default ResponseEntity<List<Products>> findProductsByName(String names) {
+    default ResponseEntity<List<Orders>> findOrdersById(String orderIDs) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ { \"quantity\" : 85, \"price\" : \"850.5\", \"name\" : \"Smart TV\", \"description\" : \"Samsung Smart TV\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\" }, { \"quantity\" : 85, \"price\" : \"850.5\", \"name\" : \"Smart TV\", \"description\" : \"Samsung Smart TV\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\" } ]";
+                    String exampleString = "[ { \"quantity\" : 85, \"user_id\" : \"2be3e28c-53fb-482a-8cfd-85e168e99bed\", \"product_id\" : \"a320b172-4394-4b9a-8eb3-2fd999fdc460\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"status\" : \"Shipped\" }, { \"quantity\" : 85, \"user_id\" : \"2be3e28c-53fb-482a-8cfd-85e168e99bed\", \"product_id\" : \"a320b172-4394-4b9a-8eb3-2fd999fdc460\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"status\" : \"Shipped\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<product> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <name>Smart TV</name> <description>Samsung Smart TV</description> <price>850.5</price> <quantity>85</quantity> </product>";
+                    String exampleString = "<order> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <user_id>2be3e28c-53fb-482a-8cfd-85e168e99bed</user_id> <product_id>a320b172-4394-4b9a-8eb3-2fd999fdc460</product_id> <quantity>85</quantity> <status>Shipped</status> </order>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
@@ -141,23 +141,23 @@ public interface ProductsPathApiDelegate {
     }
 
     /**
-     * GET /${products.path}/{id} : Find product by ID
-     * Returns a single product
+     * GET /orders/{id} : Find order by order ID
+     * Returns a single order
      *
-     * @param id Product ID to return (required)
-     * @return Product found by ID (status code 200)
-     * @see ProductsPathApi#getProductById
+     * @param id Order ID to return (required)
+     * @return Order found by ID (status code 200)
+     * @see OrdersApi#getOrderById
      */
-    default ResponseEntity<Products> getProductById(UUID id) {
+    default ResponseEntity<Orders> getOrderById(UUID id) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"quantity\" : 85, \"price\" : \"850.5\", \"name\" : \"Smart TV\", \"description\" : \"Samsung Smart TV\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\" }";
+                    String exampleString = "{ \"quantity\" : 85, \"user_id\" : \"2be3e28c-53fb-482a-8cfd-85e168e99bed\", \"product_id\" : \"a320b172-4394-4b9a-8eb3-2fd999fdc460\", \"id\" : \"6574214f-89e3-4001-b54d-0d185163f7a2\", \"status\" : \"Shipped\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<product> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <name>Smart TV</name> <description>Samsung Smart TV</description> <price>850.5</price> <quantity>85</quantity> </product>";
+                    String exampleString = "<order> <id>6574214f-89e3-4001-b54d-0d185163f7a2</id> <user_id>2be3e28c-53fb-482a-8cfd-85e168e99bed</user_id> <product_id>a320b172-4394-4b9a-8eb3-2fd999fdc460</product_id> <quantity>85</quantity> <status>Shipped</status> </order>";
                     ApiUtil.setExampleResponse(request, "application/xml", exampleString);
                     break;
                 }
@@ -168,15 +168,15 @@ public interface ProductsPathApiDelegate {
     }
 
     /**
-     * PUT /${products.path} : Update an existing product
-     * Update an existing product by Id
+     * PUT /orders : Update an existing order
+     * Update an existing order by Id
      *
-     * @param products Update an existing product (required)
-     * @return Product has been successfully updated (status code 200)
+     * @param orders Update an existing order (required)
+     * @return Order has been successfully updated (status code 200)
      *         or Access forbidden (status code 403)
-     * @see ProductsPathApi#updateProduct
+     * @see OrdersApi#updateOrder
      */
-    default ResponseEntity<ApiResponseSchema> updateProduct(Products products) {
+    default ResponseEntity<ModelApiResponse> updateOrder(Orders orders) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -201,23 +201,19 @@ public interface ProductsPathApiDelegate {
     }
 
     /**
-     * POST /${products.path}/{id} : Updates a product with form data
+     * POST /orders/{id} : Updates an order with form data
      * 
      *
-     * @param id ID of product that needs to be updated (required)
-     * @param name Name for the product that needs to be updated (optional)
-     * @param description Description for the product that needs to be updated (optional)
-     * @param price Price for the product that needs to be updated (optional)
-     * @param quantity Quantity of the product that needs to be updated (optional)
-     * @return Product found by ID (status code 200)
+     * @param id ID of the order that needs to be updated (required)
+     * @param quantity Quantity for the product of the order that needs to be updated (optional)
+     * @param status Status of the order that needs to be updated (optional)
+     * @return Order found by ID (status code 200)
      *         or Access forbidden (status code 403)
-     * @see ProductsPathApi#updateProductWithForm
+     * @see OrdersApi#updateOrderWithForm
      */
-    default ResponseEntity<ApiResponseSchema> updateProductWithForm(UUID id,
-        String name,
-        String description,
-        Double price,
-        Integer quantity) {
+    default ResponseEntity<ModelApiResponse> updateOrderWithForm(UUID id,
+        Integer quantity,
+        String status) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.0.2-SNAPSHOT] - 2024-08-26 [@stefangolubov](https://github.com/stefangolubov)
+#### Changed
+- api.yml - Move all schemas and paths from schema and path yml files to api.yml
+#### Renamed
+- UsersPathApiDelegateImpl to UsersApiDelegateImpl
+- ProductsPathApiDelegateImpl to ProductsApiDelegateImpl
+- OrdersPathApiDelegateImpl to OrdersApiDelegateImpl
+- api.yml#components#schemas#ApiResponseSchema to api.yml#components#schemas#ApiResponse
+
 ### [1.0.1-SNAPSHOT] - 2024-08-26 [@stefangolubov](https://github.com/stefangolubov)
 #### Changed
 - application.properties - Adding properties for base API paths

@@ -14,54 +14,854 @@ tags:
   - name: orders
     description: List of orders
 paths:
-  /${users.path}:
-    $ref: './paths/users.yml#/users'
-  /${users.path}/findByUsername:
-    $ref: './paths/users.yml#/findByUsername'
-  /${users.path}/findAll:
-    $ref: './paths/users.yml#/findAll'
-  /${users.path}/{id}:
-    $ref: './paths/users.yml#/userById'
-  /${products.path}:
-    $ref: './paths/products.yml#/products'
-  /${products.path}/findByName:
-    $ref: './paths/products.yml#/findByName'
-  /${products.path}/findAll:
-    $ref: './paths/products.yml#/findAll'
-  /${products.path}/{id}:
-    $ref: './paths/products.yml#/productById'
-  /${orders.path}:
-    $ref: './paths/orders.yml#/orders'
-  /${orders.path}/findByIDs:
-    $ref: './paths/orders.yml#/findByIDs'
-  /${orders.path}/findAll:
-    $ref: './paths/orders.yml#/findAll'
-  /${orders.path}/{id}:
-    $ref: './paths/orders.yml#/orderById'
+  /users:
+    put:
+      tags:
+        - users
+      summary: Update an existing user
+      description: Update an existing user by Id
+      operationId: updateUser
+      requestBody:
+        description: Update an existing user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Users'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Users'
+        required: true
+      responses:
+        '200':
+          description: User has been successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Users'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                code: 403
+                type: Forbidden
+                message: You don't have access to perform this operation
+      security:
+        - basicAuth: [ ]
+    post:
+      tags:
+        - users
+      summary: Add a new user
+      description: Add a new user
+      operationId: addUser
+      requestBody:
+        description: Create a new user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+        required: true
+      responses:
+        '200':
+          description: User has been successfully added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Users'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                code: 403
+                type: Forbidden
+                message: You don't have access to perform this operation
+      security:
+        - basicAuth: [ ]
+  /users/findByUsername:
+    get:
+      tags:
+        - users
+      summary: Find users by usernames
+      description: Multiple usernames can be provided with comma separated strings (case insensitive)
+      operationId: findUsersByUsername
+      parameters:
+        - name: usernames
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Users have been successfully found by username
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Users'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Users'
+      security:
+        - basicAuth: [ ]
+  /users/findAll:
+    get:
+      tags:
+        - users
+      summary: List all users
+      operationId: findAllUsers
+      responses:
+        '200':
+          description: Users have been successfully listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Users'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Users'
+      security:
+        - basicAuth: [ ]
+  /users/{id}:
+    get:
+      tags:
+        - users
+      summary: Find user by ID
+      description: Returns a single user
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          description: User ID to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User found by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Users'
+      security:
+        - basicAuth: [ ]
+    post:
+      tags:
+        - users
+      summary: Updates a user with form data
+      description: ''
+      operationId: updateUserWithForm
+      parameters:
+        - name: id
+          in: path
+          description: ID of user that needs to be updated
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: username
+          in: query
+          description: Username for the user that needs to be updated
+          schema:
+            type: string
+        - name: email
+          in: query
+          description: E-mail of the user that needs to be updated
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User found by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                code: 403
+                type: Forbidden
+                message: You don't have access to perform this operation
+      security:
+        - basicAuth: [ ]
+    delete:
+      tags:
+        - users
+      summary: Deletes a user
+      description: delete a user
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          description: User ID for the user that needs to be deleted
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User found by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - basicAuth: [ ]
+  /products:
+    put:
+      tags:
+        - products
+      summary: Update an existing product
+      description: Update an existing product by Id
+      operationId: updateProduct
+      requestBody:
+        description: Update an existing product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Products'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Products'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Products'
+        required: true
+      responses:
+        '200':
+          description: Product has been successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Products'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                code: 403
+                type: Forbidden
+                message: You don't have access to perform this operation
+      security:
+        - basicAuth: [ ]
+    post:
+      tags:
+        - products
+      summary: Add a new product
+      description: Add a new product
+      operationId: addProduct
+      requestBody:
+        description: Create a new product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+        required: true
+      responses:
+        '200':
+          description: Product has been successfully added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Products'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                code: 403
+                type: Forbidden
+                message: You don't have access to perform this operation
+      security:
+        - basicAuth: [ ]
+  /products/findByName:
+    get:
+      tags:
+        - products
+      summary: Find products by product name
+      description: Multiple products can be provided with comma separated strings (case insensitive)
+      operationId: findProductsByName
+      parameters:
+        - name: names
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Products have been successfully found by product name
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+      security:
+        - basicAuth: [ ]
+  /products/findAll:
+    get:
+      tags:
+        - products
+      summary: List all products
+      operationId: findAllProducts
+      responses:
+        '200':
+          description: Products have been successfully listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+      security:
+        - basicAuth: [ ]
+  /products/{id}:
+    get:
+      tags:
+        - products
+      summary: Find product by ID
+      description: Returns a single product
+      operationId: getProductById
+      parameters:
+        - name: id
+          in: path
+          description: Product ID to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Product found by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Products'
+      security:
+        - basicAuth: [ ]
+    post:
+      tags:
+        - products
+      summary: Updates a product with form data
+      description: ''
+      operationId: updateProductWithForm
+      parameters:
+        - name: id
+          in: path
+          description: ID of product that needs to be updated
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: name
+          in: query
+          description: Name for the product that needs to be updated
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: Description for the product that needs to be updated
+          schema:
+            type: string
+        - name: price
+          in: query
+          description: Price for the product that needs to be updated
+          schema:
+            type: number
+            format: double
+        - name: quantity
+          in: query
+          description: Quantity of the product that needs to be updated
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Product found by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                code: 403
+                type: Forbidden
+                message: You don't have access to perform this operation
+      security:
+        - basicAuth: [ ]
+    delete:
+      tags:
+        - products
+      summary: Deletes a product
+      description: delete a product
+      operationId: deleteProduct
+      parameters:
+        - name: id
+          in: path
+          description: Product ID for the product that needs to be deleted
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Product found by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - basicAuth: [ ]
+    
+  /orders:
+    put:
+      tags:
+        - orders
+      summary: Update an existing order
+      description: Update an existing order by Id
+      operationId: updateOrder
+      requestBody:
+        description: Update an existing order
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Orders'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Orders'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Orders'
+        required: true
+      responses:
+        '200':
+          description: Order has been successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Orders'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                code: 403
+                type: Forbidden
+                message: You don't have access to perform this operation
+      security:
+        - basicAuth: [ ]
+    post:
+      tags:
+        - orders
+      summary: Add a new order
+      description: Add a new order
+      operationId: addOrder
+      requestBody:
+        description: Place a new order
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewOrder'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/NewOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NewOrder'
+        required: true
+      responses:
+        '200':
+          description: Order has been successfully placed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Orders'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Orders'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                code: 403
+                type: Forbidden
+                message: You don't have access to perform this operation
+      security:
+        - basicAuth: [ ]
+  /orders/findByIDs:
+    get:
+      tags:
+        - orders
+      summary: Find orders by order IDs
+      description: Multiple order IDs can be provided with comma separated strings
+      operationId: findOrdersById
+      parameters:
+        - name: orderIDs
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Orders have been successfully found by IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Orders'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Orders'
+      security:
+        - basicAuth: [ ]
+  /orders/findAll:
+    get:
+      tags:
+        - orders
+      summary: List all orders
+      operationId: findAllOrders
+      responses:
+        '200':
+          description: Orders have been successfully listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Orders'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Orders'
+      security:
+        - basicAuth: [ ]
+  /orders/{id}:
+    get:
+      tags:
+        - orders
+      summary: Find order by order ID
+      description: Returns a single order
+      operationId: getOrderById
+      parameters:
+        - name: id
+          in: path
+          description: Order ID to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Order found by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Orders'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Orders'
+      security:
+        - basicAuth: [ ]
+    post:
+      tags:
+        - orders
+      summary: Updates an order with form data
+      description: ''
+      operationId: updateOrderWithForm
+      parameters:
+        - name: id
+          in: path
+          description: ID of the order that needs to be updated
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: quantity
+          in: query
+          description: Quantity for the product of the order that needs to be updated
+          schema:
+            type: integer
+            format: int32
+        - name: status
+          in: query
+          description: Status of the order that needs to be updated
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order found by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                code: 403
+                type: Forbidden
+                message: You don't have access to perform this operation
+      security:
+        - basicAuth: [ ]
+    delete:
+      tags:
+        - orders
+      summary: Deletes an order
+      description: delete an order
+      operationId: deleteOrder
+      parameters:
+        - name: id
+          in: path
+          description: ID of the order that needs to be deleted
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Order found by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - basicAuth: [ ]
 components:
   schemas:
     Users:
-      $ref: './schemas/users.yml#/Users'
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 6574214f-89e3-4001-b54d-0d185163f7a2
+        username:
+          type: string
+          example: user.name
+        email:
+          type: string
+          example: user@username.com
+      xml:
+        name: user
     NewUser:
-      $ref: './schemas/users.yml#/NewUser'
+      type: object
+      properties:
+        username:
+          type: string
+          example: user.name
+        password:
+          type: string
+          example: A1&d_2ddr$%$
+        email:
+          type: string
+          example: user@username.com
+      xml:
+        name: user
     Products:
-      $ref: './schemas/products.yml#/Products'
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 6574214f-89e3-4001-b54d-0d185163f7a2
+        name:
+          type: string
+          example: Smart TV
+        description:
+          type: string
+          example: Samsung Smart TV
+        price:
+          type: string
+          format: double
+          example: 850.50
+        quantity:
+          type: integer
+          format: int32
+          example: 85
+      xml:
+        name: product
     NewProduct:
-      $ref: './schemas/products.yml#/NewProduct'
+      type: object
+      properties:
+        name:
+          type: string
+          example: Smart TV
+        description:
+          type: string
+          example: Samsung Smart TV
+        price:
+          type: string
+          format: double
+          example: 850.50
+        quantity:
+          type: integer
+          format: int32
+          example: 85
+      xml:
+        name: product
     Orders:
-      $ref: './schemas/orders.yml#/Orders'
-    ApiResponseSchema:
-      $ref: './schemas/apiresponseschema.yml#/ApiResponseSchema'
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 6574214f-89e3-4001-b54d-0d185163f7a2
+        user_id:
+          type: string
+          format: uuid
+          example: 2be3e28c-53fb-482a-8cfd-85e168e99bed
+        product_id:
+          type: string
+          format: uuid
+          example: a320b172-4394-4b9a-8eb3-2fd999fdc460
+        quantity:
+          type: integer
+          format: int32
+          example: 85
+        status:
+          type: string
+          example: Shipped
+      xml:
+        name: order
+    NewOrder:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          example: 2be3e28c-53fb-482a-8cfd-85e168e99bed
+        product_id:
+          type: string
+          format: uuid
+          example: a320b172-4394-4b9a-8eb3-2fd999fdc460
+        quantity:
+          type: integer
+          format: int32
+          example: 85
+      xml:
+        name: order
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
   requestBodies:
     Users:
       description: User object that needs to be added
       content:
         application/json:
           schema:
-            $ref: './schemas/users.yml#/Users'
+            $ref: '#/components/schemas/Users'
         application/xml:
           schema:
-            $ref: './schemas/users.yml#/Users'
+            $ref: '#/components/schemas/Users'
     UserArray:
       description: List of user object
       content:
@@ -69,16 +869,16 @@ components:
           schema:
             type: array
             items:
-              $ref: './schemas/users.yml#/Users'
+              $ref: '#/components/schemas/Users'
     Products:
       description: Product object that needs to be added
       content:
         application/json:
           schema:
-            $ref: './schemas/products.yml#/Products'
+            $ref: '#/components/schemas/Products'
         application/xml:
           schema:
-            $ref: './schemas/products.yml#/Products'
+            $ref: '#/components/schemas/Products'
     ProductArray:
       description: List of product object
       content:
@@ -86,7 +886,7 @@ components:
           schema:
             type: array
             items:
-              $ref: './schemas/products.yml#/Products'
+              $ref: '#/components/schemas/Products'
   securitySchemes:
     basicAuth:
       type: http

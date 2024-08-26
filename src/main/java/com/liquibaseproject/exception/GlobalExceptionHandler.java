@@ -1,7 +1,7 @@
 package com.liquibaseproject.exception;
 
 import com.liquibaseproject.constant.ExceptionConstants;
-import com.liquibaseproject.model.ApiResponseSchema;
+import com.liquibaseproject.model.ModelApiResponse;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "400", description = ExceptionConstants.BAD_REQUEST,
                     content = @Content(mediaType = ExceptionConstants.APPLICATION_JSON,
-                            schema = @Schema(implementation = ApiResponseSchema.class),
+                            schema = @Schema(implementation = ModelApiResponse.class),
                             examples = {
                                     @ExampleObject(name = "NullPointerException", value = ExceptionConstants.NULL_POINTER_EXCEPTION_EXAMPLE),
                                     @ExampleObject(name = "EmptyInputException", value = ExceptionConstants.EMPTY_INPUT_EXCEPTION_EXAMPLE),
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
                                     @ExampleObject(name = "DataIntegrityViolationException", value = ExceptionConstants.DATA_INTEGRITY_VIOLATION_EXAMPLE)
                             }))
     })
-    public ResponseEntity<ApiResponseSchema> handleNullPointerException(NullPointerException ex) {
+    public ResponseEntity<ModelApiResponse> handleNullPointerException(NullPointerException ex) {
         return new ResponseEntity<>(getApiResponseSchema(HttpStatus.BAD_REQUEST.value(), ExceptionConstants.NULL_POINTER_EXCEPTION_DESCRIPTION, ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "400", description = ExceptionConstants.BAD_REQUEST,
                     content = @Content(mediaType = ExceptionConstants.APPLICATION_JSON,
-                            schema = @Schema(implementation = ApiResponseSchema.class),
+                            schema = @Schema(implementation = ModelApiResponse.class),
                             examples = {
                                     @ExampleObject(name = "NullPointerException", value = ExceptionConstants.NULL_POINTER_EXCEPTION_EXAMPLE),
                                     @ExampleObject(name = "EmptyInputException", value = ExceptionConstants.EMPTY_INPUT_EXCEPTION_EXAMPLE),
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
                                     @ExampleObject(name = "DataIntegrityViolationException", value = ExceptionConstants.DATA_INTEGRITY_VIOLATION_EXAMPLE)
                             }))
     })
-    public ResponseEntity<ApiResponseSchema> handleEmptyInputException(EmptyInputException ex) {
+    public ResponseEntity<ModelApiResponse> handleEmptyInputException(EmptyInputException ex) {
         return new ResponseEntity<>(getApiResponseSchema(HttpStatus.BAD_REQUEST.value(), ExceptionConstants.EMPTY_INPUT_DESCRIPTION, ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "400", description = ExceptionConstants.BAD_REQUEST,
                     content = @Content(mediaType = ExceptionConstants.APPLICATION_JSON,
-                            schema = @Schema(implementation = ApiResponseSchema.class),
+                            schema = @Schema(implementation = ModelApiResponse.class),
                             examples = {
                                     @ExampleObject(name = "NullPointerException", value = ExceptionConstants.NULL_POINTER_EXCEPTION_EXAMPLE),
                                     @ExampleObject(name = "EmptyInputException", value = ExceptionConstants.EMPTY_INPUT_EXCEPTION_EXAMPLE),
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
                                     @ExampleObject(name = "DataIntegrityViolationException", value = ExceptionConstants.DATA_INTEGRITY_VIOLATION_EXAMPLE)
                             }))
     })
-    public ResponseEntity<ApiResponseSchema> handleInvalidInputException(InvalidInputException ex) {
+    public ResponseEntity<ModelApiResponse> handleInvalidInputException(InvalidInputException ex) {
         return new ResponseEntity<>(getApiResponseSchema(HttpStatus.BAD_REQUEST.value(), ExceptionConstants.INVALID_INPUT_DESCRIPTION, ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
@@ -74,7 +74,7 @@ public class GlobalExceptionHandler {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "400", description = ExceptionConstants.BAD_REQUEST,
                     content = @Content(mediaType = ExceptionConstants.APPLICATION_JSON,
-                            schema = @Schema(implementation = ApiResponseSchema.class),
+                            schema = @Schema(implementation = ModelApiResponse.class),
                             examples = {
                                     @ExampleObject(name = "NullPointerException", value = ExceptionConstants.NULL_POINTER_EXCEPTION_EXAMPLE),
                                     @ExampleObject(name = "EmptyInputException", value = ExceptionConstants.EMPTY_INPUT_EXCEPTION_EXAMPLE),
@@ -82,7 +82,7 @@ public class GlobalExceptionHandler {
                                     @ExampleObject(name = "DataIntegrityViolationException", value = ExceptionConstants.DATA_INTEGRITY_VIOLATION_EXAMPLE)
                             }))
     })
-    public ResponseEntity<ApiResponseSchema> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+    public ResponseEntity<ModelApiResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         return new ResponseEntity<>(getApiResponseSchema(HttpStatus.BAD_REQUEST.value(), ExceptionConstants.DATA_INTEGRITY_VIOLATION_DESCRIPTION, ex.getMostSpecificCause().getMessage()), HttpStatus.BAD_REQUEST);
     }
 
@@ -91,10 +91,10 @@ public class GlobalExceptionHandler {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "401", description = ExceptionConstants.UNAUTHORIZED_DESCRIPTION,
                     content = @Content(mediaType = ExceptionConstants.APPLICATION_JSON,
-                            schema = @Schema(implementation = ApiResponseSchema.class),
+                            schema = @Schema(implementation = ModelApiResponse.class),
                             examples = @ExampleObject(value = ExceptionConstants.UNAUTHORIZED_EXCEPTION_EXAMPLE)))
     })
-    public ResponseEntity<ApiResponseSchema> handleAuthenticationException(AuthenticationException ex) {
+    public ResponseEntity<ModelApiResponse> handleAuthenticationException(AuthenticationException ex) {
         return new ResponseEntity<>(getApiResponseSchema(HttpStatus.UNAUTHORIZED.value(), ExceptionConstants.UNAUTHORIZED_DESCRIPTION, ex.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
@@ -103,10 +103,10 @@ public class GlobalExceptionHandler {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = ExceptionConstants.NOT_FOUND_DESCRIPTION,
                     content = @Content(mediaType = ExceptionConstants.APPLICATION_JSON,
-                            schema = @Schema(implementation = ApiResponseSchema.class),
+                            schema = @Schema(implementation = ModelApiResponse.class),
                             examples = @ExampleObject(value = ExceptionConstants.NOT_FOUND_EXCEPTION_EXAMPLE)))
     })
-    public ResponseEntity<ApiResponseSchema> handleResultsNotFoundException(ResultsNotFoundException ex) {
+    public ResponseEntity<ModelApiResponse> handleResultsNotFoundException(ResultsNotFoundException ex) {
         return new ResponseEntity<>(getApiResponseSchema(HttpStatus.NOT_FOUND.value(), ExceptionConstants.NOT_FOUND_DESCRIPTION, ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 
@@ -115,10 +115,10 @@ public class GlobalExceptionHandler {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "500", description = ExceptionConstants.INTERNAL_SERVER_ERROR_DESCRIPTION,
                     content = @Content(mediaType = ExceptionConstants.APPLICATION_JSON,
-                            schema = @Schema(implementation = ApiResponseSchema.class),
+                            schema = @Schema(implementation = ModelApiResponse.class),
                             examples = @ExampleObject(value = ExceptionConstants.INTERNAL_SERVER_ERROR_EXAMPLE)))
     })
-    public ResponseEntity<ApiResponseSchema> handleInternalServerErrorException(InternalServerErrorException ex) {
+    public ResponseEntity<ModelApiResponse> handleInternalServerErrorException(InternalServerErrorException ex) {
         return new ResponseEntity<>(getApiResponseSchema(HttpStatus.INTERNAL_SERVER_ERROR.value(), ExceptionConstants.INTERNAL_SERVER_ERROR_DESCRIPTION, ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -127,15 +127,15 @@ public class GlobalExceptionHandler {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "500", description = ExceptionConstants.INTERNAL_SERVER_ERROR_DESCRIPTION,
                     content = @Content(mediaType = ExceptionConstants.APPLICATION_JSON,
-                            schema = @Schema(implementation = ApiResponseSchema.class),
+                            schema = @Schema(implementation = ModelApiResponse.class),
                             examples = @ExampleObject(value = ExceptionConstants.INTERNAL_SERVER_ERROR_EXAMPLE)))
     })
-    public ResponseEntity<ApiResponseSchema> handleAllExceptions(Exception ex) {
+    public ResponseEntity<ModelApiResponse> handleAllExceptions(Exception ex) {
         return new ResponseEntity<>(getApiResponseSchema(HttpStatus.INTERNAL_SERVER_ERROR.value(), ExceptionConstants.INTERNAL_SERVER_ERROR_DESCRIPTION, ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private ApiResponseSchema getApiResponseSchema(Integer code, String type, String message) {
-        ApiResponseSchema response = new ApiResponseSchema();
+    private ModelApiResponse getApiResponseSchema(Integer code, String type, String message) {
+        ModelApiResponse response = new ModelApiResponse();
         response.setCode(code);
         response.setType(type);
         response.setMessage(message);
