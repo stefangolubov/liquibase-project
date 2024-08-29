@@ -11,7 +11,7 @@
 
     <groupId>com</groupId>
     <artifactId>liquibase-project</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <name>liquibase-project</name>
     <description>Liquibase Project</description>
 
@@ -25,7 +25,7 @@
         <springdoc-openapi-ui.version>1.7.0</springdoc-openapi-ui.version>
         <openapi-generator-maven-plugin.version>7.7.0</openapi-generator-maven-plugin.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
     </properties>
 
     <dependencies>
@@ -46,7 +46,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -132,6 +131,11 @@
                                 <simpleFluentPattern>true</simpleFluentPattern>
                                 <collectionFluentPattern>true</collectionFluentPattern>
                                 <unhandledException>true</unhandledException>
+                                <additionalModelTypeAnnotations>
+                                    @lombok.Data
+                                    @lombok.NoArgsConstructor
+                                    @lombok.AllArgsConstructor
+                                </additionalModelTypeAnnotations>
                             </configOptions>
                             <output>${project.build.directory}/generated-sources/openapi</output>
                         </configuration>
@@ -141,21 +145,23 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                    <compilerArgs>
-                        <arg>-Amapstruct.defaultComponentModel=spring</arg>
-                    </compilerArgs>
-                </configuration>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>${maven-antrun-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <delete dir="${project.build.directory}/generated-sources/openapi/src/test/java/org/openapitools"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
+
         </plugins>
     </build>
 

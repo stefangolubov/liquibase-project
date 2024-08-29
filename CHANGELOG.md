@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.0.4-SNAPSHOT] - 2024-08-29 [@stefangolubov](https://github.com/stefangolubov) Solving Lombok issue
+#### Changed
+- LiquibaseProjectController - Adding @RequiredArgsConstructor
+- Orders - Using Lombok getters and setters
+- Products - Using Lombok getters and setters
+- Users - Using Lombok getters and setters
+- pom.xml - Adding additionalModelTypeAnnotations configOption. Adding maven-antrun-plugin plugin with goal to delete target/generated-sources/openapi/src/test/java/org/openapitools folder. Update version from 1.0.3-SNAPSHOT to 1.0.4-SNAPSHOT
+
 ### [1.0.3-SNAPSHOT] - 2024-08-27 [@stefangolubov](https://github.com/stefangolubov)
 #### Added
 - LiquibaseProjectController - Rest Controller implementing all three ApiDelegate interfaces

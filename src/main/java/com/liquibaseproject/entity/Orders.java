@@ -1,11 +1,13 @@
 package com.liquibaseproject.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
+@Data
 @Entity
 @Table(name = "orders")
 @NamedStoredProcedureQuery(
@@ -41,64 +43,4 @@ public class Orders {
 
     @Column(name = "status")
     private String status;
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setProductId(UUID productId) {
-        this.productId = productId;
-    }
-
-    public UUID getProductId() {
-        return productId;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public Date getOrderDate() {
-        return orderDate;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    @Override
-    public String toString() {
-        return "Orders{" +
-                "id=" + id + '\'' +
-                "userId=" + userId + '\'' +
-                "productId=" + productId + '\'' +
-                "quantity=" + quantity + '\'' +
-                "orderDate=" + orderDate + '\'' +
-                "status=" + status + '\'' +
-                '}';
-    }
 }

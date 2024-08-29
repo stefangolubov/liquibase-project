@@ -8,17 +8,18 @@ import com.liquibaseproject.model.*;
 import com.liquibaseproject.service.OrdersService;
 import com.liquibaseproject.service.ProductsService;
 import com.liquibaseproject.service.UsersService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import java.util.*;
 
 @RestController
-@RequestMapping("/api")
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class LiquibaseProjectController implements UsersApiDelegate, ProductsApiDelegate, OrdersApiDelegate {
 
     private static final String USERS_NOT_FOUND_EXCEPTION_MESSAGE = "No users found for the provided input";
@@ -45,20 +46,6 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
     private final OrdersService ordersService;
     private final OrdersMapper ordersMapper;
     private final NewOrderMapper newOrderMapper;
-
-    public LiquibaseProjectController(UsersService usersService, UsersMapper usersMapper, NewUserMapper newUserMapper,
-                                      ProductsService productsService, ProductsMapper productsMapper, NewProductsMapper newProductsMapper,
-                                      OrdersService ordersService, OrdersMapper ordersMapper, NewOrderMapper newOrderMapper) {
-        this.usersService = usersService;
-        this.usersMapper = usersMapper;
-        this.newUserMapper = newUserMapper;
-        this.productsService = productsService;
-        this.productsMapper = productsMapper;
-        this.newProductsMapper = newProductsMapper;
-        this.ordersService = ordersService;
-        this.ordersMapper = ordersMapper;
-        this.newOrderMapper = newOrderMapper;
-    }
 
     @Override
     public Optional<NativeWebRequest> getRequest() {

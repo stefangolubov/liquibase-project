@@ -1,10 +1,12 @@
 package com.liquibaseproject.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Date;
 import java.util.UUID;
 
+@Data
 @Entity
 @Table(name = "products")
 public class Products {
@@ -31,73 +33,4 @@ public class Products {
 
     @Column(name = "updated_at")
     private Date updatedAt;
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    @Override
-    public String toString() {
-        return "Products{" +
-                "id=" + id + '\'' +
-                "name=" + name + '\'' +
-                "description=" + description + '\'' +
-                "price=" + price + '\'' +
-                "quantity=" + quantity + '\'' +
-                "createdAt=" + createdAt + '\'' +
-                "updatedAt=" + updatedAt + '\'' +
-                '}';
-    }
 }
