@@ -5,7 +5,7 @@
 --preConditions onFail:MARK_RAN
 
 --sql
-CREATE TABLE IF NOT EXISTS public.Users (
+CREATE TABLE IF NOT EXISTS Users (
 id UUID PRIMARY key default uuid_generate_v4() ,
 username VARCHAR(255) UNIQUE,
 password VARCHAR(255),

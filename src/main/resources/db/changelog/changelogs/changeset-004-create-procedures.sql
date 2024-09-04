@@ -14,7 +14,7 @@ OR REPLACE PROCEDURE insert_user(
   OUT o_created_at TIMESTAMP,
   OUT o_updated_at TIMESTAMP
 ) LANGUAGE plpgsql AS
-$$ BEGIN INSERT INTO public.Users (username, password, email)
+$$ BEGIN INSERT INTO Users (username, password, email)
 VALUES
   (p_username, p_password, p_email) RETURNING p_username,
   created_at,
@@ -24,7 +24,7 @@ VALUES
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE public.place_order(
+CREATE OR REPLACE PROCEDURE place_order(
 IN p_user_id uuid,
 IN p_product_id uuid,
 IN p_quantity int,
@@ -36,27 +36,27 @@ LANGUAGE plpgsql
 AS $$
 BEGIN
 -- Check if the product exists
-IF NOT EXISTS (SELECT 1 FROM public.products WHERE id = p_product_id) THEN
+IF NOT EXISTS (SELECT 1 FROM products WHERE id = p_product_id) THEN
 RAISE EXCEPTION 'Product not found';
 END IF;
 
 -- Check if the product quantity is sufficient
-IF (SELECT quantity FROM public.products WHERE id = p_product_id) < p_quantity THEN
+IF (SELECT quantity FROM products WHERE id = p_product_id) < p_quantity THEN
 RAISE EXCEPTION 'Insufficient product quantity';
 END IF;
 
 -- Check if the user exists
-IF NOT EXISTS (SELECT 1 FROM public.users WHERE id = p_user_id) THEN
+IF NOT EXISTS (SELECT 1 FROM users WHERE id = p_user_id) THEN
 RAISE EXCEPTION 'User not found';
 END IF;
 
 -- Insert a new order into the orders table
-INSERT INTO public.orders (user_id, product_id, quantity, order_date, status)
+INSERT INTO orders (user_id, product_id, quantity, order_date, status)
 VALUES (p_user_id, p_product_id, p_quantity, NOW(), 'Pending')
 RETURNING id, order_date, status INTO p_order_id, p_order_date, p_status;
 
 -- Update the product quantity in the products table
-UPDATE public.products
+UPDATE products
 SET quantity = quantity - p_quantity, updated_at = NOW()
 WHERE id = p_product_id;
 END;

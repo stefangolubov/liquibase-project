@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
 
@@ -108,6 +109,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
     }
 
     @Override
+    @GetMapping("/users")
     public ResponseEntity<List<Users>> findAllUsers() {
         List<com.liquibaseproject.entity.Users> usersEntityList = usersService.findAll();
         List<Users> users = usersEntityList.stream()

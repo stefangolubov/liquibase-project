@@ -11,7 +11,7 @@
 
     <groupId>com</groupId>
     <artifactId>liquibase-project</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <name>liquibase-project</name>
     <description>Liquibase Project</description>
 
@@ -26,6 +26,9 @@
         <openapi-generator-maven-plugin.version>7.7.0</openapi-generator-maven-plugin.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
+        <testcontainers-junit-jupiter.version>1.20.0</testcontainers-junit-jupiter.version>
+        <testcontainers-postgresql.version>1.20.0</testcontainers-postgresql.version>
+        <commons-compress.version>1.26.1</commons-compress.version>
     </properties>
 
     <dependencies>
@@ -92,9 +95,33 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!--Testing-->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${testcontainers-postgresql.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers-junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>${commons-compress.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

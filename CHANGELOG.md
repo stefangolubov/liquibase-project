@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.1.0-SNAPSHOT] - 2024-09-04 [@stefangolubov](https://github.com/stefangolubov) Test containers configuration and initial integration test
+#### Changed
+- application.properties - Deleting redundant users,products and orders paths. Configuring currentSchema to public
+- changeset-001-create-users.sql - Deleting public for schema name, since changelogs are being used for both application and test containers database
+- changeset-002-create-products.sql - Deleting public for schema name, since changelogs are being used for both application and test containers database
+- changeset-003-create-orders.sql - Deleting public for schema name, since changelogs are being used for both application and test containers database
+- changeset-004-create-procedures.sql - Deleting public for schema name, since changelogs are being used for both application and test containers database
+- changeset-005-create-triggers.sql - Deleting public for schema name, since changelogs are being used for both application and test containers database
+- LiquibaseProjectController - Adding @GetMapping("/users") for findAllUsers API
+- pom.xml - Adding dependencies for testcontainers, spring-security-test and common-compress. Update version from 1.0.4-SNAPSHOT to 1.1.0-SNAPSHOT
+#### Added
+- application-testcontainers.properties - Configuration for testcontainers PostgreSQL database
+- changeset-000-create-extension.sql - Changelog for creating extension and setting path needed for test containers
+- LiquibaseProjectControllerIntegrationTest - Initial integration tests: testAddUser and testFindAllUsers. Adding @BeforeAll method for database cleanup. 
+- TestContainersConfig - Configuration for test container database
+
 ### [1.0.4-SNAPSHOT] - 2024-08-29 [@stefangolubov](https://github.com/stefangolubov) Solving Lombok issue
 #### Changed
 - LiquibaseProjectController - Adding @RequiredArgsConstructor
