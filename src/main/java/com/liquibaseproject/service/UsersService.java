@@ -39,15 +39,13 @@ public class UsersService {
     }
 
     public Users addUser(Users user) {
-        Timestamp createdAt = new Timestamp(System.currentTimeMillis());
-        Timestamp updatedAt = new Timestamp(System.currentTimeMillis());
+        UUID generatedId = usersRepository.insertUser(user.getUsername(), user.getPassword(), user.getEmail(), user.getId(),
+                (Timestamp) user.getCreatedAt(), (Timestamp) user.getUpdatedAt());
+        Users createdUser = usersRepository.findById(generatedId).orElseThrow();
 
-        usersRepository.insertUser(user.getUsername(), user.getPassword(), user.getEmail(), user.getUsername(), createdAt, updatedAt);
-
-        UUID id = UUID.randomUUID();
-        user.setId(id);
-        user.setCreatedAt(createdAt);
-        user.setUpdatedAt(updatedAt);
+        user.setId(generatedId);
+        user.setCreatedAt(createdUser.getCreatedAt());
+        user.setUpdatedAt(createdUser.getUpdatedAt());
 
         return user;
     }

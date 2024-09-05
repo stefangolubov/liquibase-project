@@ -36,10 +36,13 @@ public class OrdersService {
     }
 
     public Orders addOrder(Orders order) {
-        UUID id = UUID.randomUUID();
-        Timestamp orderDate = new Timestamp(System.currentTimeMillis());
+        UUID generatedId = ordersRepository.placeOrder(order.getUserId(), order.getProductId(), order.getQuantity(), order.getId(), (Timestamp) order.getOrderDate(), order.getStatus());
+        Orders createdOrder = ordersRepository.findById(generatedId).orElseThrow();
 
-        ordersRepository.placeOrder(order.getUserId(), order.getProductId(), order.getQuantity(), id, orderDate, order.getStatus());
+        order.setId(generatedId);
+        order.setOrderDate(createdOrder.getOrderDate());
+        order.setStatus(createdOrder.getStatus());
+
         return order;
     }
 
