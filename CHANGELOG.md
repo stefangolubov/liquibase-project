@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.1.2-SNAPSHOT] - 2024-09-13 [@stefangolubov](https://github.com/stefangolubov) Fixing testcontainers issue
+#### Added
+- application.yml - Deleting application.properties and formatting it as yml
+- application-it.yml - Deleting application-testcontainers.properties and formatting it as yml
+#### Changed
+- changeset-000-create-extension.sql - Deleting SET search_path statement
+- LiquibaseProjectControllerIntegrationTest - Adding remaining testcases for all CRUD operations for users
+- TestContainersConfig - Overriding DynamicPropertySource properties
+- pom.xml - Update version from 1.1.1-SNAPSHOT to 1.1.2-SNAPSHOT
+#### Deleted
+- application.properties - Creating application.yml instead of application.properties
+- application-testcontainers.properties - Creating application-it.yml instead of application-testcontainers.properties
+
 ### [1.1.1-SNAPSHOT] - 2024-09-05 [@stefangolubov](https://github.com/stefangolubov) [BugFix] Remove creation of user ID and order ID from code
 #### Changed
 - changeset-004-create-procedures.sql - Change output parameter for insert_user (from username to ID)
