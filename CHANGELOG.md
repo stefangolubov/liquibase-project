@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.2.0-SNAPSHOT] - 2024-09-17 [@stefangolubov](https://github.com/stefangolubov) Dockerization
+#### Added
+- Dockerfile
+- docker-compose.yml
+- maven-wrapper.jar
+- maven-wrapper.properties
+- MavenWrapperDownloader
+#### Changed
+- mvnw - Regenerated needed for dockerization
+- mvnw.cmd - Regenerated needed for dockerization
+- pom.xml - Adding maven-jar-plugin and spring-boot-maven-plugin. Update version from 1.1.2-SNAPSHOT to 1.2.0-SNAPSHOT
+
 ### [1.1.2-SNAPSHOT] - 2024-09-13 [@stefangolubov](https://github.com/stefangolubov) Fixing testcontainers issue
 #### Added
 - application.yml - Deleting application.properties and formatting it as yml
