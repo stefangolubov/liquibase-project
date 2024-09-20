@@ -6,6 +6,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.2.1-SNAPSHOT] - 2024-09-20 [@stefangolubov](https://github.com/stefangolubov) Exception handling improvement
+#### Added
+- ApplicationError - Pojo for building application error
+- ExceptionUtil - Utility class for logging and building exceptions
+- LiquibaseProjectException - Enum for handled exceptions
+- ServiceProcessingException - General exception for logging and building exceptions
+#### Changed
+- docker-compose.yml - Delete version property and set latest for postgres version
+- ExceptionConstants - Deleting redundant and adding needed constants for exception handling
+- ExceptionHandlerAdvice - Deleting redundant and adding needed methods for exception handling
+- LiquibaseProjectController - Handling exceptions using ExceptionUtil class instead of using multiple exception classes 
+- LiquibaseProjectControllerIntegrationTest - Adding DisplayName for all test cases
+- OrdersService - Handling exceptions using ExceptionUtil class instead of using multiple exception classes
+- ProductsService - Handling exceptions using ExceptionUtil class instead of using multiple exception classes
+- UsersService - Handling exceptions using ExceptionUtil class instead of using multiple exception classes
+- Dockerfile - Change artefact version from 1.2.0-SNAPSHOT to 1.2.1-SNAPSHOT
+- pom.xml - Update version from 1.2.0-SNAPSHOT to 1.2.1-SNAPSHOT
+#### Deleted
+- docker-compose-local.yml - Redundant after dockerizing
+- EmptyInputException - Redundant after exception handling improvement
+- InternalServerErrorException - Redundant after exception handling improvement
+- InvalidInputException - Redundant after exception handling improvement
+- ResultsNotFoundException - Redundant after exception handling improvement
+
 ### [1.2.0-SNAPSHOT] - 2024-09-17 [@stefangolubov](https://github.com/stefangolubov) Dockerization
 #### Added
 - Dockerfile

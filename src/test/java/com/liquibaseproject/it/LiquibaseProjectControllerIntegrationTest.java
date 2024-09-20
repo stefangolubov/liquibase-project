@@ -4,6 +4,7 @@ import com.jayway.jsonpath.JsonPath;
 import com.liquibaseproject.LiquibaseProjectApplication;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ class LiquibaseProjectControllerIntegrationTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
+    @DisplayName("Adding user with role ADMIN")
     void testAddUser() throws Exception {
         log.info("Creating user with username testuser");
 
@@ -55,6 +57,7 @@ class LiquibaseProjectControllerIntegrationTest {
 
     @Test
     @WithMockUser(roles = "USER")
+    @DisplayName("Trying to add a user with role USER")
     void testAddUserFails() throws Exception {
         log.info("Trying to create a user with role USER");
 
@@ -69,6 +72,7 @@ class LiquibaseProjectControllerIntegrationTest {
 
     @Test
     @WithMockUser(roles = "USER")
+    @DisplayName("Finding all users")
     void testFindAllUsers() throws Exception {
         log.info("Finding all users");
         mockMvc.perform(get("/users"))
@@ -78,7 +82,8 @@ class LiquibaseProjectControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = {"ADMIN", "USER"})
+    @DisplayName("Finding users by username")
     void testFindUsersByUsername() throws Exception {
 
         mockMvc.perform(get("/users")
@@ -102,6 +107,7 @@ class LiquibaseProjectControllerIntegrationTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
+    @DisplayName("Updating user with role ADMIN")
     void testUpdateUser() throws Exception {
         if (StringUtils.isEmpty(createdUserId)) {
             log.info("Creating user to be updated later");
@@ -127,6 +133,7 @@ class LiquibaseProjectControllerIntegrationTest {
 
     @Test
     @WithMockUser(roles = "USER")
+    @DisplayName("Trying to delete user with role USER")
     void testDeleteUserFails() throws Exception {
         mockMvc.perform(delete("/users/{id}", createdUserId))
                 .andExpect(status().isForbidden())
@@ -137,6 +144,7 @@ class LiquibaseProjectControllerIntegrationTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
+    @DisplayName("Deleting user with role ADMIN")
     void testDeleteUser() throws Exception {
         if (StringUtils.isEmpty(createdUserId)) {
             log.info("Creating user to be deleted later");

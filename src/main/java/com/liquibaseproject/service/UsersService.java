@@ -1,7 +1,8 @@
 package com.liquibaseproject.service;
 
 import com.liquibaseproject.entity.Users;
-import com.liquibaseproject.exception.ResultsNotFoundException;
+import com.liquibaseproject.exception.ExceptionUtil;
+import com.liquibaseproject.exception.LiquibaseProjectException;
 import com.liquibaseproject.repository.UsersRepository;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,6 @@ public class UsersService {
 
     private final UsersRepository usersRepository;
 
-    private static final String USER_NOT_FOUND_MESSAGE = "User with ID %s does not exist.";
-
     public UsersService(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
@@ -26,7 +25,7 @@ public class UsersService {
         if (usersRepository.existsById(id)) {
             return usersRepository.findById(id);
         } else {
-            throw new ResultsNotFoundException(String.format(USER_NOT_FOUND_MESSAGE, id));
+            throw ExceptionUtil.logAndBuildException(LiquibaseProjectException.USERS_NOT_FOUND_EXCEPTION);
         }
     }
 
@@ -52,7 +51,7 @@ public class UsersService {
 
     public void updateUser(UUID id, Users userEntity) {
         Users user = usersRepository.findById(id)
-                .orElseThrow(() -> new ResultsNotFoundException(String.format(USER_NOT_FOUND_MESSAGE, id)));
+                .orElseThrow(() -> ExceptionUtil.logAndBuildException(LiquibaseProjectException.USERS_NOT_FOUND_EXCEPTION));
 
         if (StringUtils.isNotEmpty(userEntity.getUsername())) {
             user.setUsername(userEntity.getUsername());
@@ -69,7 +68,7 @@ public class UsersService {
         if (usersRepository.existsById(id)) {
             usersRepository.deleteById(id);
         } else {
-            throw new ResultsNotFoundException(String.format(USER_NOT_FOUND_MESSAGE, id));
+            throw ExceptionUtil.logAndBuildException(LiquibaseProjectException.USERS_NOT_FOUND_EXCEPTION);
         }
     }
 }

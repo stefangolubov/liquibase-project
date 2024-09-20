@@ -1,8 +1,8 @@
 package com.liquibaseproject.controller;
 
 import com.liquibaseproject.entity.Products;
-import com.liquibaseproject.exception.InvalidInputException;
-import com.liquibaseproject.exception.ResultsNotFoundException;
+import com.liquibaseproject.exception.ExceptionUtil;
+import com.liquibaseproject.exception.LiquibaseProjectException;
 import com.liquibaseproject.mapper.*;
 import com.liquibaseproject.model.*;
 import com.liquibaseproject.service.OrdersService;
@@ -11,6 +11,7 @@ import com.liquibaseproject.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,15 +24,13 @@ import java.util.*;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class LiquibaseProjectController implements UsersApiDelegate, ProductsApiDelegate, OrdersApiDelegate {
 
-    private static final String USERS_NOT_FOUND_EXCEPTION_MESSAGE = "No users found for the provided input";
+    public static final String USERS_NOT_FOUND_EXCEPTION_MESSAGE = "No users found for the provided input";
     private static final String USERS_SUCCESS_MESSAGE = "User has been successfully %s";
-    private static final String USERNAME_AND_E_MAIL_ARE_MANDATORY = "Username and e-mail are mandatory";
-    private static final String PRODUCTS_NOT_FOUND_EXCEPTION_MESSAGE = "No products found for the provided input";
+
     private static final String PRODUCTS_SUCCESS_MESSAGE = "Product has been successfully %s";
-    private static final String NAME_PRICE_AND_QUANTITY_ARE_MANDATORY = "Name, price and quantity are mandatory";
-    private static final String ORDERS_NOT_FOUND_EXCEPTION_MESSAGE = "No orders found for the provided input";
+
     private static final String ORDERS_SUCCESS_MESSAGE = "Order has been successfully %s";
-    private static final String USER_ID_PRODUCT_ID_AND_QUANTITY_ARE_MANDATORY = "User ID, Product ID and quantity are mandatory";
+
 
     private static final String DELETED = "deleted";
     private static final String UPDATED = "updated";
@@ -75,17 +74,21 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
 
     private static void checkMandatoryFields(String userName, String userEmail) {
         if (org.apache.commons.lang3.StringUtils.isEmpty(userName) || org.apache.commons.lang3.StringUtils.isEmpty(userEmail)) {
-            throw new InvalidInputException(USERNAME_AND_E_MAIL_ARE_MANDATORY);
+            throw ExceptionUtil.logAndBuildException(LiquibaseProjectException.MANDATORY_USERNAME_AND_E_MAIL);
         }
     }
 
     @Override
     public ResponseEntity<ModelApiResponse> deleteUser(UUID id) {
-        usersService.deleteUser(id);
+        try {
+            usersService.deleteUser(id);
 
-        ModelApiResponse response = getApiResponseSchema(String.format(USERS_SUCCESS_MESSAGE, DELETED));
+            ModelApiResponse response = getApiResponseSchema(String.format(USERS_SUCCESS_MESSAGE, DELETED));
 
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
+        } catch (DataIntegrityViolationException e) {
+            throw ExceptionUtil.logAndBuildException(LiquibaseProjectException.DATA_INTEGRITY_VIOLATION_USERS);
+        }
     }
 
     @Override
@@ -99,7 +102,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
         }
 
         if (userEntities.isEmpty()) {
-            throw new ResultsNotFoundException(USERS_NOT_FOUND_EXCEPTION_MESSAGE);
+            throw ExceptionUtil.logAndBuildException(LiquibaseProjectException.USERS_NOT_FOUND_EXCEPTION);
         }
 
         List<Users> users = userEntities.stream()
@@ -156,11 +159,14 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
 
     @Override
     public ResponseEntity<ModelApiResponse> deleteProduct(UUID id) {
-        productsService.deleteProduct(id);
+        try {
+            productsService.deleteProduct(id);
 
-        ModelApiResponse response = getApiResponseSchema(String.format(PRODUCTS_SUCCESS_MESSAGE, DELETED));
-
-        return ResponseEntity.ok(response);
+            ModelApiResponse response = getApiResponseSchema(String.format(PRODUCTS_SUCCESS_MESSAGE, DELETED));
+            return ResponseEntity.ok(response);
+        } catch (DataIntegrityViolationException e) {
+            throw ExceptionUtil.logAndBuildException(LiquibaseProjectException.DATA_INTEGRITY_VIOLATION_PRODUCTS);
+        }
     }
 
     @Override
@@ -184,7 +190,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
         }
 
         if (productEntities.isEmpty()) {
-            throw new ResultsNotFoundException(String.format(PRODUCTS_NOT_FOUND_EXCEPTION_MESSAGE));
+            throw ExceptionUtil.logAndBuildException(LiquibaseProjectException.PRODUCTS_NOT_FOUND_EXCEPTION);
         }
 
         List<com.liquibaseproject.model.Products> products = productEntities.stream()
@@ -211,7 +217,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
 
     private static void checkMandatoryFields(String productName, Double productPrice, Integer productQuantity) {
         if (StringUtils.isEmpty(productName) || Objects.isNull(productPrice) || Objects.isNull(productQuantity)) {
-            throw new InvalidInputException(NAME_PRICE_AND_QUANTITY_ARE_MANDATORY);
+            throw ExceptionUtil.logAndBuildException(LiquibaseProjectException.MANDATORY_NAME_PRICE_AND_QUANTITY);
         }
     }
 
@@ -294,7 +300,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
         }
 
         if (orderEntities.isEmpty()) {
-            throw new ResultsNotFoundException(String.format(ORDERS_NOT_FOUND_EXCEPTION_MESSAGE));
+            throw ExceptionUtil.logAndBuildException(LiquibaseProjectException.ORDERS_NOT_FOUND_EXCEPTION);
         }
 
         List<Orders> orders = orderEntities.stream()
@@ -322,7 +328,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
 
     private static void checkMandatoryFields(UUID userId, UUID productId, Integer quantity) {
         if (Objects.isNull(userId) || Objects.isNull(productId) || Objects.isNull(quantity)) {
-            throw new InvalidInputException(USER_ID_PRODUCT_ID_AND_QUANTITY_ARE_MANDATORY);
+            throw ExceptionUtil.logAndBuildException(LiquibaseProjectException.MANDATORY_USERID_PRODUCT_ID_AND_QUANTITY);
         }
     }
 
