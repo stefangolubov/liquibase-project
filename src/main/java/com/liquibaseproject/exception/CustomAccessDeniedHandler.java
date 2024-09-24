@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+import static com.liquibaseproject.constant.ExceptionConstants.NO_ACCESS_TO_PERFORM_THIS_OPERATION_MESSAGE;
+
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
@@ -15,6 +17,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType("application/json");
-        response.getWriter().write("{\"code\": 403, \"type\": \"Forbidden\", \"message\": \"You don't have access to perform this operation\"}");
+        response.getWriter().write("{\"code\": 403, \"type\": \"Forbidden\", \"message\": \"" + NO_ACCESS_TO_PERFORM_THIS_OPERATION_MESSAGE + "\"}");
     }
 }

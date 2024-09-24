@@ -13,4 +13,5 @@ public final class ExceptionConstants {
     public static final String DATA_INTEGRITY_VIOLATION_PRODUCT_MESSAGE = "Error occurred while deleting a product";
     public static final String DATA_INTEGRITY_VIOLATION_USER_MESSAGE = "Error occurred while deleting a user";
     public static final String INTERNAL_SERVER_ERROR_MESSAGE = "Something went wrong on the server side";
+    public static final String NO_ACCESS_TO_PERFORM_THIS_OPERATION_MESSAGE = "You don't have access to perform this operation";
 }

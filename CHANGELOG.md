@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.3.0-SNAPSHOT] - 2024-09-24 [@stefangolubov](https://github.com/stefangolubov) Adding unit tests for services and controller
+#### Added
+- UsersServiceTest - Unit test for Users service
+- ProductsServiceTest - Unit test for Products service
+- OrdersServiceTest - Unit test for Orders service
+- LiquibaseProjectControllerUnitTests - Unit test for LiquibaseProjectController
+#### Changed
+- LiquibaseProjectController - Setting checkMandatoryFields methods to public
+- LiquibaseProjectControllerIntegrationTest - Using already defined constants from ExceptionConstants
+- ExceptionConstants - Adding NO_ACCESS_TO_PERFORM_THIS_OPERATION_MESSAGE constant
+- CustomAccessDeniedHandler - Using a constant for response message body
+- Dockerfile - Change artefact version from 1.2.2-SNAPSHOT to 1.3.0-SNAPSHOT
+- pom.xml - Update version from 1.2.2-SNAPSHOT to 1.3.0-SNAPSHOT
+
 ### [1.2.2-SNAPSHOT] - 2024-09-24 [@stefangolubov](https://github.com/stefangolubov) Adding more integration tests
 #### Changed
 - LiquibaseProjectController - Cleanup

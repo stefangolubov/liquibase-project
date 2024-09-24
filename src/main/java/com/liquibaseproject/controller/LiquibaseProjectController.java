@@ -25,9 +25,7 @@ import java.util.*;
 public class LiquibaseProjectController implements UsersApiDelegate, ProductsApiDelegate, OrdersApiDelegate {
 
     private static final String USERS_SUCCESS_MESSAGE = "User has been successfully %s";
-
     private static final String PRODUCTS_SUCCESS_MESSAGE = "Product has been successfully %s";
-
     private static final String ORDERS_SUCCESS_MESSAGE = "Order has been successfully %s";
 
     private static final String DELETED = "deleted";
@@ -70,7 +68,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
         return ResponseEntity.ok(usersMapper.toModel(createdUser));
     }
 
-    private static void checkMandatoryFields(String userName, String userEmail) {
+    public static void checkMandatoryFields(String userName, String userEmail) {
         if (org.apache.commons.lang3.StringUtils.isEmpty(userName) || org.apache.commons.lang3.StringUtils.isEmpty(userEmail)) {
             throw ExceptionUtil.logAndBuildException(LiquibaseProjectException.MANDATORY_USERNAME_AND_E_MAIL);
         }
@@ -214,7 +212,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
         return ResponseEntity.ok(response);
     }
 
-    private static void checkMandatoryFields(String productName, Double productPrice, Integer productQuantity) {
+    public static void checkMandatoryFields(String productName, Double productPrice, Integer productQuantity) {
         if (StringUtils.isEmpty(productName) || Objects.isNull(productPrice) || Objects.isNull(productQuantity)) {
             throw ExceptionUtil.logAndBuildException(LiquibaseProjectException.MANDATORY_NAME_PRICE_AND_QUANTITY);
         }

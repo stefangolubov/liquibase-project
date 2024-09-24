@@ -21,6 +21,8 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.UUID;
 
+import static com.liquibaseproject.constant.ExceptionConstants.DATA_INTEGRITY_VIOLATION_USER_MESSAGE;
+import static com.liquibaseproject.constant.ExceptionConstants.NO_ACCESS_TO_PERFORM_THIS_OPERATION_MESSAGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -82,7 +84,7 @@ class LiquibaseProjectControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(newUserJson))
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.message").value("You don't have access to perform this operation")).andReturn();
+                .andExpect(jsonPath("$.message").value(NO_ACCESS_TO_PERFORM_THIS_OPERATION_MESSAGE)).andReturn();
 
         log.info("Creation of a user with role USER failed!");
     }
@@ -114,7 +116,7 @@ class LiquibaseProjectControllerIntegrationTest {
                 .andReturn();
 
         mockMvc.perform(get("/users")
-                        .param("usernames", "testuser,testuser2")
+                        .param("usernames", "TestUser,testUseR2")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].username").value("testuser"))
@@ -154,7 +156,7 @@ class LiquibaseProjectControllerIntegrationTest {
     void testDeleteUserFails() throws Exception {
         mockMvc.perform(delete("/users/{id}", createdUserId))
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.message").value("You don't have access to perform this operation")).andReturn();
+                .andExpect(jsonPath("$.message").value(NO_ACCESS_TO_PERFORM_THIS_OPERATION_MESSAGE)).andReturn();
 
         log.info("Deleting user with ID {} with role USER failed!", createdUserId);
     }
@@ -170,7 +172,7 @@ class LiquibaseProjectControllerIntegrationTest {
 
         mockMvc.perform(delete("/users/{id}", createdUserId))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Error occurred while deleting a user"));
+                .andExpect(jsonPath("$.message").value(DATA_INTEGRITY_VIOLATION_USER_MESSAGE));
 
         log.info("User with ID {} cannot be deleted since there is an active order created by the user.", createdUserId);
     }
@@ -222,7 +224,7 @@ class LiquibaseProjectControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(newProductJson))
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.message").value("You don't have access to perform this operation")).andReturn();
+                .andExpect(jsonPath("$.message").value(NO_ACCESS_TO_PERFORM_THIS_OPERATION_MESSAGE)).andReturn();
 
         log.info("Creation of a product with role USER failed!");
     }
@@ -261,7 +263,7 @@ class LiquibaseProjectControllerIntegrationTest {
                 .andReturn();
 
         mockMvc.perform(get("/products")
-                        .param("names", "testproduct,testproduct2")
+                        .param("names", "testproducT,testProduct2")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value("testproduct"))
@@ -301,7 +303,7 @@ class LiquibaseProjectControllerIntegrationTest {
     void testDeleteProductFails() throws Exception {
         mockMvc.perform(delete("/products/{id}", "44a06a54-0c1f-40a3-883e-54cb0d215f75"))
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.message").value("You don't have access to perform this operation")).andReturn();
+                .andExpect(jsonPath("$.message").value(NO_ACCESS_TO_PERFORM_THIS_OPERATION_MESSAGE)).andReturn();
 
         log.info("Deleting product with ID {} with role USER failed!", createdProductId);
     }
@@ -376,7 +378,7 @@ class LiquibaseProjectControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(newProductJson))
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.message").value("You don't have access to perform this operation")).andReturn();
+                .andExpect(jsonPath("$.message").value(NO_ACCESS_TO_PERFORM_THIS_OPERATION_MESSAGE)).andReturn();
 
         log.info("Placing order with role USER failed!");
     }
@@ -481,7 +483,7 @@ class LiquibaseProjectControllerIntegrationTest {
     void testDeleteOrderFails() throws Exception {
         mockMvc.perform(delete("/orders/{id}", createdOrderId))
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.message").value("You don't have access to perform this operation")).andReturn();
+                .andExpect(jsonPath("$.message").value(NO_ACCESS_TO_PERFORM_THIS_OPERATION_MESSAGE)).andReturn();
 
         log.info("Deleting order with ID {} with role USER failed!", createdOrderId);
     }
