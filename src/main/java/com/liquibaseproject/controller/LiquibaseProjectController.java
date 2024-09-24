@@ -24,13 +24,11 @@ import java.util.*;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class LiquibaseProjectController implements UsersApiDelegate, ProductsApiDelegate, OrdersApiDelegate {
 
-    public static final String USERS_NOT_FOUND_EXCEPTION_MESSAGE = "No users found for the provided input";
     private static final String USERS_SUCCESS_MESSAGE = "User has been successfully %s";
 
     private static final String PRODUCTS_SUCCESS_MESSAGE = "Product has been successfully %s";
 
     private static final String ORDERS_SUCCESS_MESSAGE = "Order has been successfully %s";
-
 
     private static final String DELETED = "deleted";
     private static final String UPDATED = "updated";
@@ -59,7 +57,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
         checkMandatoryFields(usersModel.getUsername(), usersModel.getEmail());
         usersService.updateUser(usersModel.getId(), usersMapper.toEntity(usersModel));
 
-        ModelApiResponse response = getApiResponseSchema(String.format(USERS_SUCCESS_MESSAGE, UPDATED));
+        ModelApiResponse response = getModelApiResponseSchema(String.format(USERS_SUCCESS_MESSAGE, UPDATED));
 
         return ResponseEntity.ok(response);
     }
@@ -83,7 +81,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
         try {
             usersService.deleteUser(id);
 
-            ModelApiResponse response = getApiResponseSchema(String.format(USERS_SUCCESS_MESSAGE, DELETED));
+            ModelApiResponse response = getModelApiResponseSchema(String.format(USERS_SUCCESS_MESSAGE, DELETED));
 
             return ResponseEntity.ok(response);
         } catch (DataIntegrityViolationException e) {
@@ -142,7 +140,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
             usersService.updateUser(id, userEntity);
         });
 
-        ModelApiResponse response = getApiResponseSchema(String.format(USERS_SUCCESS_MESSAGE, UPDATED));
+        ModelApiResponse response = getModelApiResponseSchema(String.format(USERS_SUCCESS_MESSAGE, UPDATED));
 
         return ResponseEntity.ok(response);
     }
@@ -162,7 +160,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
         try {
             productsService.deleteProduct(id);
 
-            ModelApiResponse response = getApiResponseSchema(String.format(PRODUCTS_SUCCESS_MESSAGE, DELETED));
+            ModelApiResponse response = getModelApiResponseSchema(String.format(PRODUCTS_SUCCESS_MESSAGE, DELETED));
             return ResponseEntity.ok(response);
         } catch (DataIntegrityViolationException e) {
             throw ExceptionUtil.logAndBuildException(LiquibaseProjectException.DATA_INTEGRITY_VIOLATION_PRODUCTS);
@@ -170,6 +168,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
     }
 
     @Override
+    @GetMapping("/products")
     public ResponseEntity<List<com.liquibaseproject.model.Products>> findAllProducts() {
         List<com.liquibaseproject.entity.Products> productsEntityList = productsService.findAll();
         List<com.liquibaseproject.model.Products> products = productsEntityList.stream()
@@ -210,7 +209,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
         checkMandatoryFields(products.getName(), products.getPrice(), products.getQuantity());
         productsService.updateProduct(products.getId(), productsMapper.toEntity(products));
 
-        ModelApiResponse response = getApiResponseSchema(String.format(PRODUCTS_SUCCESS_MESSAGE, UPDATED));
+        ModelApiResponse response = getModelApiResponseSchema(String.format(PRODUCTS_SUCCESS_MESSAGE, UPDATED));
 
         return ResponseEntity.ok(response);
     }
@@ -242,7 +241,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
             productsService.updateProduct(id, productEntity);
         });
 
-        ModelApiResponse response = getApiResponseSchema(String.format(PRODUCTS_SUCCESS_MESSAGE, UPDATED));
+        ModelApiResponse response = getModelApiResponseSchema(String.format(PRODUCTS_SUCCESS_MESSAGE, UPDATED));
 
         return ResponseEntity.ok(response);
     }
@@ -263,7 +262,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
         resetProductQuantityValue(id);
 
         ordersService.deleteOrder(id);
-        ModelApiResponse response = getApiResponseSchema(String.format(ORDERS_SUCCESS_MESSAGE, DELETED));
+        ModelApiResponse response = getModelApiResponseSchema(String.format(ORDERS_SUCCESS_MESSAGE, DELETED));
 
         return ResponseEntity.ok(response);
     }
@@ -280,6 +279,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
     }
 
     @Override
+    @GetMapping("/orders")
     public ResponseEntity<List<Orders>> findAllOrders() {
         List<com.liquibaseproject.entity.Orders> ordersEntityList = ordersService.findAll();
         List<Orders> orders = ordersEntityList.stream()
@@ -321,7 +321,7 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
         checkMandatoryFields(orderModel.getUserId(), orderModel.getProductId(), orderModel.getQuantity());
         ordersService.updateOrder(orderModel.getId(), ordersMapper.toEntity(orderModel));
 
-        ModelApiResponse response = getApiResponseSchema(String.format(ORDERS_SUCCESS_MESSAGE, UPDATED));
+        ModelApiResponse response = getModelApiResponseSchema(String.format(ORDERS_SUCCESS_MESSAGE, UPDATED));
 
         return ResponseEntity.ok(response);
     }
@@ -347,12 +347,12 @@ public class LiquibaseProjectController implements UsersApiDelegate, ProductsApi
             ordersService.updateOrder(id, orderEntity);
         });
 
-        ModelApiResponse response = getApiResponseSchema(String.format(ORDERS_SUCCESS_MESSAGE, UPDATED));
+        ModelApiResponse response = getModelApiResponseSchema(String.format(ORDERS_SUCCESS_MESSAGE, UPDATED));
 
         return ResponseEntity.ok(response);
     }
 
-    private static ModelApiResponse getApiResponseSchema(String message) {
+    private static ModelApiResponse getModelApiResponseSchema(String message) {
         ModelApiResponse response = new ModelApiResponse();
 
         response.setCode(200);

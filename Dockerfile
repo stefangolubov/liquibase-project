@@ -14,4 +14,4 @@ RUN ./mvnw package -DskipTests
 EXPOSE 8888
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "target/liquibase-project-1.2.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "target/liquibase-project-1.2.2-SNAPSHOT.jar"]

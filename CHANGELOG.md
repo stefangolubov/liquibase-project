@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.2.2-SNAPSHOT] - 2024-09-24 [@stefangolubov](https://github.com/stefangolubov) Adding more integration tests
+#### Changed
+- LiquibaseProjectController - Cleanup
+- LiquibaseProjectControllerIntegrationTest - Adding missing test cases in integration test
+- Dockerfile - Change artefact version from 1.2.1-SNAPSHOT to 1.2.2-SNAPSHOT
+- pom.xml - Update version from 1.2.1-SNAPSHOT to 1.2.2-SNAPSHOT
+
 ### [1.2.1-SNAPSHOT] - 2024-09-20 [@stefangolubov](https://github.com/stefangolubov) Exception handling improvement
 #### Added
 - ApplicationError - Pojo for building application error
