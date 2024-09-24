@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.4.0-SNAPSHOT] - 2024-09-25 [@stefangolubov](https://github.com/stefangolubov) Configuring SonarQube
+#### Added
+- sonar-project.yml - SonarQube configuration
+#### Changed
+- docker-compose - SonarQube configuration
+- Dockerfile - Change artefact version from 1.3.0-SNAPSHOT to 1.4.0-SNAPSHOT
+- pom.xml - Adding needed plugins for SonarQube configuration. Update version from 1.3.0-SNAPSHOT to 1.4.0-SNAPSHOT
+
 ### [1.3.0-SNAPSHOT] - 2024-09-24 [@stefangolubov](https://github.com/stefangolubov) Adding unit tests for services and controller
 #### Added
 - UsersServiceTest - Unit test for Users service
