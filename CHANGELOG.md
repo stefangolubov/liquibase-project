@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.4.0-SNAPSHOT] - 2024-09-25 [@stefangolubov](https://github.com/stefangolubov) Updating README.md
+#### Changed
+- README.md - Adding instructions how to get a copy of the project up and running on a local machine for development and testing purposes
+
 ### [1.4.0-SNAPSHOT] - 2024-09-25 [@stefangolubov](https://github.com/stefangolubov) Configuring SonarQube
 #### Added
 - sonar-project.yml - SonarQube configuration
