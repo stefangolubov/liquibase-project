@@ -37,3 +37,4 @@ build/
 
 #Swagger
 swagger*.jar
+*.log

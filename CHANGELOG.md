@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.4.1-SNAPSHOT] - 2024-09-26 [@stefangolubov](https://github.com/stefangolubov) Code improvement after SonarQube analysis
+#### Changed
+- .gitignore - Exclude log files
+- ApplicationError - Adding lombok Getter and declare variables as private
+- LiquibaseProjectControllerUnitTest - Remove public from class definition
+- OrdersServiceTest - Delete commented code
+- Dockerfile - Change artefact version from 1.4.0-SNAPSHOT to 1.4.1-SNAPSHOT
+- pom.xml - Update version from 1.4.0-SNAPSHOT to 1.4.1-SNAPSHOT
+
 ### [1.4.0-SNAPSHOT] - 2024-09-25 [@stefangolubov](https://github.com/stefangolubov) Updating README.md
 #### Changed
 - README.md - Adding instructions how to get a copy of the project up and running on a local machine for development and testing purposes

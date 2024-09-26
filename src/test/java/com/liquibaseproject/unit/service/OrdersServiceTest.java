@@ -74,24 +74,6 @@ class OrdersServiceTest {
         assertEquals(1, result.size());
         assertEquals(order, result.getFirst());
     }
-//
-//    @Test
-//    void testAddOrder() {
-//        //doNothing().when(ordersRepository).placeOrder(any(), any(), anyInt(), any(), any(), any());
-//
-//        Orders result = ordersService.addOrder(order);
-//
-//        verify(ordersRepository).placeOrder(
-//                eq(order.getUserId()),
-//                eq(order.getProductId()),
-//                eq(order.getQuantity()),
-//                any(UUID.class),
-//                any(Timestamp.class),
-//                eq(order.getStatus())
-//        );
-//
-//        assertEquals(order, result);
-//    }
 
     @Test
     void testAddOrder() {
@@ -104,14 +86,12 @@ class OrdersServiceTest {
         createdOrder.setOrderDate(new Timestamp(System.currentTimeMillis()));
         createdOrder.setStatus("PENDING");
 
-// Mock the repository methods
         when(ordersRepository.placeOrder(any(UUID.class), any(UUID.class), anyInt(), any(UUID.class), any(Timestamp.class), anyString()))
                 .thenReturn(generatedId);
         when(ordersRepository.findById(generatedId)).thenReturn(Optional.of(createdOrder));
 
         Orders result = ordersService.addOrder(order);
 
-// Verify the interactions with the repository
         verify(ordersRepository).placeOrder(
                 eq(order.getUserId()),
                 eq(order.getProductId()),
@@ -121,7 +101,6 @@ class OrdersServiceTest {
                 eq(order.getStatus())
         );
 
-// Assert the result
         assertNotNull(result.getId());
         assertEquals(generatedId, result.getId());
         assertEquals(createdOrder.getOrderDate(), result.getOrderDate());
