@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.4.2-SNAPSHOT] - 2024-09-30 [@stefangolubov](https://github.com/stefangolubov) Configure user and admin credentials in application.yml and adding site to jacoco output directory
+#### Changed
+- application.yml - Configure user and admin credentials
+- UserDetailsServiceConfig - Reading user and admin credentials from application.yml
+- Dockerfile - Change artefact version from 1.4.1-SNAPSHOT to 1.4.2-SNAPSHOT
+- pom.xml - Adding site to output directory for jacoco plugin. Update version from 1.4.1-SNAPSHOT to 1.4.2-SNAPSHOT
+
 ### [1.4.1-SNAPSHOT] - 2024-09-26 [@stefangolubov](https://github.com/stefangolubov) Code improvement after SonarQube analysis
 #### Changed
 - .gitignore - Exclude log files

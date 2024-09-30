@@ -20,3 +20,8 @@ springdoc:
     path: /swagger-ui-liquibase-project.html
     operationsSorter: method
     tagsSorter: alpha
+
+user:
+  password: user
+admin:
+  password: admin
