@@ -38,3 +38,6 @@ build/
 #Swagger
 swagger*.jar
 *.log
+
+#Grafana
+grafana/

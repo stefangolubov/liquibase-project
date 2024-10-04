@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [1.5.0-SNAPSHOT] - 2024-10-04 [@stefangolubov](https://github.com/stefangolubov) Configuring Prometheus and Grafana
+#### Added
+- prometheus.yml - Prometheus configuration
+- grafanaDashboard.json - Spring Boot 3 Grafana dashboard
+- build-and-run.ps - Utility shell script for building and running application and all services on docker compose
+#### Changed
+- .gitignore - Excluding grafana folder
+- api.yml - Moving from root folder to src\main\resources\openapi folder
+- application.yml - Setting spring.datasource.url with db instead of localhost. Adding management configuration for Prometheus
+- docker-compose.yml - Pulling PostGreSQL 16 image instead of latest. Adding Prometheus and Grafana configuration. Creating my_network network and configuring all services to be running on same network
+- liquibase.properties - Moving from root folder to src\main\resources\liquibase folder
+- SecurityConfig - Allowing access to all roles to actuator/** 
+- sonar-project.yml - Updating sonar login value
+- Dockerfile - Change artefact version from 1.4.2-SNAPSHOT to 1.5.0-SNAPSHOT
+- pom.xml - Adding needed dependencies for Prometheus configuration. Updating inputspec value for api.yml. Adding liquibase-maven plugin for setting specific path for liquibase.properties. Updating version from 1.4.2-SNAPSHOT to 1.5.0-SNAPSHOT
+
 ### [1.4.2-SNAPSHOT] - 2024-09-30 [@stefangolubov](https://github.com/stefangolubov) Configure user and admin credentials in application.yml and adding site to jacoco output directory
 #### Changed
 - application.yml - Configure user and admin credentials
