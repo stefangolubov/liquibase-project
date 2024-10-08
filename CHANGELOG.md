@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 # [Unreleased]
+### [2.0.0-SNAPSHOT] - 2024-10-08 [@stefangolubov](https://github.com/stefangolubov) Configuring Kubernetes
+#### Added
+- deployment.yml - Kubernetes deployment configuration
+- services.yml - Kubernetes services configuration
+#### Changed
+- prometheus.yml - Adding liquibase-project target for Liquibase Project Input job
+- Dockerfile - Change artefact version from 1.5.0-SNAPSHOT to 2.0.0-SNAPSHOT
+- pom.xml - Updating version from 1.5.0-SNAPSHOT to 2.0.0-SNAPSHOT
 
 ### [1.5.0-SNAPSHOT] - 2024-10-04 [@stefangolubov](https://github.com/stefangolubov) Configuring Prometheus and Grafana
 #### Added
