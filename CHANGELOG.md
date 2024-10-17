@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 # [Unreleased]
+### [2.1.0-SNAPSHOT] - 2024-10-17 [@stefangolubov](https://github.com/stefangolubov) Configuring secret, configmap and adding missing services in Kubernetes
+#### Added
+- configmap.yml - Kubernetes Configmap configuration
+- persistentvolumeclaim.yml - Kubernetes Persistent Volume Claim configuration
+#### Changed
+- deployment.yml - Adding SonarQube, Prometheus and Grafana deployments. Configuring Postgres and Grafana credentials from Kubernetes secret
+- service.yml - Renamed from services. Adding SonarQube, Prometheus and Grafana services
+- sonar-project.yml - Moved to src/main/resources/sonar package
+- Dockerfile - Change artefact version from 2.0.0-SNAPSHOT to 2.1.0-SNAPSHOT
+- pom.xml - Updating version from 2.0.0-SNAPSHOT to 2.1.0-SNAPSHOT
+
+# [Unreleased]
 ### [2.0.0-SNAPSHOT] - 2024-10-08 [@stefangolubov](https://github.com/stefangolubov) Configuring Kubernetes
 #### Added
 - deployment.yml - Kubernetes deployment configuration
