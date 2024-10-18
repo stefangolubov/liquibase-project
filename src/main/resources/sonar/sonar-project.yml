@@ -1,0 +1,8 @@
+sonar:
+  projectKey: liquibase_project
+  host:
+    url: http://localhost:9000
+  login: squ_e8c83be8dea0e8c5eda45a59357563fc9e8fd07a
+  coverage:
+    jacoco:
+      xmlReportPaths: target/jacoco/jacoco.xml
