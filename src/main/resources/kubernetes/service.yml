@@ -3,7 +3,6 @@ kind: Service
 metadata:
   name: liquibase-project
 spec:
-  type: LoadBalancer
   ports:
     - port: 8888
       targetPort: 8888
@@ -25,7 +24,6 @@ kind: Service
 metadata:
   name: sonarqube
 spec:
-  type: LoadBalancer
   ports:
     - port: 9000
       targetPort: 9000
@@ -37,7 +35,6 @@ kind: Service
 metadata:
   name: prometheus
 spec:
-  type: LoadBalancer
   ports:
     - port: 9090
       targetPort: 9090
@@ -49,7 +46,6 @@ kind: Service
 metadata:
   name: grafana
 spec:
-  type: LoadBalancer
   ports:
     - port: 3000
       targetPort: 3000
