@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [2.3.0-SNAPSHOT] - 2024-10-22 [@stefangolubov](https://github.com/stefangolubov) Scale up Postgres with Helm and mount secret to an application pod
+#### Added
+- helmvalues.yaml - Helm configuration for overriding default Postgres configuration values
+- restart-deployments.sh - Utility script for restarting deployments and statefulsets
+- statefulset.yml - StatefulSet configuration for Postgres
+#### Changed
+- deployment.yml - Delete Postgres deployment. Mount secret file to the application pod
+- Dockerfile - Change artefact version from 2.2.0-SNAPSHOT to 2.3.0-SNAPSHOT
+- pom.xml - Updating version from 2.2.0-SNAPSHOT to 2.3.0-SNAPSHOT
+
 ### [2.2.0-SNAPSHOT] - 2024-10-18 [@stefangolubov](https://github.com/stefangolubov) Configuring Ingress in Kubernetes
 #### Added
 - ingress.yml - Kubernetes Ingress configuration (for Liquibase Project application, Grafana and SonarQube)

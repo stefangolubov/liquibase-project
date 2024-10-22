@@ -1,0 +1,7 @@
+postgresql:
+  nameOverride: postgres
+  existingSecret: app-secret
+  replicaCount: 2
+  postgresqlUsername: postgres_username
+  postgresqlPassword: postgres_password
+  postgresqlDatabase: postgres
