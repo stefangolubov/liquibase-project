@@ -12,9 +12,12 @@ spec:
       labels:
         app: liquibase-project
     spec:
+      imagePullSecrets:
+        - name: docker-secret
       containers:
         - name: liquibase-project
           image: stefangolubov/liquibase-project:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8888
           resources:

@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+### [2.3.1-SNAPSHOT] - 2024-10-24 [@stefangolubov](https://github.com/stefangolubov) Make docker repo private and pull the docker image using secret. Fix line endings issue in mvnw script
+#### Changed
+- deployment.yml - Adding imagePullSecrets and imagePullPolicy configuration
+- Dockerfile - Fixing line endings issue in mvnw script. Change artefact version from 2.3.0-SNAPSHOT to 2.3.1-SNAPSHOT
+- pom.xml - Updating version from 2.3.0-SNAPSHOT to 2.3.1-SNAPSHOT
+
 ### [2.3.0-SNAPSHOT] - 2024-10-22 [@stefangolubov](https://github.com/stefangolubov) Scale up Postgres with Helm and mount secret to an application pod
 #### Added
 - helmvalues.yaml - Helm configuration for overriding default Postgres configuration values

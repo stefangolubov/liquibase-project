@@ -7,6 +7,11 @@ WORKDIR /app
 # Copy the project files to the container
 COPY . .
 
+# Ensure mvnw is executable and has correct line endings
+RUN apt-get update && apt-get install -y dos2unix
+RUN dos2unix mvnw
+RUN chmod +x ./mvnw
+
 # Package the application
 RUN ./mvnw package -DskipTests
 
@@ -14,4 +19,4 @@ RUN ./mvnw package -DskipTests
 EXPOSE 8888
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "target/liquibase-project-2.3.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "target/liquibase-project-2.3.1-SNAPSHOT.jar"]
